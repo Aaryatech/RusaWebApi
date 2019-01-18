@@ -103,7 +103,7 @@ public class GalleryApiController {
 	}
 	
 	
-	@RequestMapping(value = { "/getGalleryHeaderByCatId" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/getGalleryHeaderByCatIdAndSubCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetGalleryHeaderByCatId> getGalleryHeaderByCatId(@RequestParam("catIdList") List<Integer> catIdList,@RequestParam("subCatIdList") List<Integer> subCatIdList) {
 
 		List<GetGalleryHeaderByCatId> gHeaderList =null;
@@ -191,7 +191,38 @@ public class GalleryApiController {
 	}
 	
 	
-	
+	@RequestMapping(value = { "/activeInactiveGalleryHeaders" }, method = RequestMethod.POST)
+	public @ResponseBody Info activeInactiveSections(@RequestParam("galleryHeadIds") List<String> galleryHeadIds,
+			@RequestParam("isActive") int isActive) {
+
+		Info info = new Info();
+
+		try {
+
+			int deleteRes = galleryHeaderRepo.activeInactiveGalleryHeaders(galleryHeadIds, isActive);
+
+			if (deleteRes > 0) {
+
+				info.setError(false);
+				info.setMsg("success");
+
+			} else {
+
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("exception");
+			System.err.println("Exce in activeInactiveGalleryHeaders @GalleryApicontr " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return info;
+
+	}
 	
 	
 	

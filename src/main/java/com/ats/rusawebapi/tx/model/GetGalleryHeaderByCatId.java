@@ -29,7 +29,7 @@ public class GetGalleryHeaderByCatId {
 	
 	private int userId;
 	
-	
+	private String userName;
 	
 	private int isActive;
 	
@@ -265,20 +265,29 @@ public class GetGalleryHeaderByCatId {
 		this.subCatId = subCatId;
 	}
 
+	
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Override
 	public String toString() {
 		return "GetGalleryHeaderByCatId [galleryHeaderId=" + galleryHeaderId + ", galleryTitle=" + galleryTitle
 				+ ", galleryAddDate=" + galleryAddDate + ", galleryEditDate=" + galleryEditDate + ", galleryHeaderDesc="
-				+ galleryHeaderDesc + ", gallerySortNo=" + gallerySortNo + ", userId=" + userId + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + ", catId=" + catId + ", subCatId=" + subCatId + ", exInt1="
-				+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + ", exDate1=" + exDate1
-				+ ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3="
-				+ exFloat3 + "]";
+				+ galleryHeaderDesc + ", gallerySortNo=" + gallerySortNo + ", userId=" + userId + ", userName="
+				+ userName + ", isActive=" + isActive + ", delStatus=" + delStatus + ", catId=" + catId + ", subCatId="
+				+ subCatId + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1
+				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5
+				+ ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2
+				+ ", exFloat3=" + exFloat3 + "]";
 	}
 
 	
-
 	
 	
 
