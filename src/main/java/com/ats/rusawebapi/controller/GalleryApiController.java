@@ -1,6 +1,7 @@
 package com.ats.rusawebapi.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +17,18 @@ import com.ats.rusawebapi.tx.model.GalleryDetail;
 import com.ats.rusawebapi.tx.model.Galleryheader;
 import com.ats.rusawebapi.tx.repo.GalleryDetailRepo;
 import com.ats.rusawebapi.tx.repo.GalleryHeaderRepo;
+import com.ats.rusawebapi.tx.repo.GetGalleryHeader;
 
 @RestController
 public class GalleryApiController {
-	
+
 	@Autowired
 	GalleryHeaderRepo galleryHeaderRepo;
-	
+
 	@Autowired
 	GalleryDetailRepo galleryDetailRepo;
-	
-	/*@RequestMapping(value = { "/saveGalleryHeaderAndDetail" }, method = RequestMethod.POST)
+
+	@RequestMapping(value = { "/saveGalleryHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody Galleryheader saveGalleryHeaderAndDetail(@RequestBody Galleryheader gallery) {
 
 		Info errorMessage = new Info();
@@ -37,7 +39,7 @@ public class GalleryApiController {
 
 			for (int i = 0; i < gallery.getDetailList().size(); i++) {
 
-				gallery.getDetailList().get(i).setGalleryDetailId(gHeader.getGalleryHeadId());
+				gallery.getDetailList().get(i).setGalleryHeadId(gHeader.getGalleryHeaderId());
 
 			}
 
@@ -57,8 +59,7 @@ public class GalleryApiController {
 		return gHeader;
 
 	}
-*/
-	
+
 	@RequestMapping(value = { "/getGalleryHeaderList" }, method = RequestMethod.GET)
 	public @ResponseBody List<Galleryheader> getDocHeaderList() {
 
@@ -77,26 +78,6 @@ public class GalleryApiController {
 
 	}
 
-	/*@RequestMapping(value = { "/getAllGalleryHeaderList" }, method = RequestMethod.GET)
-	public @ResponseBody List<Galleryheader> getAllDocHeaderList() {
-
-		List<Galleryheader> docHeaderList = new ArrayList<Galleryheader>();
-
-		try {
-
-			docHeaderList = galleryHeaderRepo.getDocHeaderList();
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-		return docHeaderList;
-
-	}
-	*/
-	
-	
 	@RequestMapping(value = { "/getGalleryHeaderById" }, method = RequestMethod.POST)
 	public @ResponseBody Galleryheader getDocHeaderByTermId(@RequestParam("galleryHeadId") int galleryHeadId) {
 
@@ -105,7 +86,7 @@ public class GalleryApiController {
 		try {
 
 			gHeader = galleryHeaderRepo.findByGalleryHeaderIdAndDelStatus(galleryHeadId, 1);
-			List<GalleryDetail> detailList = galleryDetailRepo.findByGalleryDetailIdAndDelStatus(galleryHeadId, 1);
+			List<GalleryDetail> detailList = galleryDetailRepo.findByGalleryHeadIdAndDelStatus(galleryHeadId, 1);
 			gHeader.setDetailList(detailList);
 		} catch (Exception e) {
 
@@ -116,8 +97,8 @@ public class GalleryApiController {
 
 	}
 
-/*	@RequestMapping(value = { "/deleteGalleryHeader" }, method = RequestMethod.POST)
-	public @ResponseBody Info deletegalleryHeadId(@RequestParam("galleryHeadId") int galleryHeadId) {
+	@RequestMapping(value = { "/deleteGalleryHeader" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteGalleryHeader(@RequestParam("galleryHeadId") int galleryHeadId) {
 
 		Info info = new Info();
 
@@ -141,6 +122,54 @@ public class GalleryApiController {
 		}
 		return info;
 
-	}*/
+	}
+
+	@RequestMapping(value = { "/deleteMultiGalleryHeader" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteMultiGalleryHeader(@RequestParam("galleryHeadIds") List<Integer> galleryHeadIds) {
+
+		Info info = new Info();
+
+		try {
+			int delete = galleryHeaderRepo.deleteMultiGalleryHeader(galleryHeadIds);
+
+			if (delete >= 1) {
+				info.setError(false);
+				info.setMsg("successfully Multiple Deleted");
+			} else {
+				info.setError(true);
+				info.setMsg(" Failed to Delete");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg(" Deleted to Delete");
+
+		}
+		return info;
+
+	}
+
+	/*
+	 * @RequestMapping(value = { "/getAllGalleryHeaderList" }, method =
+	 * RequestMethod.GET) public @ResponseBody List<Galleryheader>
+	 * getAllDocHeaderList() {
+	 * 
+	 * List<GetGalleryHeader> docHeaderList = new ArrayList<GetGalleryHeader>();
+	 * 
+	 * try {
+	 * 
+	 * docHeaderList = galleryHeaderRepo.getDocHeaderList();
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace();
+	 * 
+	 * } return docHeaderList;
+	 * 
+	 * }
+	 */
+	
 	
 }

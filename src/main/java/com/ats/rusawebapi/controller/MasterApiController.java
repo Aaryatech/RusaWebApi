@@ -136,10 +136,39 @@ public class MasterApiController {
 			return infoRes;
 		}
 	
+		
+		
+		@RequestMapping(value = { "/deleteMultiSection" }, method = RequestMethod.POST)
+		public @ResponseBody Info deleteMultiSection(@RequestParam("sectionIds") List<Integer>sectionIds) {
 
-	
-	//*********************galleryHeader******************//
-	
+			Info info = new Info();
+
+			try {
+				int delete =  secRepo.deleteMultiContDetail(sectionIds);
+
+				if (delete >= 1) {
+					info.setError(false);
+					info.setMsg("successfully Multiple Deleted");
+				} else {
+					info.setError(true);
+					info.setMsg(" Failed to Delete");
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				info.setError(true);
+				info.setMsg(" Failed to Delete");
+
+			}
+			return info;
+
+		}
+
+		
+		
+
+
 	
 	
 	

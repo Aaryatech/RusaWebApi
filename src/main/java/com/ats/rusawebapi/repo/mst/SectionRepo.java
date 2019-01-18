@@ -22,5 +22,14 @@ public interface SectionRepo extends JpaRepository<Section, Integer> {
 
 	Section findBySectionIdAndDelStatus(int sectionId,int i);
 	
+	
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE Section SET delStatus=0  WHERE section_id IN(:sectionIds)")
+	int deleteMultiContDetail(@Param("sectionIds") List<Integer> sectionIds);
+
+
+	
 
 }

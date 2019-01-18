@@ -51,8 +51,16 @@ public class Galleryheader {
 	@Column(name="del_status")
 	private int delStatus;
 
+	
 	@Transient
 	List<GalleryDetail> detailList;
+	
+	
+	
+	
+	
+	
+	
 
 	public int getGalleryHeaderId() {
 		return galleryHeaderId;
