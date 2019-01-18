@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.repo.mst.GetGalleryHeaderRepo;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
 import com.ats.rusawebapi.tx.model.Galleryheader;
+import com.ats.rusawebapi.tx.model.GetGalleryHeaderByCatId;
 import com.ats.rusawebapi.tx.repo.GalleryDetailRepo;
 import com.ats.rusawebapi.tx.repo.GalleryHeaderRepo;
 import com.ats.rusawebapi.tx.repo.GetGalleryHeader;
@@ -27,6 +29,9 @@ public class GalleryApiController {
 
 	@Autowired
 	GalleryDetailRepo galleryDetailRepo;
+	
+	@Autowired
+	GetGalleryHeaderRepo  getgRepo;
 
 	@RequestMapping(value = { "/saveGalleryHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody Galleryheader saveGalleryHeaderAndDetail(@RequestBody Galleryheader gallery) {
@@ -96,7 +101,41 @@ public class GalleryApiController {
 		return gHeader;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getGalleryHeaderByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetGalleryHeaderByCatId> getGalleryHeaderByCatId(@RequestParam("catIdList") List<Integer> catIdList,@RequestParam("subCatIdList") List<Integer> subCatIdList) {
 
+		List<GetGalleryHeaderByCatId> gHeaderList =null;
+
+		try {
+			
+			if(catIdList.contains(0) && !subCatIdList.contains(0)) {
+				gHeaderList = getgRepo.findBySubCatId(subCatIdList);
+				
+			}else if(!catIdList.contains(0) && subCatIdList.contains(0)) {
+
+				gHeaderList = getgRepo.findByCatId(catIdList);
+			}
+			else if(!catIdList.contains(0) && !subCatIdList.contains(0)) {
+
+			gHeaderList = getgRepo.findByCatId1(catIdList,subCatIdList);
+			}
+			else  {
+				gHeaderList = getgRepo.find();
+			}
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gHeaderList;
+
+	}
+
+	
+	
 	@RequestMapping(value = { "/deleteGalleryHeader" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteGalleryHeader(@RequestParam("galleryHeadId") int galleryHeadId) {
 
@@ -150,6 +189,13 @@ public class GalleryApiController {
 		return info;
 
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	/*
 	 * @RequestMapping(value = { "/getAllGalleryHeaderList" }, method =

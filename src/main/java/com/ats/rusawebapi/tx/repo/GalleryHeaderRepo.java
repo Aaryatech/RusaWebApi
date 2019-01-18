@@ -26,4 +26,7 @@ public interface GalleryHeaderRepo extends JpaRepository<Galleryheader, Integer>
 	@Query("UPDATE Galleryheader SET delStatus=0  WHERE gallery_header_id IN(:galleryHeadIds)")
 	int deleteMultiGalleryHeader(@Param("galleryHeadIds") List<Integer> galleryHeadIds);
 
+	
+	
+
 }

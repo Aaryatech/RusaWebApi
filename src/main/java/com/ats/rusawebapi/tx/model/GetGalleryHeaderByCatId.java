@@ -1,42 +1,47 @@
 package com.ats.rusawebapi.tx.model;
 
+
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "t_gallery_detail")
-public class GalleryDetail {
+public class GetGalleryHeaderByCatId {
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="gallery_detail_id")
-	private int galleryDetailId;
+	@Column(name="gallery_header_id")
+	private int galleryHeaderId;
 	
-	@Column(name="photo_name")
-	private String photoName;
+	private String galleryTitle;
 	
-	@Column(name="photo_caption")
-	private String photoCaption;
+	private String galleryAddDate;
 	
-	@Column(name="photo_desc")
-	private String photoDesc;
+	private String galleryEditDate;
+		
+	private String galleryHeaderDesc;
 	
-	@Column(name="gallery_head_id")
-	private int galleryHeadId;
+	private String gallerySortNo;
 	
-	@Column(name="is_active")
+	private int userId;
+	
+	
+	
 	private int isActive;
 	
-	@Column(name="del_status")
 	private int delStatus;
 	
-	@Column(name="date")
-	private String date;
-
+	
+	private int catId;
+	
+	private int subCatId;
+	
+	private int exInt1;
+	
 	private int exInt2;
 
 	private int exInt3;
@@ -61,47 +66,64 @@ public class GalleryDetail {
 	
 	private float exFloat3;
 
-	
 
-	public int getGalleryDetailId() {
-		return galleryDetailId;
+
+	public int getGalleryHeaderId() {
+		return galleryHeaderId;
 	}
 
-	public void setGalleryDetailId(int galleryDetailId) {
-		this.galleryDetailId = galleryDetailId;
+	public void setGalleryHeaderId(int galleryHeaderId) {
+		this.galleryHeaderId = galleryHeaderId;
 	}
 
-	public String getPhotoName() {
-		return photoName;
+	public String getGalleryTitle() {
+		return galleryTitle;
 	}
 
-	public void setPhotoName(String photoName) {
-		this.photoName = photoName;
+	public void setGalleryTitle(String galleryTitle) {
+		this.galleryTitle = galleryTitle;
 	}
 
-	public String getPhotoCaption() {
-		return photoCaption;
+	public String getGalleryAddDate() {
+		return galleryAddDate;
 	}
 
-	public void setPhotoCaption(String photoCaption) {
-		this.photoCaption = photoCaption;
+	public void setGalleryAddDate(String galleryAddDate) {
+		this.galleryAddDate = galleryAddDate;
 	}
 
-	
-	public String getPhotoDesc() {
-		return photoDesc;
+	public String getGalleryEditDate() {
+		return galleryEditDate;
 	}
 
-	public void setPhotoDesc(String photoDesc) {
-		this.photoDesc = photoDesc;
+	public void setGalleryEditDate(String galleryEditDate) {
+		this.galleryEditDate = galleryEditDate;
 	}
 
-	public int getGalleryHeadId() {
-		return galleryHeadId;
+
+
+	public String getGalleryHeaderDesc() {
+		return galleryHeaderDesc;
 	}
 
-	public void setGalleryHeadId(int galleryHeadId) {
-		this.galleryHeadId = galleryHeadId;
+	public void setGalleryHeaderDesc(String galleryHeaderDesc) {
+		this.galleryHeaderDesc = galleryHeaderDesc;
+	}
+
+	public String getGallerySortNo() {
+		return gallerySortNo;
+	}
+
+	public void setGallerySortNo(String gallerySortNo) {
+		this.gallerySortNo = gallerySortNo;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public int getIsActive() {
@@ -120,12 +142,15 @@ public class GalleryDetail {
 		this.delStatus = delStatus;
 	}
 
-	public String getDate() {
-		return date;
+	
+	
+	
+	public int getExInt1() {
+		return exInt1;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setExInt1(int exInt1) {
+		this.exInt1 = exInt1;
 	}
 
 	public int getExInt2() {
@@ -224,18 +249,37 @@ public class GalleryDetail {
 		this.exFloat3 = exFloat3;
 	}
 
+	public int getCatId() {
+		return catId;
+	}
+
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+
+	public int getSubCatId() {
+		return subCatId;
+	}
+
+	public void setSubCatId(int subCatId) {
+		this.subCatId = subCatId;
+	}
+
 	@Override
 	public String toString() {
-		return "GalleryDetail [galleryDetailId=" + galleryDetailId + ", photoName=" + photoName + ", photoCaption="
-				+ photoCaption + ", photoDesc=" + photoDesc + ", galleryHeadId=" + galleryHeadId + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + ", date=" + date + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
-				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4
-				+ ", exVar5=" + exVar5 + ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1
-				+ ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + "]";
+		return "GetGalleryHeaderByCatId [galleryHeaderId=" + galleryHeaderId + ", galleryTitle=" + galleryTitle
+				+ ", galleryAddDate=" + galleryAddDate + ", galleryEditDate=" + galleryEditDate + ", galleryHeaderDesc="
+				+ galleryHeaderDesc + ", gallerySortNo=" + gallerySortNo + ", userId=" + userId + ", isActive="
+				+ isActive + ", delStatus=" + delStatus + ", catId=" + catId + ", subCatId=" + subCatId + ", exInt1="
+				+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + ", exDate1=" + exDate1
+				+ ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3="
+				+ exFloat3 + "]";
 	}
 
 	
 
+	
 	
 
 }
