@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "t_faq")
@@ -41,6 +42,19 @@ public class FreqAskQue {
 	private int isActive;
 
 	private int delStatus;
+	
+
+	@Transient
+	Info info;
+	
+
+	public Info getInfo() {
+		return info;
+	}
+
+	public void setInfo(Info info) {
+		this.info = info;
+	}
 
 	public int getFaqId() {
 		return faqId;
@@ -151,7 +165,7 @@ public class FreqAskQue {
 		return "FreqAskQue [faqId=" + faqId + ", catId=" + catId + ", subCatId=" + subCatId + ", faqQue=" + faqQue
 				+ ", faqAns=" + faqAns + ", faqSortNo=" + faqSortNo + ", faqRemark=" + faqRemark + ", faqAddDate="
 				+ faqAddDate + ", faqEditDate=" + faqEditDate + ", faqDate=" + faqDate + ", userId=" + userId
-				+ ", isActive=" + isActive + ", delStatus=" + delStatus + "]";
+				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", info=" + info + "]";
 	}
 	
 	
