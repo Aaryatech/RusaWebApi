@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "m_category")
@@ -41,6 +42,18 @@ public class Category {
 	private int delStatus;
 	
 	//total 12 fields 17 Jan 2019
+	
+	@Transient
+	Info info;
+	
+
+	public Info getInfo() {
+		return info;
+	}
+
+	public void setInfo(Info info) {
+		this.info = info;
+	}
 
 	public int getCatId() {
 		return catId;
@@ -143,7 +156,7 @@ public class Category {
 		return "Category [catId=" + catId + ", catName=" + catName + ", catCode=" + catCode + ", catDesc=" + catDesc
 				+ ", catAddDate=" + catAddDate + ", catEditDate=" + catEditDate + ", catSortNo=" + catSortNo
 				+ ", catRemark=" + catRemark + ", sectionId=" + sectionId + ", userId=" + userId + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + "]";
+				+ isActive + ", delStatus=" + delStatus + ", info=" + info + "]";
 	}
 	
 	
