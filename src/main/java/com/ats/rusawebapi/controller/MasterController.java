@@ -228,5 +228,21 @@ public class MasterController {
 		return faqSaveResponse;
 
 	}
+	
+	@RequestMapping(value = { "/getAllFreqAskQue" }, method = RequestMethod.POST)
+	public @ResponseBody List<FreqAskQue> getAllFreqAskQue(@RequestParam("delStatus") int delStatus,
+			@RequestParam("isActive") int isActive) {
 
+		List<FreqAskQue> faqList = null;
+		
+		try {
+			faqList=freqAskQueRepo.findByDelStatusAndIsActive(delStatus, isActive);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in getAllFreqAskQue @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return faqList;
+	}
 }
