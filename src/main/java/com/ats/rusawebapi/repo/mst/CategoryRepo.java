@@ -19,13 +19,13 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE Category SET delStatus=:delStatus WHERE catId IN (:catIdList) ",nativeQuery=true)
+	@Query(value="UPDATE m_category SET del_status=:delStatus WHERE cat_id IN (:catIdList) ",nativeQuery=true)
 
 	int deleteCategory(@Param("catIdList") List<String> catIdList,@Param("delStatus") int delStatus);
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE Category SET isActive=:isActive WHERE catId IN (:catIdList) ",nativeQuery=true)
+	@Query(value="UPDATE m_category SET is_active=:isActive WHERE cat_id IN (:catIdList) ",nativeQuery=true)
 
 	int activeInactiveCategory(@Param("catIdList") List<String> catIdList,@Param("isActive") int isActive);
 	

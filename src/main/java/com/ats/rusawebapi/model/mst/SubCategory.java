@@ -67,7 +67,7 @@ public class SubCategory {
 	
 	private String exVar4;
 	private String exVar5;
-
+	//total 13 fields 18 Jan 2019
 	
 
 	public String getExVar4() {
@@ -298,6 +298,4 @@ public class SubCategory {
 				+ ", exVar5=" + exVar5 + "]";
 	}
 	
-	
-
 }

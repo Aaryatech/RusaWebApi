@@ -14,18 +14,18 @@ public interface SubCategoryRepo extends JpaRepository<SubCategory, Integer> {
 	
 	List<SubCategory> findByDelStatus(int delStatus);
 	
-	List<SubCategory>  findByCatIdInAndDelStatus(List<String> catId,int delStatus);
+	List<SubCategory>  findByCatIdInAndDelStatus(List<Integer> catId,int delStatus);
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE SubCategory SET delStatus=:delStatus WHERE subCatId IN (:subCatIdList) ",nativeQuery=true)
+	@Query(value="UPDATE m_sub_category SET del_status=:delStatus WHERE sub_cat_id IN (:subCatIdList) ",nativeQuery=true)
 
 	int deleteSubCategory(@Param("subCatIdList") List<String> subCatIdList,@Param("delStatus") int delStatus);
 	
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE SubCategory SET isActive=:isActive WHERE subCatId IN (:subCatIdList) ",nativeQuery=true)
+	@Query(value="UPDATE m_sub_category SET is_active=:isActive WHERE sub_cat_id IN (:subCatIdList) ",nativeQuery=true)
 
 	int activeInactiveSubCategory(@Param("subCatIdList") List<String> subCatIdList,@Param("isActive") int isActive);
 	

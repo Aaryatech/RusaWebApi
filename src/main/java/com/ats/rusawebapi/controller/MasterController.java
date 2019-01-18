@@ -21,12 +21,9 @@ import com.ats.rusawebapi.repo.mst.SubCategoryRepo;
 @RestController
 public class MasterController {
 
-	@Autowired
-	CategoryRepo catRepo;
-	@Autowired
-	SubCategoryRepo subCatRepo;
-	@Autowired
-	FreqAskQueRepo freqAskQueRepo;
+	@Autowired CategoryRepo catRepo;
+	@Autowired SubCategoryRepo subCatRepo;
+	@Autowired FreqAskQueRepo freqAskQueRepo;
 	
 //Category -1
 	@RequestMapping(value = { "/saveUpdateCategory" }, method = RequestMethod.POST)
@@ -197,7 +194,7 @@ public class MasterController {
 		
 		@RequestMapping(value = { "/getSubCategoriesByCatIds" }, method = RequestMethod.POST)
 		public @ResponseBody List<SubCategory> getSubCategoriesByCatIds(@RequestParam("delStatus") int delStatus,
-				@RequestParam("catIdList") List<String> catIdList) {
+				@RequestParam("catIdList") List<Integer> catIdList) {
 
 			List<SubCategory> subCatList = null;
 
@@ -344,7 +341,7 @@ public class MasterController {
 		return faqSaveResponse;
 
 	}
-	//FreqAskQue -2
+	/*//FreqAskQue -2
 	@RequestMapping(value = { "/getAllFreqAskQue" }, method = RequestMethod.POST)
 	public @ResponseBody List<FreqAskQue> getAllFreqAskQue(@RequestParam("delStatus") int delStatus) {
 
@@ -359,15 +356,36 @@ public class MasterController {
 		}
 
 		return faqList;
-	}
+	}*/
 	//FreqAskQue -3
 	@RequestMapping(value = { "/getFreqAskQueByCatIdsAndSubCatIds" }, method = RequestMethod.POST)
-	public @ResponseBody List<FreqAskQue> getFreqAskQueByCatIdsAndSubCatIds(@RequestParam("catIdList") List<String> catIdList,
-			@RequestParam("subCatIdList") List<String> subCatIdList,@RequestParam("delStatus") int delStatus) {
+	public @ResponseBody List<FreqAskQue> getFreqAskQueByCatIdsAndSubCatIds(@RequestParam("catIdList") List<Integer> catIdList,
+			@RequestParam("subCatIdList") List<Integer> subCatIdList,@RequestParam("delStatus") int delStatus) {
 
 		List<FreqAskQue> faqList = null;
 		
 		try {
+			
+			if(catIdList.contains(-1) && subCatIdList.contains(-1)) {
+				System.err.println("cat sub cat -1");
+				
+				faqList=freqAskQueRepo.findByDelStatus(delStatus);
+
+			}else if(catIdList.contains(-1)) {
+				
+				System.err.println("cat  -1");
+				faqList=freqAskQueRepo.findBySubCatIdInAndDelStatus(subCatIdList, delStatus);
+
+				
+			}else if(subCatIdList.contains(-1)) {
+				System.err.println("sub cat  -1");
+				faqList=freqAskQueRepo.findByCatIdInAndDelStatus(catIdList, delStatus);
+
+			}else {
+				System.err.println("both cat sub cat +ve");
+				faqList=freqAskQueRepo.findByCatIdInAndSubCatIdInAndDelStatus(catIdList, subCatIdList, delStatus);
+				
+			}
 			
 			faqList=freqAskQueRepo.findByCatIdInAndSubCatIdInAndDelStatus(catIdList, subCatIdList, delStatus);
 			
@@ -378,4 +396,42 @@ public class MasterController {
 
 		return faqList;
 	}
+	
+	/*//FreqAskQue -4
+	@RequestMapping(value = { "/getFreqAskQueBySubCatIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<FreqAskQue> getFreqAskQueBySubCatIds(
+			@RequestParam("subCatIdList") List<String> subCatIdList,@RequestParam("delStatus") int delStatus) {
+
+		List<FreqAskQue> faqList = null;
+		
+		try {
+			
+			faqList=freqAskQueRepo.findBySubCatIdInAndDelStatus(subCatIdList, delStatus);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in getFreqAskQueBySubCatIds @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return faqList;
+	}
+	
+	//FreqAskQue -5
+	@RequestMapping(value = { "/getFreqAskQueByCatIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<FreqAskQue> getFreqAskQueByCatIds(
+			@RequestParam("catIdList") List<String> catIdList,@RequestParam("delStatus") int delStatus) {
+
+		List<FreqAskQue> faqList = null;
+		
+		try {
+			
+			faqList=freqAskQueRepo.findByCatIdInAndDelStatus(catIdList, delStatus);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in getFreqAskQueByCatIds @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return faqList;
+	}*/
 }
