@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "m_category")
 public class Category {
@@ -25,8 +27,9 @@ public class Category {
 	
 	private String catDesc;
 	
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date catAddDate;
-	
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date catEditDate;
 	
 	private int catSortNo;
@@ -87,6 +90,7 @@ public class Category {
 		this.catDesc = catDesc;
 	}
 
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getCatAddDate() {
 		return catAddDate;
 	}
@@ -94,6 +98,8 @@ public class Category {
 	public void setCatAddDate(Date catAddDate) {
 		this.catAddDate = catAddDate;
 	}
+
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 
 	public Date getCatEditDate() {
 		return catEditDate;
