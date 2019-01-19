@@ -9,13 +9,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ats.rusawebapi.model.mst.Category;
-import com.ats.rusawebapi.model.mst.Info;
 
 public interface CategoryRepo extends JpaRepository<Category, Integer> {
 	
-	List<Category> findByDelStatusAndIsActive(int delStatus, int isActive);
+	List<Category> findByDelStatus(int delStatus);
 	
-	List<Category> findByDelStatusAndIsActiveAndSectionId(int delStatus, int isActive,int sectionId);
+	List<Category> findByDelStatusAndSectionId(int delStatus,int sectionId);
+	
 	
 	@Transactional
 	@Modifying
@@ -23,6 +23,11 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
 	int deleteCategory(@Param("catIdList") List<String> catIdList,@Param("delStatus") int delStatus);
 	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE Category SET isActive=:isActive WHERE catId IN (:catIdList) ",nativeQuery=true)
+
+	int activeInactiveCategory(@Param("catIdList") List<String> catIdList,@Param("isActive") int isActive);
 	
 	
 }

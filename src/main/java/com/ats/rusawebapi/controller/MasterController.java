@@ -27,7 +27,8 @@ public class MasterController {
 	SubCategoryRepo subCatRepo;
 	@Autowired
 	FreqAskQueRepo freqAskQueRepo;
-
+	
+//Category -1
 	@RequestMapping(value = { "/saveUpdateCategory" }, method = RequestMethod.POST)
 	public @ResponseBody Category saveCategory(@RequestBody Category category) {
 
@@ -66,16 +67,16 @@ public class MasterController {
 		return catSaveResponse;
 
 	}
+	//Category -2
 
 	@RequestMapping(value = { "/getAllCategory" }, method = RequestMethod.POST)
-	public @ResponseBody List<Category> getAllCategory(@RequestParam("delStatus") int delStatus,
-			@RequestParam("isActive") int isActive) {
+	public @ResponseBody List<Category> getAllCategory(@RequestParam("delStatus") int delStatus) {
 
 		List<Category> catList = null;
 
 		try {
 
-			catList = catRepo.findByDelStatusAndIsActive(delStatus, isActive);
+			catList = catRepo.findByDelStatus(delStatus);
 
 		} catch (Exception e) {
 			System.err.println("Exce in getAllCategory @Mastercontr " + e.getMessage());
@@ -85,7 +86,7 @@ public class MasterController {
 		return catList;
 
 	}
-
+	//Category -3
 	@RequestMapping(value = { "/deleteMultiCategory" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteMultiCategory(@RequestParam("delStatus") int delStatus,
 			@RequestParam("catIdList") List<String> catIdList) {
@@ -117,7 +118,123 @@ public class MasterController {
 		return info;
 
 	}
+	
+	//Category -4
+		@RequestMapping(value = { "/activeInactiveCategories" }, method = RequestMethod.POST)
+		public @ResponseBody Info activeInactiveCategories(@RequestParam("isActive") int isActive,
+				@RequestParam("catIdList") List<String> catIdList) {
 
+			Info info = new Info();
+
+			try {
+
+				int deleteRes = catRepo.activeInactiveCategory(catIdList, isActive);
+
+				if (deleteRes > 0) {
+
+					info.setError(false);
+					info.setMsg("success");
+
+				} else {
+
+					info.setError(true);
+					info.setMsg("failed");
+				}
+
+			} catch (Exception e) {
+				info.setError(true);
+				info.setMsg("exception");
+				System.err.println("Exce in activeInactiveCategories @Mastercontr " + e.getMessage());
+				e.printStackTrace();
+				
+			}
+
+			return info;
+
+		}
+		
+		//SubCategory -1
+		@RequestMapping(value = { "/saveUpdateSubCategory" }, method = RequestMethod.POST)
+		public @ResponseBody SubCategory saveUpdateSubCategory(@RequestBody SubCategory subCategory) {
+
+			SubCategory subCatSaveResponse = null;
+			Info info = new Info();
+			try {
+
+				subCatSaveResponse = subCatRepo.saveAndFlush(subCategory);
+
+				if (subCatSaveResponse != null) {
+
+					info.setError(false);
+					info.setMsg("success");
+
+				} else {
+
+					info.setError(true);
+					info.setMsg("failed");
+				}
+
+				subCatSaveResponse.setInfo(info);
+
+			} catch (Exception e) {
+
+				info.setError(true);
+				info.setMsg("exception");
+
+				subCatSaveResponse = new SubCategory();
+
+				subCatSaveResponse.setInfo(info);
+
+				System.err.println("Exce in saveUpdateSubCategory @MasterController " + e.getMessage());
+				e.printStackTrace();
+			}
+
+			return subCatSaveResponse;
+
+		}
+		
+		//SubCategory -2
+		
+		@RequestMapping(value = { "/getSubCategoriesByCatIds" }, method = RequestMethod.POST)
+		public @ResponseBody List<SubCategory> getSubCategoriesByCatIds(@RequestParam("delStatus") int delStatus,
+				@RequestParam("catIdList") List<String> catIdList) {
+
+			List<SubCategory> subCatList = null;
+
+			try {
+
+				subCatList = subCatRepo.findByCatIdInAndDelStatus(catIdList, delStatus);
+
+			} catch (Exception e) {
+				System.err.println("Exce in getSubCategoriesByCatIds @Mastercontr " + e.getMessage());
+				e.printStackTrace();
+			}
+
+			return subCatList;
+
+		}
+		
+		
+		//SubCategory -3
+		@RequestMapping(value = { "/getAllSubCategories" }, method = RequestMethod.POST)
+		public @ResponseBody List<SubCategory> getAllSubCategories(@RequestParam("delStatus") int delStatus) {
+
+			List<SubCategory> subCatList = null;
+
+			try {
+
+				subCatList = subCatRepo.findByDelStatus(delStatus);
+			} catch (Exception e) {
+				System.err.println("Exce in getSubCategoriesByCatIds @Mastercontr " + e.getMessage());
+				e.printStackTrace();
+			}
+
+			return subCatList;
+
+		}
+		
+		
+	//SubCategory -4
 	
 	@RequestMapping(value = { "/deleteMultiSubCategory" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteMultiSubCategory(@RequestParam("delStatus") int delStatus,
@@ -150,17 +267,19 @@ public class MasterController {
 		return info;
 
 	}
+	//SubCategory -5
+	
+	@RequestMapping(value = { "/activeInactiveSubCategories" }, method = RequestMethod.POST)
+	public @ResponseBody Info activeInactiveSubCategories(@RequestParam("isActive") int isActive,
+			@RequestParam("subCatIdList") List<String> subCatIdList) {
 
-	@RequestMapping(value = { "/saveUpdateSubCategory" }, method = RequestMethod.POST)
-	public @ResponseBody SubCategory saveUpdateSubCategory(@RequestBody SubCategory subCategory) {
-
-		SubCategory subCatSaveResponse = null;
 		Info info = new Info();
+
 		try {
 
-			subCatSaveResponse = subCatRepo.saveAndFlush(subCategory);
+			int deleteRes = subCatRepo.activeInactiveSubCategory(subCatIdList, isActive);
 
-			if (subCatSaveResponse != null) {
+			if (deleteRes > 0) {
 
 				info.setError(false);
 				info.setMsg("success");
@@ -171,25 +290,22 @@ public class MasterController {
 				info.setMsg("failed");
 			}
 
-			subCatSaveResponse.setInfo(info);
-
 		} catch (Exception e) {
 
 			info.setError(true);
 			info.setMsg("exception");
-
-			subCatSaveResponse = new SubCategory();
-
-			subCatSaveResponse.setInfo(info);
-
-			System.err.println("Exce in saveUpdateSubCategory @MasterController " + e.getMessage());
+			
+			System.err.println("Exce in deleteMultiSubCategory @Mastercontr " + e.getMessage());
 			e.printStackTrace();
+			
 		}
 
-		return subCatSaveResponse;
+		return info;
 
 	}
 
+	
+	//FreqAskQue -1
 	@RequestMapping(value = { "/saveUpdateFreqAskQue" }, method = RequestMethod.POST)
 	public @ResponseBody FreqAskQue saveUpdateFreqAskQue(@RequestBody FreqAskQue faq) {
 
@@ -228,18 +344,35 @@ public class MasterController {
 		return faqSaveResponse;
 
 	}
-	
+	//FreqAskQue -2
 	@RequestMapping(value = { "/getAllFreqAskQue" }, method = RequestMethod.POST)
-	public @ResponseBody List<FreqAskQue> getAllFreqAskQue(@RequestParam("delStatus") int delStatus,
-			@RequestParam("isActive") int isActive) {
+	public @ResponseBody List<FreqAskQue> getAllFreqAskQue(@RequestParam("delStatus") int delStatus) {
 
 		List<FreqAskQue> faqList = null;
 		
 		try {
-			faqList=freqAskQueRepo.findByDelStatusAndIsActive(delStatus, isActive);
+			faqList=freqAskQueRepo.findByDelStatus(delStatus);
 			
 		}catch (Exception e) {
 			System.err.println("Exce in getAllFreqAskQue @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return faqList;
+	}
+	//FreqAskQue -3
+	@RequestMapping(value = { "/getFreqAskQueByCatIdsAndSubCatIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<FreqAskQue> getFreqAskQueByCatIdsAndSubCatIds(@RequestParam("catIdList") List<String> catIdList,
+			@RequestParam("subCatIdList") List<String> subCatIdList,@RequestParam("delStatus") int delStatus) {
+
+		List<FreqAskQue> faqList = null;
+		
+		try {
+			
+			faqList=freqAskQueRepo.findByCatIdInAndSubCatIdInAndDelStatus(catIdList, subCatIdList, delStatus);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in getFreqAskQueByCatIdsAndSubCatIds @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
 
