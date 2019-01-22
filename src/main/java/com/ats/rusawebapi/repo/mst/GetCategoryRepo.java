@@ -11,7 +11,7 @@ import com.ats.rusawebapi.model.mst.GetCategory;
 public interface GetCategoryRepo extends JpaRepository<GetCategory, Integer> {
 
 	
-	@Query(value="SELECT m_category.*, m_section.section_name from m_category,m_section WHERE m_category.del_status=:delStatus",nativeQuery=true)
+	@Query(value="SELECT m_category.*, m_section.section_name from m_category,m_section WHERE m_category.del_status=:delStatus and m_section.section_id=m_category.section_id",nativeQuery=true)
 	List<GetCategory> getAllCatList(@Param("delStatus") int delStatus);
 	
 

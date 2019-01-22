@@ -67,7 +67,7 @@ public class MasterApiController {
 	}
 
 	@RequestMapping(value = { "/getSectionBySectionId" }, method = RequestMethod.POST)
-	public @ResponseBody Info getContractorById(@RequestParam("sectionId") int sectionId) {
+	public @ResponseBody Section getContractorById(@RequestParam("sectionId") int sectionId) {
 
 		Section secSaveResponse = null;
 		Info info = new Info();
@@ -95,7 +95,7 @@ public class MasterApiController {
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
-		return info;
+		return secSaveResponse;
 
 	}
 
