@@ -27,9 +27,9 @@ public class SubCategory {
 	
 	private String subCatDesc;
 	
-	private Date SubCatAddDate;
+	private String SubCatAddDate;
 	
-	private Date subCatEditDate;
+	private String subCatEditDate;
 	
 	private int subCatSortNo;
 	
@@ -58,8 +58,8 @@ public class SubCategory {
 	private String exVar2;
 	private String exVar3;
 
-	private Date exDate1;
-	private Date exDate2;
+	private String exDate1;
+	private String exDate2;
 
 	private float exFloat1;
 	private float exFloat2;
@@ -134,19 +134,19 @@ public class SubCategory {
 		this.exVar3 = exVar3;
 	}
 
-	public Date getExDate1() {
+	public String getExDate1() {
 		return exDate1;
 	}
 
-	public void setExDate1(Date exDate1) {
+	public void setExDate1(String exDate1) {
 		this.exDate1 = exDate1;
 	}
 
-	public Date getExDate2() {
+	public String getExDate2() {
 		return exDate2;
 	}
 
-	public void setExDate2(Date exDate2) {
+	public void setExDate2(String exDate2) {
 		this.exDate2 = exDate2;
 	}
 
@@ -222,19 +222,19 @@ public class SubCategory {
 		this.subCatDesc = subCatDesc;
 	}
 
-	public Date getSubCatAddDate() {
+	public String getSubCatAddDate() {
 		return SubCatAddDate;
 	}
 
-	public void setSubCatAddDate(Date subCatAddDate) {
+	public void setSubCatAddDate(String subCatAddDate) {
 		SubCatAddDate = subCatAddDate;
 	}
 
-	public Date getSubCatEditDate() {
+	public String getSubCatEditDate() {
 		return subCatEditDate;
 	}
 
-	public void setSubCatEditDate(Date subCatEditDate) {
+	public void setSubCatEditDate(String subCatEditDate) {
 		this.subCatEditDate = subCatEditDate;
 	}
 

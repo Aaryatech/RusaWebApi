@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.model.mst.Category;
 import com.ats.rusawebapi.model.mst.FreqAskQue;
+import com.ats.rusawebapi.model.mst.GetCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.SubCategory;
 import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.repo.mst.FreqAskQueRepo;
+import com.ats.rusawebapi.repo.mst.GetCategoryRepo;
 import com.ats.rusawebapi.repo.mst.SubCategoryRepo;
 
 @RestController
@@ -24,6 +26,27 @@ public class MasterController {
 	@Autowired CategoryRepo catRepo;
 	@Autowired SubCategoryRepo subCatRepo;
 	@Autowired FreqAskQueRepo freqAskQueRepo;
+	
+	
+	@Autowired GetCategoryRepo getGetCategoryRepo;
+	
+	@RequestMapping(value = { "/getAllCatList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCategory> getAllCatList(@RequestParam("delStatus") int delStatus) {
+
+		List<GetCategory> catList = null;
+
+		try {
+
+			catList = getGetCategoryRepo.getAllCatList(delStatus);
+
+		} catch (Exception e) {
+			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return catList;
+
+	}
 	
 //Category -1
 	@RequestMapping(value = { "/saveUpdateCategory" }, method = RequestMethod.POST)

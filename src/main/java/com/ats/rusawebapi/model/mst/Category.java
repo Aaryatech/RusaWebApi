@@ -27,10 +27,10 @@ public class Category {
 	
 	private String catDesc;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	private Date catAddDate;
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	private Date catEditDate;
+	//@JsonFormat(pattern = "dd-MM-yyyy")
+	private String catAddDate;
+	//@JsonFormat(pattern = "dd-MM-yyyy")
+	private String catEditDate;
 	
 	private int catSortNo;
 	
@@ -58,8 +58,8 @@ public class Category {
 	private String exVar2;
 	private String exVar3;
 
-	private Date exDate1;
-	private Date exDate2;
+	private String exDate1;
+	private String exDate2;
 
 	private float exFloat1;
 	private float exFloat2;
@@ -133,19 +133,19 @@ public class Category {
 		this.exVar3 = exVar3;
 	}
 
-	public Date getExDate1() {
+	public String getExDate1() {
 		return exDate1;
 	}
 
-	public void setExDate1(Date exDate1) {
+	public void setExDate1(String exDate1) {
 		this.exDate1 = exDate1;
 	}
 
-	public Date getExDate2() {
+	public String getExDate2() {
 		return exDate2;
 	}
 
-	public void setExDate2(Date exDate2) {
+	public void setExDate2(String exDate2) {
 		this.exDate2 = exDate2;
 	}
 
@@ -213,22 +213,22 @@ public class Category {
 		this.catDesc = catDesc;
 	}
 
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getCatAddDate() {
+	//@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getCatAddDate() {
 		return catAddDate;
 	}
 
-	public void setCatAddDate(Date catAddDate) {
+	public void setCatAddDate(String catAddDate) {
 		this.catAddDate = catAddDate;
 	}
 
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 
-	public Date getCatEditDate() {
+	public String getCatEditDate() {
 		return catEditDate;
 	}
 
-	public void setCatEditDate(Date catEditDate) {
+	public void setCatEditDate(String catEditDate) {
 		this.catEditDate = catEditDate;
 	}
 

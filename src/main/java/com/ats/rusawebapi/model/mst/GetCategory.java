@@ -1,52 +1,51 @@
 package com.ats.rusawebapi.model.mst;
 
-import java.util.Date;
-
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
-@Entity
-@Table(name = "t_faq")
-public class FreqAskQue {
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+public class GetCategory {
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "faq_id")
-	private int faqId;
-
+	@Column(name="cat_id")
 	private int catId;
-
-	private int subCatId;
-
-	private String faqQue;
-
-	private String faqAns;
-
-	private int faqSortNo;
-
-	private String faqRemark;
-
-	private String faqAddDate;
-
-	private String faqEditDate;
-
-	private String faqDate;
-
+	
+	private String catName;
+	
+	private String catCode;
+	
+	private String catDesc;
+	
+	//@JsonFormat(pattern = "dd-MM-yyyy")
+	private String catAddDate;
+	//@JsonFormat(pattern = "dd-MM-yyyy")
+	private String catEditDate;
+	
+	private int catSortNo;
+	
+	private String catRemark;
+	
+	private int sectionId;
+	
+	private String sectionName;
+	
+	
 	private int userId;
-
+	
 	private int isActive;
-
+	
 	private int delStatus;
 	
-
+	//total 12 fields 17 Jan 2019
+	
 	@Transient
 	Info info;
-	
 	
 	
 	private int exInt1;
@@ -56,8 +55,6 @@ public class FreqAskQue {
 	private String exVar1;
 	private String exVar2;
 	private String exVar3;
-	private String exVar4;
-	private String exVar5;
 
 	private String exDate1;
 	private String exDate2;
@@ -66,8 +63,25 @@ public class FreqAskQue {
 	private float exFloat2;
 	private float exFloat3;
 	
-	
-	
+	private String exVar4;
+	private String exVar5;
+
+
+	public String getExVar4() {
+		return exVar4;
+	}
+
+	public void setExVar4(String exVar4) {
+		this.exVar4 = exVar4;
+	}
+
+	public String getExVar5() {
+		return exVar5;
+	}
+
+	public void setExVar5(String exVar5) {
+		this.exVar5 = exVar5;
+	}
 
 	public int getExInt1() {
 		return exInt1;
@@ -165,14 +179,6 @@ public class FreqAskQue {
 		this.info = info;
 	}
 
-	public int getFaqId() {
-		return faqId;
-	}
-
-	public void setFaqId(int faqId) {
-		this.faqId = faqId;
-	}
-
 	public int getCatId() {
 		return catId;
 	}
@@ -181,68 +187,71 @@ public class FreqAskQue {
 		this.catId = catId;
 	}
 
-	public int getSubCatId() {
-		return subCatId;
+	public String getCatName() {
+		return catName;
 	}
 
-	public void setSubCatId(int subCatId) {
-		this.subCatId = subCatId;
+	public void setCatName(String catName) {
+		this.catName = catName;
 	}
 
-	public String getFaqQue() {
-		return faqQue;
+	public String getCatCode() {
+		return catCode;
 	}
 
-	public void setFaqQue(String faqQue) {
-		this.faqQue = faqQue;
+	public void setCatCode(String catCode) {
+		this.catCode = catCode;
 	}
 
-	public String getFaqAns() {
-		return faqAns;
+	public String getCatDesc() {
+		return catDesc;
 	}
 
-	public void setFaqAns(String faqAns) {
-		this.faqAns = faqAns;
+	public void setCatDesc(String catDesc) {
+		this.catDesc = catDesc;
 	}
 
-	public int getFaqSortNo() {
-		return faqSortNo;
+	//@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getCatAddDate() {
+		return catAddDate;
 	}
 
-	public void setFaqSortNo(int faqSortNo) {
-		this.faqSortNo = faqSortNo;
+	public void setCatAddDate(String catAddDate) {
+		this.catAddDate = catAddDate;
 	}
 
-	public String getFaqRemark() {
-		return faqRemark;
+	//@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
+	public String getCatEditDate() {
+		return catEditDate;
 	}
 
-	public void setFaqRemark(String faqRemark) {
-		this.faqRemark = faqRemark;
+	public void setCatEditDate(String catEditDate) {
+		this.catEditDate = catEditDate;
 	}
 
-	public String getFaqAddDate() {
-		return faqAddDate;
+	public int getCatSortNo() {
+		return catSortNo;
 	}
 
-	public void setFaqAddDate(String faqAddDate) {
-		this.faqAddDate = faqAddDate;
+	public void setCatSortNo(int catSortNo) {
+		this.catSortNo = catSortNo;
 	}
 
-	public String getFaqEditDate() {
-		return faqEditDate;
+	public String getCatRemark() {
+		return catRemark;
 	}
 
-	public void setFaqEditDate(String faqEditDate) {
-		this.faqEditDate = faqEditDate;
+	public void setCatRemark(String catRemark) {
+		this.catRemark = catRemark;
 	}
 
-	public String getFaqDate() {
-		return faqDate;
+	public int getSectionId() {
+		return sectionId;
 	}
 
-	public void setFaqDate(String faqDate) {
-		this.faqDate = faqDate;
+	public void setSectionId(int sectionId) {
+		this.sectionId = sectionId;
 	}
 
 	public int getUserId() {
@@ -269,34 +278,15 @@ public class FreqAskQue {
 		this.delStatus = delStatus;
 	}
 
-	public String getExVar4() {
-		return exVar4;
-	}
-
-	public void setExVar4(String exVar4) {
-		this.exVar4 = exVar4;
-	}
-
-	public String getExVar5() {
-		return exVar5;
-	}
-
-	public void setExVar5(String exVar5) {
-		this.exVar5 = exVar5;
-	}
-
 	@Override
 	public String toString() {
-		return "FreqAskQue [faqId=" + faqId + ", catId=" + catId + ", subCatId=" + subCatId + ", faqQue=" + faqQue
-				+ ", faqAns=" + faqAns + ", faqSortNo=" + faqSortNo + ", faqRemark=" + faqRemark + ", faqAddDate="
-				+ faqAddDate + ", faqEditDate=" + faqEditDate + ", faqDate=" + faqDate + ", userId=" + userId
-				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", info=" + info + ", exInt1=" + exInt1
-				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + ", exDate1=" + exDate1
-				+ ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3="
-				+ exFloat3 + "]";
+		return "Category [catId=" + catId + ", catName=" + catName + ", catCode=" + catCode + ", catDesc=" + catDesc
+				+ ", catAddDate=" + catAddDate + ", catEditDate=" + catEditDate + ", catSortNo=" + catSortNo
+				+ ", catRemark=" + catRemark + ", sectionId=" + sectionId + ", userId=" + userId + ", isActive="
+				+ isActive + ", delStatus=" + delStatus + ", info=" + info + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
+				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
+				+ ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2
+				+ ", exFloat3=" + exFloat3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + "]";
 	}
-	
-	
 
 }
