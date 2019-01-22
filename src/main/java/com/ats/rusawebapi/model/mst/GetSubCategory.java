@@ -1,18 +1,16 @@
 package com.ats.rusawebapi.model.mst;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-
+@Entity
 public class GetSubCategory {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="sub_cat_id")
-	
 	private int subCatId;
 	
 	private int catId;
