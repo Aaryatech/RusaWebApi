@@ -39,12 +39,33 @@ public class MasterController {
 
 			catList = getGetCategoryRepo.getAllCatList(delStatus);
 
+			System.out.println(catList);
 		} catch (Exception e) {
 			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
 			e.printStackTrace();
 		}
 
 		return catList;
+
+	}
+	 
+	
+	@RequestMapping(value = { "/getAllCatListByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody  GetCategory  getAllCatListByCatId(@RequestParam("catId") int catId) {
+
+		GetCategory gcetCategory = new GetCategory();
+
+		try {
+
+			gcetCategory = getGetCategoryRepo.getCatListByCatId(catId);
+
+			 
+		} catch (Exception e) {
+			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return gcetCategory;
 
 	}
 	

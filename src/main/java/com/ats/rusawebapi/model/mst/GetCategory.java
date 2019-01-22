@@ -279,15 +279,24 @@ public class GetCategory {
 		this.delStatus = delStatus;
 	}
 
+	public String getSectionName() {
+		return sectionName;
+	}
+
+	public void setSectionName(String sectionName) {
+		this.sectionName = sectionName;
+	}
+
 	@Override
 	public String toString() {
-		return "Category [catId=" + catId + ", catName=" + catName + ", catCode=" + catCode + ", catDesc=" + catDesc
+		return "GetCategory [catId=" + catId + ", catName=" + catName + ", catCode=" + catCode + ", catDesc=" + catDesc
 				+ ", catAddDate=" + catAddDate + ", catEditDate=" + catEditDate + ", catSortNo=" + catSortNo
-				+ ", catRemark=" + catRemark + ", sectionId=" + sectionId + ", userId=" + userId + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + ", info=" + info + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2
-				+ ", exFloat3=" + exFloat3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + "]";
+				+ ", catRemark=" + catRemark + ", sectionId=" + sectionId + ", sectionName=" + sectionName + ", userId="
+				+ userId + ", isActive=" + isActive + ", delStatus=" + delStatus + ", info=" + info + ", exInt1="
+				+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", exVar3=" + exVar3 + ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1
+				+ ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5
+				+ "]";
 	}
 
 }
