@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.mst.Category;
 import com.ats.rusawebapi.model.mst.FreqAskQue;
 import com.ats.rusawebapi.model.mst.GetCategory;
+import com.ats.rusawebapi.model.mst.GetSubCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.SubCategory;
 import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.repo.mst.FreqAskQueRepo;
 import com.ats.rusawebapi.repo.mst.GetCategoryRepo;
+import com.ats.rusawebapi.repo.mst.GetSubCategoryRepo;
 import com.ats.rusawebapi.repo.mst.SubCategoryRepo;
 
 @RestController
@@ -48,10 +50,49 @@ public class MasterController {
 		return catList;
 
 	}
-	 
 	
-	@RequestMapping(value = { "/getAllCatListByCatId" }, method = RequestMethod.POST)
-	public @ResponseBody  GetCategory  getAllCatListByCatId(@RequestParam("catId") int catId) {
+	@Autowired GetSubCategoryRepo getGetSubCategoryRepo;
+	
+	@RequestMapping(value = { "/getAllSubCatList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetSubCategory> getAllSubCatList(@RequestParam("delStatus") int delStatus) {
+
+		List<GetSubCategory> subCatList = null;
+
+		try {
+
+			subCatList = getGetSubCategoryRepo.getSubAllSubCatList(delStatus);
+			
+		} catch (Exception e) {
+			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return subCatList;
+
+	}
+
+	@RequestMapping(value = { "/getSubCategoryBySubCatId" }, method = RequestMethod.POST)
+	public @ResponseBody GetSubCategory getSubCategoryBySubCatId(@RequestParam("delStatus") int delStatus,@RequestParam("subCatId") int subCatId) {
+
+		GetSubCategory subCat = null;
+
+		try {
+
+			subCat = getGetSubCategoryRepo.getSubCategory(delStatus, subCatId);
+			
+		} catch (Exception e) {
+			System.err.println("Exce in getSubCategoryBySubCatId @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return subCat;
+
+	}
+
+	//for getAllCatListByCatId
+	
+	@RequestMapping(value = { "/getCategoryByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody  GetCategory  getCategoryByCatId(@RequestParam("catId") int catId) {
 
 		GetCategory gcetCategory = new GetCategory();
 
