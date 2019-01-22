@@ -34,6 +34,9 @@ public class User {
 	@Column(name="role_id")
 	private int roleId;
 	
+	@Column(name="type_id")
+	private int typeId;
+	
 	@Column(name="sort_no")
 	private int sortNo;
 	
@@ -214,17 +217,35 @@ public class User {
 		this.info = info;
 	}
 
+	public int getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userPass=" + userPass + ", userEmail="
-				+ userEmail + ", useDob=" + useDob + ", useMob=" + useMob + ", roleId=" + roleId + ", sortNo=" + sortNo
-				+ ", deptId=" + deptId + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exDate1=" + exDate1 + ", exDate2=" + exDate2
-				+ ", isActive=" + isActive + ", info=" + info + "]";
+				+ userEmail + ", useDob=" + useDob + ", useMob=" + useMob + ", roleId=" + roleId + ", typeId=" + typeId
+				+ ", sortNo=" + sortNo + ", deptId=" + deptId + ", delStatus=" + delStatus + ", exInt1=" + exInt1
+				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exDate1=" + exDate1
+				+ ", exDate2=" + exDate2 + ", isActive=" + isActive + ", info=" + info + ", getUserId()=" + getUserId()
+				+ ", getUserName()=" + getUserName() + ", getUserPass()=" + getUserPass() + ", getUserEmail()="
+				+ getUserEmail() + ", getUseDob()=" + getUseDob() + ", getUseMob()=" + getUseMob() + ", getRoleId()="
+				+ getRoleId() + ", getSortNo()=" + getSortNo() + ", getDeptId()=" + getDeptId() + ", getDelStatus()="
+				+ getDelStatus() + ", getExInt1()=" + getExInt1() + ", getExInt2()=" + getExInt2() + ", getExVar1()="
+				+ getExVar1() + ", getExVar2()=" + getExVar2() + ", getExDate1()=" + getExDate1() + ", getExDate2()="
+				+ getExDate2() + ", getIsActive()=" + getIsActive() + ", getInfo()=" + getInfo() + ", getTypeId()="
+				+ getTypeId() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
 
 	
-
-
+	
+	
+	
+	
 
 }

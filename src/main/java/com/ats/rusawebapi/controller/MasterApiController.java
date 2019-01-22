@@ -362,6 +362,41 @@ public class MasterApiController {
 	}
 
 	
+/*	@RequestMapping(value = { "/getUserByTypeId" }, method = RequestMethod.POST)
+	public @ResponseBody Info getUserByTypeId(@RequestParam("typeId") int typeId) {
+
+		User secSaveResponse = null;
+		Info info = new Info();
+		try {
+			secSaveResponse = userRepo.findByTypeIdAndDelStatus(typeId, 1);
+
+			if (secSaveResponse != null) {
+
+				info.setError(false);
+				info.setMsg("success");
+
+			} else {
+
+				info.setError(true);
+				info.setMsg("failed");
+			}
+			secSaveResponse.setInfo(info);
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("exception");
+			secSaveResponse = new User();
+			secSaveResponse.setInfo(info);
+
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return info;
+
+	}
+	
+	
+	*/
 
 
 }

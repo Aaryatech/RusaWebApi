@@ -34,6 +34,9 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	@Query("UPDATE User SET isActive=:isActive WHERE user_id IN (:userIdList)")
 
 	int activeInactiveUser(@Param("userIdList") List<String> userIdList, @Param("isActive") int isActive);
+
+
+	//User findByTypeIdAndDelStatus(int typeId, int i);
 	
 	
 	
