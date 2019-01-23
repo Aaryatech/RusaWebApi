@@ -74,7 +74,7 @@ public class MasterController {
 	@RequestMapping(value = { "/getSubCategoryBySubCatId" }, method = RequestMethod.POST)
 	public @ResponseBody GetSubCategory getSubCategoryBySubCatId(@RequestParam("delStatus") int delStatus,@RequestParam("subCatId") int subCatId) {
 
-		GetSubCategory subCat = null;
+		GetSubCategory subCat = new GetSubCategory();
 
 		try {
 
@@ -472,7 +472,7 @@ public class MasterController {
 				
 			}
 			
-			faqList=freqAskQueRepo.findByCatIdInAndSubCatIdInAndDelStatus(catIdList, subCatIdList, delStatus);
+			//faqList=freqAskQueRepo.findByCatIdInAndSubCatIdInAndDelStatus(catIdList, subCatIdList, delStatus);
 			
 		}catch (Exception e) {
 			System.err.println("Exce in getFreqAskQueByCatIdsAndSubCatIds @MasterController " + e.getMessage());

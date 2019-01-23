@@ -17,9 +17,15 @@ public interface GetSubCategoryRepo extends JpaRepository<GetSubCategory, Intege
 	List<GetSubCategory> getSubAllSubCatList(@Param("delStatus") int delStatus);
 	
 	
+<<<<<<< HEAD
 	@Query(value="SELECT m_sub_category.*, m_category.cat_name,m_category.cat_code,m_category.cat_desc FROM"
 			+ " m_category,m_sub_category WHERE m_sub_category.cat_id=m_category.cat_id AND  m_sub_category.del_status=:delStatus"
 			+ " AND m_sub_category.sub_cat_id=:subCatId",nativeQuery=true)
+=======
+	@Query(value=" SELECT m_sub_category.*, m_category.cat_name,m_category.cat_code,m_category.cat_desc FROM "
+			+ " m_category,m_sub_category WHERE m_sub_category.cat_id=m_category.cat_id AND  m_sub_category.del_status=:delStatus "
+			+ " AND m_sub_category.sub_cat_id=:subCatId ",nativeQuery=true)
+>>>>>>> branch 'master' of https://github.com/Aaryatech/RusaWebApi.git
 
 	GetSubCategory getSubCategory(@Param("delStatus") int delStatus,@Param("subCatId") int subCatId);
 
