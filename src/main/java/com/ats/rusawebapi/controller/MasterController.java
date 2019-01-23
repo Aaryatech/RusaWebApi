@@ -75,6 +75,38 @@ public class MasterController {
 	}
 	
 	
+	@RequestMapping(value = { "/deleteFaq" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteFaq(@RequestParam("delStatus") int delStatus,
+			@RequestParam("faqIdList") List<String> faqIdList) {
+
+		Info info = new Info();
+
+		try {
+
+			int deleteRes = freqAskQueRepo.deleteFaqs(faqIdList, delStatus);
+			if (deleteRes > 0) {
+
+				info.setError(false);
+				info.setMsg("success");
+
+			} else {
+
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+			
+			System.err.println("Exce in deleteFaq @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+			
+		}
+
+		return info;
+
+	}
+	
+	
 	
 	@RequestMapping(value = { "/getAllCatList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetCategory> getAllCatList(@RequestParam("delStatus") int delStatus) {

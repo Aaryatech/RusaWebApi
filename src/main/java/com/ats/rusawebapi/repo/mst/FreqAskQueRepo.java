@@ -24,9 +24,9 @@ public interface FreqAskQueRepo extends JpaRepository<FreqAskQue, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE t_faq SET del_status=:delStatus WHERE faq_id IN (:faqIdIdList) ",nativeQuery=true)
+	@Query(value="UPDATE t_faq SET del_status=:delStatus WHERE faq_id IN (:faqIdList) ",nativeQuery=true)
 
-	int deleteFaqs(@Param("faqIdIdList") List<String> faqIdIdList,@Param("delStatus") int delStatus);
+	int deleteFaqs(@Param("faqIdList") List<String> faqIdList,@Param("delStatus") int delStatus);
 	
 	
 	@Transactional
