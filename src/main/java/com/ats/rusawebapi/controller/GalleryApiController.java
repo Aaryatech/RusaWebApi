@@ -267,6 +267,32 @@ public class GalleryApiController {
 	}
 	
 	
+	@RequestMapping(value = { "/deleteGalleryDetail" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteGalleryDetail(@RequestParam("galleryDetailId") int galleryDetailId) {
+
+		Info info = new Info();
+
+		try {
+			int delete = galleryDetailRepo.deleteGalleryDetail(galleryDetailId);
+
+			if (delete == 1) {
+				info.setError(false);
+				info.setMsg("successfully Deleted");
+			} else {
+				info.setError(true);
+				info.setMsg(" Deleted to Delete");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg(" Deleted to Delete");
+
+		}
+		return info;
+
+	}
 	
 	
 
