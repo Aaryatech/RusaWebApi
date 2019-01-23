@@ -296,7 +296,5 @@ public class FreqAskQue {
 				+ ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3="
 				+ exFloat3 + "]";
 	}
-	
-	
 
 }
