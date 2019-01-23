@@ -64,6 +64,48 @@ public class GalleryApiController {
 		return gHeader;
 
 	}
+	
+	
+	@RequestMapping(value = { "/saveGalleryHeader" }, method = RequestMethod.POST)
+	public @ResponseBody Galleryheader saveGalleryHeader(@RequestBody Galleryheader gallery) {
+
+		Info errorMessage = new Info();
+		Galleryheader gHeader = new Galleryheader();
+		try {
+
+			gHeader = galleryHeaderRepo.save(gallery);
+
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return gHeader;
+
+	}
+	
+	@RequestMapping(value = { "/saveGalleryDetail" }, method = RequestMethod.POST)
+	public @ResponseBody List<GalleryDetail> saveGalleryDetail(@RequestBody List<GalleryDetail> galDetailList) {
+
+		Info errorMessage = new Info();
+		List<GalleryDetail> gDetailsList=null;
+		try {
+
+		 gDetailsList = galleryDetailRepo.saveAll(galDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return gDetailsList;
+
+	}
 
 	@RequestMapping(value = { "/getGalleryHeaderList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetGalleryHeaderByCatId> getDocHeaderList() {

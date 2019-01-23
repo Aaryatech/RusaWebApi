@@ -30,12 +30,11 @@ public class MasterController {
 	@Autowired CategoryRepo catRepo;
 	@Autowired SubCategoryRepo subCatRepo;
 	@Autowired FreqAskQueRepo freqAskQueRepo;
-	
-	
 	@Autowired GetCategoryRepo getGetCategoryRepo;
-	
 	@Autowired GetFreqAskQueRepo getGetFreqAskQueRepo;
 	
+	@Autowired GetSubCategoryRepo getGetSubCategoryRepo;
+
 	
 	@RequestMapping(value = { "/getFreqAskQueList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetFreqAskQue> getFreqAskQueList(@RequestParam("delStatus") int delStatus) {
@@ -77,7 +76,6 @@ public class MasterController {
 
 	}
 	
-	@Autowired GetSubCategoryRepo getGetSubCategoryRepo;
 	
 	@RequestMapping(value = { "/getAllSubCatList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetSubCategory> getAllSubCatList(@RequestParam("delStatus") int delStatus) {
