@@ -35,10 +35,21 @@ public class GetGalleryHeaderByCatId {
 	
 	private int delStatus;
 	
-	
 	private int catId;
 	
+	private String catName;
+	
+	private String catCode;
+	
+	private String catDesc;
+	
 	private int subCatId;
+	
+    private String subCatName;
+	
+	private String subCatCode;
+	
+	private String subCatDesc;
 	
 	private int exInt1;
 	
@@ -275,16 +286,68 @@ public class GetGalleryHeaderByCatId {
 		this.userName = userName;
 	}
 
+	
+	
+	public String getCatName() {
+		return catName;
+	}
+
+	public void setCatName(String catName) {
+		this.catName = catName;
+	}
+
+	public String getCatCode() {
+		return catCode;
+	}
+
+	public void setCatCode(String catCode) {
+		this.catCode = catCode;
+	}
+
+	public String getCatDesc() {
+		return catDesc;
+	}
+
+	public void setCatDesc(String catDesc) {
+		this.catDesc = catDesc;
+	}
+
+	public String getSubCatName() {
+		return subCatName;
+	}
+
+	public void setSubCatName(String subCatName) {
+		this.subCatName = subCatName;
+	}
+
+	public String getSubCatCode() {
+		return subCatCode;
+	}
+
+	public void setSubCatCode(String subCatCode) {
+		this.subCatCode = subCatCode;
+	}
+
+	public String getSubCatDesc() {
+		return subCatDesc;
+	}
+
+	public void setSubCatDesc(String subCatDesc) {
+		this.subCatDesc = subCatDesc;
+	}
+
 	@Override
 	public String toString() {
 		return "GetGalleryHeaderByCatId [galleryHeaderId=" + galleryHeaderId + ", galleryTitle=" + galleryTitle
 				+ ", galleryAddDate=" + galleryAddDate + ", galleryEditDate=" + galleryEditDate + ", galleryHeaderDesc="
 				+ galleryHeaderDesc + ", gallerySortNo=" + gallerySortNo + ", userId=" + userId + ", userName="
-				+ userName + ", isActive=" + isActive + ", delStatus=" + delStatus + ", catId=" + catId + ", subCatId="
-				+ subCatId + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5
-				+ ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2
-				+ ", exFloat3=" + exFloat3 + "]";
+				+ userName + ", isActive=" + isActive + ", delStatus=" + delStatus + ", catId=" + catId + ", catName="
+				+ catName + ", catCode=" + catCode + ", catDesc=" + catDesc + ", subCatId=" + subCatId + ", subCatName="
+				+ subCatName + ", subCatCode=" + subCatCode + ", subCatDesc=" + subCatDesc + ", exInt1=" + exInt1
+				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + ", exDate1=" + exDate1
+				+ ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3="
+				+ exFloat3 + "]";
 	}
 
 	

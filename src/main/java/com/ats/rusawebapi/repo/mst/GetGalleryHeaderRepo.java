@@ -19,21 +19,26 @@ public interface GetGalleryHeaderRepo  extends JpaRepository<GetGalleryHeaderByC
 
 	
 
-	@Query(value=" SELECT  t.*,u.user_name "
-			+ " FROM t_gallery_header t,m_user u WHERE  t.cat_id IN(:catIdList) AND  t.sub_cat_id IN(:subCatIdList) AND t.del_status=1  AND  u.user_id=t.user_id ",nativeQuery = true)
+	@Query(value=" SELECT  t.*,u.user_name,c.cat_name,c.cat_code,cat_desc,s.sub_cat_name,s.sub_cat_name,s.sub_cat_code,sub_cat_desc, "
+			+ " FROM t_gallery_header t,m_user u,m_category c,m_sub_category s WHERE  t.cat_id IN(:catIdList) AND  t.sub_cat_id IN(:subCatIdList) AND t.del_status=1  AND  u.user_id=t.user_id AND c.cat_id=t.cat_id AND s.sub_cat_id=t.sub_cat_id   ",nativeQuery = true)
 	List<GetGalleryHeaderByCatId> findByCatId1(@Param("catIdList") List<Integer> catIdList,@Param("subCatIdList") List<Integer> subCatIdList);
 
-	@Query(value=" SELECT  t.*,u.user_name "
-			+ " FROM t_gallery_header t ,m_user u WHERE  t.sub_cat_id IN(:subCatIdList) AND t.del_status=1  AND  u.user_id=t.user_id ",nativeQuery = true)
+	@Query(value="SELECT  t.*,u.user_name,c.cat_name,c.cat_code,cat_desc,s.sub_cat_name,s.sub_cat_name,s.sub_cat_code,sub_cat_desc, "
+			+ " FROM t_gallery_header t,m_user u,m_category c,m_sub_category s WHERE  t.sub_cat_id IN(:subCatIdList) AND t.del_status=1  AND  u.user_id=t.user_id AND c.cat_id=t.cat_id AND s.sub_cat_id=t.sub_cat_id   ",nativeQuery = true)
 	List<GetGalleryHeaderByCatId> findBySubCatId(@Param("subCatIdList") List<Integer>  subCatIdList);
 	
 	
-	@Query(value=" SELECT  t.*,u.user_name "
-			+ " FROM t_gallery_header t ,m_user u WHERE  t.cat_id IN(:catIdList) AND t.del_status=1  AND  u.user_id=t.user_id",nativeQuery = true)
+	@Query(value=" SELECT  t.*,u.user_name,c.cat_name,c.cat_code,cat_desc,s.sub_cat_name,s.sub_cat_name,s.sub_cat_code,sub_cat_desc, "
+			+ " FROM t_gallery_header t,m_user u,m_category c,m_sub_category s WHERE  t.cat_id IN(:catIdList) AND t.del_status=1  AND  u.user_id=t.user_id AND c.cat_id=t.cat_id AND s.sub_cat_id=t.sub_cat_id   ",nativeQuery = true)
 	List<GetGalleryHeaderByCatId> findByCatId(@Param("catIdList") List<Integer> catIdList);
-
-	@Query(value=" SELECT  t.*,u.user_name FROM t_gallery_header t,m_user u WHERE u.user_id=t.user_id"
-			+ " AND t.del_status=1",nativeQuery = true)
+	
+	
+	@Query(value=" SELECT  t.*,u.user_name,c.cat_name,c.cat_code,cat_desc,s.sub_cat_name,s.sub_cat_name,s.sub_cat_code,sub_cat_desc, "
+			+ " FROM t_gallery_header t,m_user u,m_category c,m_sub_category s WHERE  t.del_status=1  AND  u.user_id=t.user_id AND c.cat_id=t.cat_id AND s.sub_cat_id=t.sub_cat_id   ",nativeQuery = true)
 	List<GetGalleryHeaderByCatId> find();
+
+	@Query(value=" SELECT  t.*,u.user_name,c.cat_name,c.cat_code,cat_desc,s.sub_cat_name,s.sub_cat_name,s.sub_cat_code,sub_cat_desc, "
+			+ " FROM t_gallery_header t,m_user u,m_category c,m_sub_category s WHERE  t.del_status=1  AND  u.user_id=t.user_id AND c.cat_id=t.cat_id AND s.sub_cat_id=t.sub_cat_id   ",nativeQuery = true)
+	List<GetGalleryHeaderByCatId> getAllGalleryHeaderList();
 
 }

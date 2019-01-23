@@ -66,13 +66,13 @@ public class GalleryApiController {
 	}
 
 	@RequestMapping(value = { "/getGalleryHeaderList" }, method = RequestMethod.GET)
-	public @ResponseBody List<Galleryheader> getDocHeaderList() {
+	public @ResponseBody List<GetGalleryHeaderByCatId> getDocHeaderList() {
 
-		List<Galleryheader> docHeaderList = new ArrayList<Galleryheader>();
+		List<GetGalleryHeaderByCatId> docHeaderList = new ArrayList<GetGalleryHeaderByCatId>();
 
 		try {
 
-			docHeaderList = galleryHeaderRepo.findByDelStatus(1);
+			docHeaderList = getgRepo.getAllGalleryHeaderList();
 
 		} catch (Exception e) {
 
