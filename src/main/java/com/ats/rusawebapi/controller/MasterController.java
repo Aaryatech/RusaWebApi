@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.mst.Category;
 import com.ats.rusawebapi.model.mst.FreqAskQue;
 import com.ats.rusawebapi.model.mst.GetCategory;
+import com.ats.rusawebapi.model.mst.GetFreqAskQue;
 import com.ats.rusawebapi.model.mst.GetSubCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.SubCategory;
@@ -21,6 +22,7 @@ import com.ats.rusawebapi.repo.mst.FreqAskQueRepo;
 import com.ats.rusawebapi.repo.mst.GetCategoryRepo;
 import com.ats.rusawebapi.repo.mst.GetSubCategoryRepo;
 import com.ats.rusawebapi.repo.mst.SubCategoryRepo;
+import com.ats.rusawebapi.tx.repo.GetFreqAskQueRepo;
 
 @RestController
 public class MasterController {
@@ -31,6 +33,30 @@ public class MasterController {
 	
 	
 	@Autowired GetCategoryRepo getGetCategoryRepo;
+	
+	@Autowired GetFreqAskQueRepo getGetFreqAskQueRepo;
+	
+	
+	@RequestMapping(value = { "/getFreqAskQueList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetFreqAskQue> getFreqAskQueList(@RequestParam("delStatus") int delStatus) {
+
+		List<GetFreqAskQue> faqList = null;
+
+		try {
+
+			faqList = getGetFreqAskQueRepo.getFaqList(delStatus);
+
+			System.out.println(faqList);
+		} catch (Exception e) {
+			System.err.println("Exce in getFreqAskQueList @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return faqList;
+
+	}
+	
+	
 	
 	@RequestMapping(value = { "/getAllCatList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetCategory> getAllCatList(@RequestParam("delStatus") int delStatus) {
@@ -64,6 +90,25 @@ public class MasterController {
 			
 		} catch (Exception e) {
 			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return subCatList;
+
+	}
+
+	
+	@RequestMapping(value = { "/getAllSubCatByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetSubCategory> getAllSubCatByCatId(@RequestParam("delStatus") int delStatus,
+			@RequestParam("catId") int catId) {
+
+		List<GetSubCategory> subCatList = null;
+		try {
+
+			subCatList = getGetSubCategoryRepo.getAllSubCatByCatId(delStatus, catId);
+			
+		} catch (Exception e) {
+			System.err.println("Exce in getAllSubCatByCatId @Mastercontr " + e.getMessage());
 			e.printStackTrace();
 		}
 
