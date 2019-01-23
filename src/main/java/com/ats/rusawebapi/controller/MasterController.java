@@ -55,6 +55,25 @@ public class MasterController {
 
 	}
 	
+	@RequestMapping(value = { "/getFreqAskQue" }, method = RequestMethod.POST)
+	public @ResponseBody GetFreqAskQue getFreqAskQue(@RequestParam("faqId") int faqId) {
+
+		GetFreqAskQue faq=null;
+
+		try {
+
+			faq = getGetFreqAskQueRepo.getFaq(faqId);
+
+		//	System.out.println(faqList);
+		} catch (Exception e) {
+			System.err.println("Exce in getFreqAskQue @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return faq;
+
+	}
+	
 	
 	
 	@RequestMapping(value = { "/getAllCatList" }, method = RequestMethod.POST)

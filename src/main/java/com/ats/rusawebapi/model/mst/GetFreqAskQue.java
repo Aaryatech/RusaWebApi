@@ -1,9 +1,6 @@
 package com.ats.rusawebapi.model.mst;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
@@ -263,6 +260,7 @@ public class GetFreqAskQue {
 	public void setSubCatDesc(String subCatDesc) {
 		this.subCatDesc = subCatDesc;
 	}
+	
 	@Override
 	public String toString() {
 		return "GetFreqAskQue [faqId=" + faqId + ", catId=" + catId + ", subCatId=" + subCatId + ", faqQue=" + faqQue
@@ -275,9 +273,5 @@ public class GetFreqAskQue {
 				+ exFloat3 + ", catName=" + catName + ", catCode=" + catCode + ", catDesc=" + catDesc + ", subCatName="
 				+ subCatName + ", subCatCode=" + subCatCode + ", subCatDesc=" + subCatDesc + "]";
 	}
-	
-	
-	
-	
 
 }
