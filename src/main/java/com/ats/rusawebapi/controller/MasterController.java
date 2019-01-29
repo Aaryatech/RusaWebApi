@@ -152,7 +152,26 @@ public class MasterController {
 
 	}
 
-	
+	 
+	@RequestMapping(value = { "/getAllCatIdBySectionId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCategory> getAllCatIdBySectionId(@RequestParam("sectionId") int sectionId) {
+
+		List<GetCategory> catList1 = null;
+
+		try {
+
+			catList1 = getGetCategoryRepo.getAllCatIdBySectionId(sectionId);
+
+			System.out.println(catList1);
+		} catch (Exception e) {
+			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return catList1;
+
+	}
+
 	@RequestMapping(value = { "/getAllSubCatByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetSubCategory> getAllSubCatByCatId(@RequestParam("delStatus") int delStatus,
 			@RequestParam("catId") int catId) {
