@@ -219,7 +219,7 @@ public class MasterController {
 
 			gcetCategory = getGetCategoryRepo.getCatListByCatId(catId);
 			List<CategoryDescription> CategoryDescriptionList=catDescRepo.findByCatId(gcetCategory.getCatId());
-			 
+			gcetCategory.setCategoryDescriptionList(CategoryDescriptionList);
 		} catch (Exception e) {
 			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
 			e.printStackTrace();
@@ -242,12 +242,12 @@ public class MasterController {
 			
 			int count = catRepo.updateSlugName(catSaveResponse.getCatId(),str);
 			
-			for(int i=0 ; i<catSaveResponse.getCategoryDescriptionList().size() ; i++) {
+			for(int i=0 ; i<category.getCategoryDescriptionList().size() ; i++) {
 				
-				catSaveResponse.getCategoryDescriptionList().get(i).setCatId(catSaveResponse.getCatId());
+				category.getCategoryDescriptionList().get(i).setCatId(catSaveResponse.getCatId());
 			}
 			
-			List<CategoryDescription> CategoryDescriptionList=catDescRepo.saveAll(catSaveResponse.getCategoryDescriptionList());
+			List<CategoryDescription> CategoryDescriptionList=catDescRepo.saveAll(category.getCategoryDescriptionList());
 			catSaveResponse.setCategoryDescriptionList(CategoryDescriptionList);
 		} catch (Exception e) {
 
