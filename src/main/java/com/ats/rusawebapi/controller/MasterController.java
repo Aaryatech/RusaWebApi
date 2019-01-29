@@ -208,6 +208,8 @@ public class MasterController {
 
 	}
 
+	
+	
 	//for getAllCatListByCatId
 	
 	@RequestMapping(value = { "/getCategoryByCatId" }, method = RequestMethod.POST)
