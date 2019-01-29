@@ -28,6 +28,11 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
 	@Query(value="UPDATE m_category SET is_active=:isActive WHERE cat_id IN (:catIdList) ",nativeQuery=true)
 
 	int activeInactiveCategory(@Param("catIdList") List<String> catIdList,@Param("isActive") int isActive);
+
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_category SET slug_name=:str WHERE cat_id=:catId ",nativeQuery=true)
+	int updateSlugName(@Param("catId")int catId,@Param("str") String str);
 	
 	
 }

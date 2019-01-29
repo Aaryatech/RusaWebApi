@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.model.mst.Category;
+import com.ats.rusawebapi.model.mst.CategoryDescription;
 import com.ats.rusawebapi.model.mst.FreqAskQue;
 import com.ats.rusawebapi.model.mst.GetCategory;
 import com.ats.rusawebapi.model.mst.GetFreqAskQue;
 import com.ats.rusawebapi.model.mst.GetSubCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.SubCategory;
+import com.ats.rusawebapi.repo.CatDescRepo;
 import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.repo.mst.FreqAskQueRepo;
 import com.ats.rusawebapi.repo.mst.GetCategoryRepo;
@@ -28,6 +30,10 @@ import com.ats.rusawebapi.tx.repo.GetFreqAskQueRepo;
 public class MasterController {
 
 	@Autowired CategoryRepo catRepo;
+	
+	@Autowired 
+	CatDescRepo catDescRepo;
+	
 	@Autowired SubCategoryRepo subCatRepo;
 	@Autowired FreqAskQueRepo freqAskQueRepo;
 	@Autowired GetCategoryRepo getGetCategoryRepo;
@@ -193,7 +199,7 @@ public class MasterController {
 		try {
 
 			gcetCategory = getGetCategoryRepo.getCatListByCatId(catId);
-
+			List<CategoryDescription> CategoryDescriptionList=catDescRepo.findByCatId(gcetCategory.getCatId());
 			 
 		} catch (Exception e) {
 			System.err.println("Exce in getAllCatList @Mastercontr " + e.getMessage());
@@ -205,44 +211,34 @@ public class MasterController {
 	}
 	
 //Category -1
-	/*@RequestMapping(value = { "/saveUpdateCategory" }, method = RequestMethod.POST)
+	 @RequestMapping(value = { "/saveUpdateCategory" }, method = RequestMethod.POST)
 	public @ResponseBody Category saveCategory(@RequestBody Category category) {
 
-		Category catSaveResponse = null;
-		Info info = new Info();
+		Category catSaveResponse = new Category();
+	 
 		try {
 
 			catSaveResponse = catRepo.saveAndFlush(category);
-
-			if (catSaveResponse != null) {
-
-				info.setError(false);
-				info.setMsg("success");
-
-			} else {
-
-				info.setError(true);
-				info.setMsg("failed");
+			String str = catSaveResponse.getSlugName()+catSaveResponse.getCatId();
+			
+			int count = catRepo.updateSlugName(catSaveResponse.getCatId(),str);
+			
+			for(int i=0 ; i<catSaveResponse.getCategoryDescriptionList().size() ; i++) {
+				
+				catSaveResponse.getCategoryDescriptionList().get(i).setCatId(catSaveResponse.getCatId());
 			}
-
-			catSaveResponse.setInfo(info);
-
+			
+			List<CategoryDescription> CategoryDescriptionList=catDescRepo.saveAll(catSaveResponse.getCategoryDescriptionList());
+			catSaveResponse.setCategoryDescriptionList(CategoryDescriptionList);
 		} catch (Exception e) {
 
-			info.setError(true);
-			info.setMsg("exception");
-
-			catSaveResponse = new Category();
-
-			catSaveResponse.setInfo(info);
-
-			System.err.println("Exce in saveUpdateCategory @MasterController " + e.getMessage());
+			 
 			e.printStackTrace();
 		}
 
 		return catSaveResponse;
 
-	}*/
+	} 
 	//Category -2
 
 	@RequestMapping(value = { "/getAllCategory" }, method = RequestMethod.POST)
