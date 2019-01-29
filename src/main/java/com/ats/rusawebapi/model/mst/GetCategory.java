@@ -77,7 +77,7 @@ public class GetCategory {
 	private String sectionName;
 	
 	@Transient
-	List<CategoryDescription> CategoryDescriptionList;
+	List<CategoryDescription> categoryDescriptionList;
 
 	public int getCatId() {
 		return catId;
@@ -232,11 +232,11 @@ public class GetCategory {
 	}
 
 	public List<CategoryDescription> getCategoryDescriptionList() {
-		return CategoryDescriptionList;
+		return categoryDescriptionList;
 	}
 
 	public void setCategoryDescriptionList(List<CategoryDescription> categoryDescriptionList) {
-		CategoryDescriptionList = categoryDescriptionList;
+		this.categoryDescriptionList = categoryDescriptionList;
 	}
 
 	@Override
@@ -247,8 +247,9 @@ public class GetCategory {
 				+ catEditDate + ", catAddDate=" + catAddDate + ", catSortNo=" + catSortNo + ", catRemark=" + catRemark
 				+ ", sectionId=" + sectionId + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId
 				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", sectionName=" + sectionName
-				+ ", CategoryDescriptionList=" + CategoryDescriptionList + "]";
+				+ ", categoryDescriptionList=" + categoryDescriptionList + "]";
 	}
 
+	 
  
 }
