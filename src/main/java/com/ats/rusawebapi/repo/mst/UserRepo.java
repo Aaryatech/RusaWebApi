@@ -31,9 +31,24 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query("UPDATE User SET isActive=:isActive WHERE user_id IN (:userIdList)")
-
+	@Query("UPDATE User SET isActive=:isActive WHERE user_id IN (:userIdList)") 
 	int activeInactiveUser(@Param("userIdList") List<String> userIdList, @Param("isActive") int isActive);
+
+
+	User findByUserNameAndUserPassAndDelStatus(String userName, String password, int i);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE User SET lastlogin_date=:date WHERE user_id=:userId ") 
+	int updateLastLoginDate(@Param("date")String date,@Param("userId") int userId);
+
+
+	User findByUserNameAndDelStatusAndIsActive(String userName, int i,int j);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE User SET loginFailureCount=:count WHERE user_id=:userId ") 
+	int updateCount(@Param("count")int count,@Param("userId") int userId);
 
 
 	//User findByTypeIdAndDelStatus(int typeId, int i);

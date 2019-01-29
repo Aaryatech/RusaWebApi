@@ -1,5 +1,7 @@
 package com.ats.rusawebapi.model.mst;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "m_user")
@@ -25,51 +29,36 @@ public class User {
 	@Column(name="user_email")
 	private String userEmail;
 	
-	@Column(name="user_dob")
-	private String useDob;
+	@Column(name="firstname")
+	private String firstname;
 	
-	@Column(name="user_mob")
-	private String useMob;
-	
-	@Column(name="role_id")
-	private int roleId;
-	
-	@Column(name="type_id")
-	private int typeId;
-	
+	@Column(name="middlename")
+	private String middlename;
+	 
 	@Column(name="sort_no")
 	private int sortNo;
-	
-	@Column(name="dept_id")
-	private int deptId;
 	
 	@Column(name="del_status")
 	private int delStatus;
 
-	@Column(name="ex_int1")
-	private int exInt1;
-	
-	@Column(name="ex_int2")
-	private int exInt2;
-	
-	@Column(name="ex_var1")
-	private String exVar1;
-	
-	@Column(name="ex_var2")
-	private String exVar2;
-	
-	@Column(name="ex_date1")
-	private String exDate1;
-	
-	@Column(name="ex_date2")
-	private String exDate2;
-	
 	@Column(name="is_active")
 	private int isActive;
+
+	@Column(name="roles")
+	private String roles;
 	
-	@Transient
-	Info info;
+	@Column(name="lastlogin_date")
+	private Date lastloginDate;
 	
+	@Column(name="created_date")
+	private Date createdDate;
+	
+	@Column(name="modified_date")
+	private Date modifiedDate;
+	
+	@Column(name="login_failure_count")
+	private int loginFailureCount;
+	 
 
 	public int getUserId() {
 		return userId;
@@ -103,28 +92,20 @@ public class User {
 		this.userEmail = userEmail;
 	}
 
-	public String getUseDob() {
-		return useDob;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setUseDob(String useDob) {
-		this.useDob = useDob;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getUseMob() {
-		return useMob;
+	public String getMiddlename() {
+		return middlename;
 	}
 
-	public void setUseMob(String useMob) {
-		this.useMob = useMob;
-	}
-
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setMiddlename(String middlename) {
+		this.middlename = middlename;
 	}
 
 	public int getSortNo() {
@@ -135,14 +116,6 @@ public class User {
 		this.sortNo = sortNo;
 	}
 
-	public int getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(int deptId) {
-		this.deptId = deptId;
-	}
-
 	public int getDelStatus() {
 		return delStatus;
 	}
@@ -150,55 +123,6 @@ public class User {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
-
-	public int getExInt1() {
-		return exInt1;
-	}
-
-	public void setExInt1(int exInt1) {
-		this.exInt1 = exInt1;
-	}
-
-	public int getExInt2() {
-		return exInt2;
-	}
-
-	public void setExInt2(int exInt2) {
-		this.exInt2 = exInt2;
-	}
-
-	public String getExVar1() {
-		return exVar1;
-	}
-
-	public void setExVar1(String exVar1) {
-		this.exVar1 = exVar1;
-	}
-
-	public String getExVar2() {
-		return exVar2;
-	}
-
-	public void setExVar2(String exVar2) {
-		this.exVar2 = exVar2;
-	}
-
-	public String getExDate1() {
-		return exDate1;
-	}
-
-	public void setExDate1(String exDate1) {
-		this.exDate1 = exDate1;
-	}
-
-	public String getExDate2() {
-		return exDate2;
-	}
-
-	public void setExDate2(String exDate2) {
-		this.exDate2 = exDate2;
-	}
-	
 
 	public int getIsActive() {
 		return isActive;
@@ -208,44 +132,53 @@ public class User {
 		this.isActive = isActive;
 	}
 
-	
-	public Info getInfo() {
-		return info;
+	public String getRoles() {
+		return roles;
 	}
 
-	public void setInfo(Info info) {
-		this.info = info;
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getLastloginDate() {
+		return lastloginDate;
 	}
 
-	public int getTypeId() {
-		return typeId;
+	public void setLastloginDate(Date lastloginDate) {
+		this.lastloginDate = lastloginDate;
+	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public int getLoginFailureCount() {
+		return loginFailureCount;
+	}
+
+	public void setLoginFailureCount(int loginFailureCount) {
+		this.loginFailureCount = loginFailureCount;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userPass=" + userPass + ", userEmail="
-				+ userEmail + ", useDob=" + useDob + ", useMob=" + useMob + ", roleId=" + roleId + ", typeId=" + typeId
-				+ ", sortNo=" + sortNo + ", deptId=" + deptId + ", delStatus=" + delStatus + ", exInt1=" + exInt1
-				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exDate1=" + exDate1
-				+ ", exDate2=" + exDate2 + ", isActive=" + isActive + ", info=" + info + ", getUserId()=" + getUserId()
-				+ ", getUserName()=" + getUserName() + ", getUserPass()=" + getUserPass() + ", getUserEmail()="
-				+ getUserEmail() + ", getUseDob()=" + getUseDob() + ", getUseMob()=" + getUseMob() + ", getRoleId()="
-				+ getRoleId() + ", getSortNo()=" + getSortNo() + ", getDeptId()=" + getDeptId() + ", getDelStatus()="
-				+ getDelStatus() + ", getExInt1()=" + getExInt1() + ", getExInt2()=" + getExInt2() + ", getExVar1()="
-				+ getExVar1() + ", getExVar2()=" + getExVar2() + ", getExDate1()=" + getExDate1() + ", getExDate2()="
-				+ getExDate2() + ", getIsActive()=" + getIsActive() + ", getInfo()=" + getInfo() + ", getTypeId()="
-				+ getTypeId() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ userEmail + ", firstname=" + firstname + ", middlename=" + middlename + ", sortNo=" + sortNo
+				+ ", delStatus=" + delStatus + ", isActive=" + isActive + ", roles=" + roles + ", lastloginDate="
+				+ lastloginDate + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
+				+ ", loginFailureCount=" + loginFailureCount + "]";
 	}
-
-	
-	
-	
-	
-	
-
+ 
 }

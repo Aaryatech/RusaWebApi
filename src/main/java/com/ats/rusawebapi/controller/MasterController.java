@@ -205,7 +205,7 @@ public class MasterController {
 	}
 	
 //Category -1
-	@RequestMapping(value = { "/saveUpdateCategory" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/saveUpdateCategory" }, method = RequestMethod.POST)
 	public @ResponseBody Category saveCategory(@RequestBody Category category) {
 
 		Category catSaveResponse = null;
@@ -242,7 +242,7 @@ public class MasterController {
 
 		return catSaveResponse;
 
-	}
+	}*/
 	//Category -2
 
 	@RequestMapping(value = { "/getAllCategory" }, method = RequestMethod.POST)

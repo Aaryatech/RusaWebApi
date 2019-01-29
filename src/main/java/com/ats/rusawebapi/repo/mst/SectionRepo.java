@@ -33,5 +33,15 @@ public interface SectionRepo extends JpaRepository<Section, Integer> {
 	@Query("UPDATE Section SET isActive=:isActive WHERE section_id IN (:sectionIdList)")
 
 	int activeInactiveSection(@Param("sectionIdList") List<String> sectionIdList, @Param("isActive") int isActive);
+ 
+	List<Section> findByDelStatusOrderBySectionSortNo(int i);
+
+	@Query(value=("select  count(*) from  m_section  where section_slugname LIKE  :str% "),nativeQuery=true)
+	int getCountForSlugName(@Param("str")String str);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE Section SET section_slugname=:str WHERE section_id = :sectionId")
+	int updateSlugName(@Param("sectionId")int sectionId, @Param("str") String str);
 
 }

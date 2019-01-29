@@ -1,6 +1,8 @@
 package com.ats.rusawebapi.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.model.Languages;
+import com.ats.rusawebapi.model.LoginLogs;
+import com.ats.rusawebapi.model.LoginResponse;
+import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.model.mst.User;
+import com.ats.rusawebapi.repo.LanguagesRepository;
+import com.ats.rusawebapi.repo.LoginLogsRepo;
+import com.ats.rusawebapi.repo.SecDescRepo;
 import com.ats.rusawebapi.repo.mst.SectionRepo;
 import com.ats.rusawebapi.repo.mst.UserRepo;
 
@@ -24,75 +33,151 @@ public class MasterApiController {
 	SectionRepo secRepo;
 	
 	@Autowired
+	SecDescRepo secDescRepo;
+	
+	@Autowired
 	UserRepo userRepo;
 	
+	@Autowired
+	LoginLogsRepo loginLogsRepo;
 	
+	@Autowired
+	LanguagesRepository languagesRepository;
 
 	// --------------------------------------Section-------------------------
 
-	@RequestMapping(value = { "/saveSection" }, method = RequestMethod.POST)
-	public @ResponseBody Info saveSection(@RequestBody Section section) {
+	@RequestMapping(value = { "/loginResponse" }, method = RequestMethod.POST)
+	public @ResponseBody LoginResponse loginResponse(@RequestParam("userName") String userName,
+			@RequestParam("password") String password) {
 
-		Section secSaveResponse = null;
-		Info info = new Info();
+		User user = new User();
+		LoginResponse loginResponse = new LoginResponse();
 		try {
+			
+			//user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			secSaveResponse = secRepo.saveAndFlush(section);
-
-			if (secSaveResponse != null) {
-
-				info.setError(false);
-				info.setMsg("success");
-
+			user = userRepo.findByUserNameAndDelStatusAndIsActive(userName, 1,1);
+			
+			if (user != null) {
+ 
+				User user1 = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+				if (user1 != null) {
+					loginResponse.setError(false);
+					loginResponse.setMsg("Login Sucess ");
+					loginResponse.setUser(user);
+				}
+				else {
+					
+					int updateDate = userRepo.updateCount(user.getLoginFailureCount()+1,user.getUserId());
+					loginResponse.setError(true);
+					loginResponse.setMsg("password Wrong");
+				}
+				
+				
 			} else {
 
-				info.setError(true);
-				info.setMsg("failed");
+				loginResponse.setError(true);
+				loginResponse.setMsg("Invalid Credencials");
 			}
-			secSaveResponse.setInfo(info);
+			 
 
 		} catch (Exception e) {
+			loginResponse.setError(true);
+			loginResponse.setMsg("exception");
+			 
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return loginResponse;
 
-			info.setError(true);
-			info.setMsg("exception");
-			secSaveResponse = new Section();
-			secSaveResponse.setInfo(info);
+	}
+	
+	@RequestMapping(value = { "/saveLoginLogs" }, method = RequestMethod.POST)
+	public @ResponseBody LoginLogs saveLoginLogs(@RequestBody LoginLogs loginLogs) {
 
-			System.err.println("Exce in saveUpdateSection @MasterController " + e.getMessage());
+		 
+		LoginLogs save = new LoginLogs();
+		try {
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+			
+			loginLogs.setCreatedDate(date);
+			save = loginLogsRepo.saveAndFlush(loginLogs);
+ 
+			int updateDate = userRepo.updateLastLoginDate(sf.format(date),loginLogs.getUserId());
+
+		} catch (Exception e) {
+ 
 			e.printStackTrace();
 		}
 
-		return info;
+		return save;
+
+	}
+	
+	
+	@RequestMapping(value = { "/getLanguageList" }, method = RequestMethod.GET)
+	public @ResponseBody List<Languages> getLanguageList() {
+
+		List<Languages> list = new ArrayList<>();
+		 
+		try {
+
+			list = languagesRepository.findByIsActiveOrderBySortOrder(1);
+ 
+
+		} catch (Exception e) {
+ 
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/saveSection" }, method = RequestMethod.POST)
+	public @ResponseBody Section saveSection(@RequestBody Section section) {
+
+		Section secSaveResponse = new Section();
+		 
+		try {
+
+			secSaveResponse = secRepo.saveAndFlush(section);
+			String str = secSaveResponse.getSectionSlugname()+secSaveResponse.getSectionId();
+			int count = secRepo.updateSlugName(secSaveResponse.getSectionId(),str);
+			
+			for(int i = 0 ; i<section.getSectionDescriptionList().size() ; i++) {
+				
+				section.getSectionDescriptionList().get(i).setSectionId(secSaveResponse.getSectionId());
+			}
+			
+			List<SectionDescription> list = secDescRepo.saveAll(section.getSectionDescriptionList());
+			secSaveResponse.setSectionDescriptionList(list);
+			 
+
+		} catch (Exception e) {
+
+			 
+			e.printStackTrace();
+		}
+
+		return secSaveResponse;
 
 	}
 
 	@RequestMapping(value = { "/getSectionBySectionId" }, method = RequestMethod.POST)
 	public @ResponseBody Section getContractorById(@RequestParam("sectionId") int sectionId) {
 
-		Section secSaveResponse = null;
-		Info info = new Info();
+		Section secSaveResponse = new Section();
+		 
 		try {
-			secSaveResponse = secRepo.findBySectionIdAndDelStatus(sectionId, 1);
-
-			if (secSaveResponse != null) {
-
-				info.setError(false);
-				info.setMsg("success");
-
-			} else {
-
-				info.setError(true);
-				info.setMsg("failed");
-			}
-			secSaveResponse.setInfo(info);
+			secSaveResponse = secRepo.findBySectionIdAndDelStatus(sectionId, 1); 
+			List<SectionDescription> list = secDescRepo.findAllBySectionId(sectionId);
+			
+			secSaveResponse.setSectionDescriptionList(list);
+			 
 
 		} catch (Exception e) {
-			info.setError(true);
-			info.setMsg("exception");
-			secSaveResponse = new Section();
-			secSaveResponse.setInfo(info);
-
-			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			 
 			e.printStackTrace();
 		}
 		return secSaveResponse;
@@ -106,7 +191,7 @@ public class MasterApiController {
 
 		try {
 
-			conList = secRepo.findByDelStatusOrderBySectionIdDesc(1);
+			conList = secRepo.findByDelStatusOrderBySectionSortNo(1);
 
 		} catch (Exception e) {
 
@@ -116,6 +201,46 @@ public class MasterApiController {
 		return conList;
 
 	}
+	
+	@RequestMapping(value = { "/getCountForSlugName" }, method = RequestMethod.POST)
+	public @ResponseBody Info getCountForSlugName(@RequestParam("str") String str) {
+
+		Info info = new Info();
+
+		try {
+
+			int count = secRepo.getCountForSlugName(str);
+			info.setError(false);
+			info.setMsg(String.valueOf(count));
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return info;
+
+	}
+	
+	/*@RequestMapping(value = { "/updateSlugName" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateSlugName(@RequestParam("sectionId") int sectionId) {
+
+		Info info = new Info();
+
+		try {
+			String newStr="";
+			int count = secRepo.updateSlugName(sectionId);
+			info.setError(false);
+			info.setMsg("");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return info;
+
+	}*/
 
 	@RequestMapping(value = { "/deleteSection" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteSection(@RequestParam("sectionId") int sectionId) {
@@ -197,9 +322,9 @@ public class MasterApiController {
 	// --------------------------------------User-------------------------
 
 	@RequestMapping(value = { "/saveUser" }, method = RequestMethod.POST)
-	public @ResponseBody Info saveUser(@RequestBody User usr) {
+	public @ResponseBody User saveUser(@RequestBody User usr) {
 
-		User secSaveResponse = null;
+		User secSaveResponse = new User();
 		Info info = new Info();
 		try {
 
@@ -215,28 +340,27 @@ public class MasterApiController {
 				info.setError(true);
 				info.setMsg("failed");
 			}
-			secSaveResponse.setInfo(info);
+			 
 
 		} catch (Exception e) {
 
 			info.setError(true);
 			info.setMsg("exception");
 			secSaveResponse = new User();
-			secSaveResponse.setInfo(info);
-
+			  
 			System.err.println("Exce in saveUser @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
 
-		return info;
+		return secSaveResponse;
 
 	}
 	
 	
 	@RequestMapping(value = { "/getUserByUserId" }, method = RequestMethod.POST)
-	public @ResponseBody Info getUserByUserId(@RequestParam("userId") int userId) {
+	public @ResponseBody User getUserByUserId(@RequestParam("userId") int userId) {
 
-		User secSaveResponse = null;
+		User secSaveResponse = new User();
 		Info info = new Info();
 		try {
 			secSaveResponse = userRepo.findByUserIdAndDelStatus(userId, 1);
@@ -251,18 +375,18 @@ public class MasterApiController {
 				info.setError(true);
 				info.setMsg("failed");
 			}
-			secSaveResponse.setInfo(info);
+			 
 
 		} catch (Exception e) {
 			info.setError(true);
 			info.setMsg("exception");
 			secSaveResponse = new User();
-			secSaveResponse.setInfo(info);
+			 
 
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
-		return info;
+		return secSaveResponse;
 
 	}
 	

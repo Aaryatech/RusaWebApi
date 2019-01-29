@@ -1,6 +1,6 @@
 package com.ats.rusawebapi.model.mst;
-
-import java.util.Date;
+ 
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+ 
 @Entity
 @Table(name = "m_category")
 public class Category {
@@ -21,165 +19,59 @@ public class Category {
 	@Column(name="cat_id")
 	private int catId;
 	
+	@Column(name="parent_id")
+	private int parentId;
+	
+	@Column(name="cat_name")
 	private String catName;
 	
+	@Column(name="slug_name")
+	private String slugName;
+	
+	@Column(name="cat_code")
 	private String catCode;
 	
+	@Column(name="cat_desc")
 	private String catDesc;
 	
-	//@JsonFormat(pattern = "dd-MM-yyyy")
-	private String catAddDate;
-	//@JsonFormat(pattern = "dd-MM-yyyy")
+	@Column(name="image_name")
+	private String imageName;
+	
+	@Column(name="external_url")
+	private String externalUrl;
+	
+	@Column(name="external_url_target")
+	private String externalUrlTarget;
+	
+	@Column(name="cat_edit_date")
 	private String catEditDate;
 	
+	 @Column(name="cat_add_date")
+	private String catAddDate;
+	
+	@Column(name="cat_sort_no")
 	private int catSortNo;
 	
+	@Column(name="cat_remark")
 	private String catRemark;
 	
+	@Column(name="section_id")
 	private int sectionId;
 	
-	private int userId;
+	@Column(name="added_by_user_id")
+	private int addedByUserId;
 	
+	@Column(name="edit_by_user_id")
+	private int editByUserId;
+	
+	@Column(name="is_active")
 	private int isActive;
 	
+	@Column(name="del_status")
 	private int delStatus;
-	
-	//total 12 fields 17 Jan 2019
-	
+	 
 	@Transient
-	Info info;
-	
-	
-	private int exInt1;
-	private int exInt2;
-	private int exInt3;
-
-	private String exVar1;
-	private String exVar2;
-	private String exVar3;
-
-	private String exDate1;
-	private String exDate2;
-
-	private float exFloat1;
-	private float exFloat2;
-	private float exFloat3;
-	
-	private String exVar4;
-	private String exVar5;
-
-
-	public String getExVar4() {
-		return exVar4;
-	}
-
-	public void setExVar4(String exVar4) {
-		this.exVar4 = exVar4;
-	}
-
-	public String getExVar5() {
-		return exVar5;
-	}
-
-	public void setExVar5(String exVar5) {
-		this.exVar5 = exVar5;
-	}
-
-	public int getExInt1() {
-		return exInt1;
-	}
-
-	public void setExInt1(int exInt1) {
-		this.exInt1 = exInt1;
-	}
-
-	public int getExInt2() {
-		return exInt2;
-	}
-
-	public void setExInt2(int exInt2) {
-		this.exInt2 = exInt2;
-	}
-
-	public int getExInt3() {
-		return exInt3;
-	}
-
-	public void setExInt3(int exInt3) {
-		this.exInt3 = exInt3;
-	}
-
-	public String getExVar1() {
-		return exVar1;
-	}
-
-	public void setExVar1(String exVar1) {
-		this.exVar1 = exVar1;
-	}
-
-	public String getExVar2() {
-		return exVar2;
-	}
-
-	public void setExVar2(String exVar2) {
-		this.exVar2 = exVar2;
-	}
-
-	public String getExVar3() {
-		return exVar3;
-	}
-
-	public void setExVar3(String exVar3) {
-		this.exVar3 = exVar3;
-	}
-
-	public String getExDate1() {
-		return exDate1;
-	}
-
-	public void setExDate1(String exDate1) {
-		this.exDate1 = exDate1;
-	}
-
-	public String getExDate2() {
-		return exDate2;
-	}
-
-	public void setExDate2(String exDate2) {
-		this.exDate2 = exDate2;
-	}
-
-	public float getExFloat1() {
-		return exFloat1;
-	}
-
-	public void setExFloat1(float exFloat1) {
-		this.exFloat1 = exFloat1;
-	}
-
-	public float getExFloat2() {
-		return exFloat2;
-	}
-
-	public void setExFloat2(float exFloat2) {
-		this.exFloat2 = exFloat2;
-	}
-
-	public float getExFloat3() {
-		return exFloat3;
-	}
-
-	public void setExFloat3(float exFloat3) {
-		this.exFloat3 = exFloat3;
-	}
-
-	public Info getInfo() {
-		return info;
-	}
-
-	public void setInfo(Info info) {
-		this.info = info;
-	}
+	List<CategoryDescription> CategoryDescriptionList;
 
 	public int getCatId() {
 		return catId;
@@ -189,12 +81,28 @@ public class Category {
 		this.catId = catId;
 	}
 
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+
 	public String getCatName() {
 		return catName;
 	}
 
 	public void setCatName(String catName) {
 		this.catName = catName;
+	}
+
+	public String getSlugName() {
+		return slugName;
+	}
+
+	public void setSlugName(String slugName) {
+		this.slugName = slugName;
 	}
 
 	public String getCatCode() {
@@ -213,16 +121,29 @@ public class Category {
 		this.catDesc = catDesc;
 	}
 
-	//@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public String getCatAddDate() {
-		return catAddDate;
+	public String getImageName() {
+		return imageName;
 	}
 
-	public void setCatAddDate(String catAddDate) {
-		this.catAddDate = catAddDate;
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public String getExternalUrl() {
+		return externalUrl;
+	}
+
+	public void setExternalUrl(String externalUrl) {
+		this.externalUrl = externalUrl;
+	}
+
+	public String getExternalUrlTarget() {
+		return externalUrlTarget;
+	}
+
+	public void setExternalUrlTarget(String externalUrlTarget) {
+		this.externalUrlTarget = externalUrlTarget;
+	}
 
 	public String getCatEditDate() {
 		return catEditDate;
@@ -230,6 +151,14 @@ public class Category {
 
 	public void setCatEditDate(String catEditDate) {
 		this.catEditDate = catEditDate;
+	}
+
+	public String getCatAddDate() {
+		return catAddDate;
+	}
+
+	public void setCatAddDate(String catAddDate) {
+		this.catAddDate = catAddDate;
 	}
 
 	public int getCatSortNo() {
@@ -256,12 +185,20 @@ public class Category {
 		this.sectionId = sectionId;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getAddedByUserId() {
+		return addedByUserId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setAddedByUserId(int addedByUserId) {
+		this.addedByUserId = addedByUserId;
+	}
+
+	public int getEditByUserId() {
+		return editByUserId;
+	}
+
+	public void setEditByUserId(int editByUserId) {
+		this.editByUserId = editByUserId;
 	}
 
 	public int getIsActive() {
@@ -280,16 +217,26 @@ public class Category {
 		this.delStatus = delStatus;
 	}
 
+	public List<CategoryDescription> getCategoryDescriptionList() {
+		return CategoryDescriptionList;
+	}
+
+	public void setCategoryDescriptionList(List<CategoryDescription> categoryDescriptionList) {
+		CategoryDescriptionList = categoryDescriptionList;
+	}
+
 	@Override
 	public String toString() {
-		return "Category [catId=" + catId + ", catName=" + catName + ", catCode=" + catCode + ", catDesc=" + catDesc
-				+ ", catAddDate=" + catAddDate + ", catEditDate=" + catEditDate + ", catSortNo=" + catSortNo
-				+ ", catRemark=" + catRemark + ", sectionId=" + sectionId + ", userId=" + userId + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + ", info=" + info + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2
-				+ ", exFloat3=" + exFloat3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + "]";
+		return "Category [catId=" + catId + ", parentId=" + parentId + ", catName=" + catName + ", slugName=" + slugName
+				+ ", catCode=" + catCode + ", catDesc=" + catDesc + ", imageName=" + imageName + ", externalUrl="
+				+ externalUrl + ", externalUrlTarget=" + externalUrlTarget + ", catEditDate=" + catEditDate
+				+ ", catAddDate=" + catAddDate + ", catSortNo=" + catSortNo + ", catRemark=" + catRemark
+				+ ", sectionId=" + sectionId + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId
+				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", CategoryDescriptionList="
+				+ CategoryDescriptionList + "]";
 	}
 	
+	
+ 
 	
 }

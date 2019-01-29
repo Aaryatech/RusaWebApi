@@ -1,5 +1,7 @@
 package com.ats.rusawebapi.model.mst;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.ats.rusawebapi.model.SectionDescription;
 
 @Entity
 @Table(name = "m_section")
@@ -19,6 +23,9 @@ public class Section {
 	
 	@Column(name="section_name")
 	private String sectionName;
+	
+	@Column(name="section_slugname")
+	private String sectionSlugname;
 	
 	@Column(name="section_no")
 	private String sectionNo;
@@ -33,66 +40,71 @@ public class Section {
 	private String sectionEditDate;
 	
 	@Column(name="sec_sort_no")
-	private String sectionSortNo;
+	private int sectionSortNo;
 	
 	@Column(name="section_remark")
 	private String sectionRemark;
 	
 	@Column(name="sec_date_time")
-	private String sectionDateTime;;
+	private String sectionDateTime;
 	
-	@Column(name="user_id")
-	private int userId;
+	@Column(name="added_by_user_id")
+	private int addedByUserId;
+	
+	@Column(name="edit_by_user_id")
+	private int editByUserId;
 	
 	@Column(name="is_active")
 	private int isActive;
 	
 	@Column(name="del_status")
 	private int delStatus;
+	
+	@Column(name="ex_int1")
+	private int exInt1;
+	
+	@Column(name="ex_int2")
+	private int exInt2;
+	
+	@Column(name="ex_int3")
+	private int exInt3;
+	
+	@Column(name="ex_var1")
+	private String exVar1;
+	
+	@Column(name="ex_var2")
+	private String exVar2;
+	
+	@Column(name="ex_var3")
+	private String exVar3;
+	
+	@Column(name="ex_date1")
+	private String exDate1;
+	
+	@Column(name="ex_date2")
+	private String exDate2;
+	
+	@Column(name="ex_float1")
+	private float exFloat1;
+	
+	@Column(name="ex_float2")
+	private float exFloat2;
+	
+	@Column(name="ex_float3")
+	private float exFloat3;
+	
+	@Column(name="ex_var4")
+	private String exVar4;
+	
+	@Column(name="ex_var5")
+	private String exVar5;
+	
+	@Transient
+	List<SectionDescription> sectionDescriptionList;
 
 	public int getSectionId() {
 		return sectionId;
 	}
-	
-	private int exInt1;
-	
-	private int exInt2;
-
-	private int exInt3;
-	
-	private String exVar1;
-	
-	private String exVar2;
-	
-	private String exVar3;
-	
-	private String exVar4;
-	
-	private String exVar5;
-	
-	private String exDate1;
-	
-	private String exDate2;
-
-	private float exFloat1;
-	
-	private float exFloat2;
-	
-	private float exFloat3;
-	
-	@Transient
-	Info info;
-	
-	
-
-	public Info getInfo() {
-		return info;
-	}
-
-	public void setInfo(Info info) {
-		this.info = info;
-	}
-
 
 	public void setSectionId(int sectionId) {
 		this.sectionId = sectionId;
@@ -104,6 +116,14 @@ public class Section {
 
 	public void setSectionName(String sectionName) {
 		this.sectionName = sectionName;
+	}
+
+	public String getSectionSlugname() {
+		return sectionSlugname;
+	}
+
+	public void setSectionSlugname(String sectionSlugname) {
+		this.sectionSlugname = sectionSlugname;
 	}
 
 	public String getSectionNo() {
@@ -138,11 +158,11 @@ public class Section {
 		this.sectionEditDate = sectionEditDate;
 	}
 
-	public String getSectionSortNo() {
+	public int getSectionSortNo() {
 		return sectionSortNo;
 	}
 
-	public void setSectionSortNo(String sectionSortNo) {
+	public void setSectionSortNo(int sectionSortNo) {
 		this.sectionSortNo = sectionSortNo;
 	}
 
@@ -162,12 +182,20 @@ public class Section {
 		this.sectionDateTime = sectionDateTime;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getAddedByUserId() {
+		return addedByUserId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setAddedByUserId(int addedByUserId) {
+		this.addedByUserId = addedByUserId;
+	}
+
+	public int getEditByUserId() {
+		return editByUserId;
+	}
+
+	public void setEditByUserId(int editByUserId) {
+		this.editByUserId = editByUserId;
 	}
 
 	public int getIsActive() {
@@ -234,22 +262,6 @@ public class Section {
 		this.exVar3 = exVar3;
 	}
 
-	public String getExVar4() {
-		return exVar4;
-	}
-
-	public void setExVar4(String exVar4) {
-		this.exVar4 = exVar4;
-	}
-
-	public String getExVar5() {
-		return exVar5;
-	}
-
-	public void setExVar5(String exVar5) {
-		this.exVar5 = exVar5;
-	}
-
 	public String getExDate1() {
 		return exDate1;
 	}
@@ -290,26 +302,42 @@ public class Section {
 		this.exFloat3 = exFloat3;
 	}
 
-	@Override
-	public String toString() {
-		return "Section [sectionId=" + sectionId + ", sectionName=" + sectionName + ", sectionNo=" + sectionNo
-				+ ", sectionDesc=" + sectionDesc + ", sectionAddDate=" + sectionAddDate + ", sectionEditDate="
-				+ sectionEditDate + ", sectionSortNo=" + sectionSortNo + ", sectionRemark=" + sectionRemark
-				+ ", sectionDateTime=" + sectionDateTime + ", userId=" + userId + ", isActive=" + isActive
-				+ ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
-				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4
-				+ ", exVar5=" + exVar5 + ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1
-				+ ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", info=" + info + "]";
+	public String getExVar4() {
+		return exVar4;
 	}
 
-	
+	public void setExVar4(String exVar4) {
+		this.exVar4 = exVar4;
+	}
 
-	
-	
-	
-	
-	
-	
-	
+	public String getExVar5() {
+		return exVar5;
+	}
 
+	public void setExVar5(String exVar5) {
+		this.exVar5 = exVar5;
+	}
+
+	public List<SectionDescription> getSectionDescriptionList() {
+		return sectionDescriptionList;
+	}
+
+	public void setSectionDescriptionList(List<SectionDescription> sectionDescriptionList) {
+		this.sectionDescriptionList = sectionDescriptionList;
+	}
+
+	@Override
+	public String toString() {
+		return "Section [sectionId=" + sectionId + ", sectionName=" + sectionName + ", sectionSlugname="
+				+ sectionSlugname + ", sectionNo=" + sectionNo + ", sectionDesc=" + sectionDesc + ", sectionAddDate="
+				+ sectionAddDate + ", sectionEditDate=" + sectionEditDate + ", sectionSortNo=" + sectionSortNo
+				+ ", sectionRemark=" + sectionRemark + ", sectionDateTime=" + sectionDateTime + ", addedByUserId="
+				+ addedByUserId + ", editByUserId=" + editByUserId + ", isActive=" + isActive + ", delStatus="
+				+ delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1
+				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exDate1=" + exDate1 + ", exDate2=" + exDate2
+				+ ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exVar4=" + exVar4
+				+ ", exVar5=" + exVar5 + ", sectionDescriptionList=" + sectionDescriptionList + "]";
+	}
+ 
+	
 }
