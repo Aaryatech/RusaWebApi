@@ -76,6 +76,9 @@ public class GetCategory {
 	@Column(name="section_name")
 	private String sectionName;
 	
+	@Column(name="category_name")
+	private String categoryName;
+	
 	@Transient
 	List<CategoryDescription> categoryDescriptionList;
 
@@ -239,6 +242,14 @@ public class GetCategory {
 		this.categoryDescriptionList = categoryDescriptionList;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	@Override
 	public String toString() {
 		return "GetCategory [catId=" + catId + ", parentId=" + parentId + ", catName=" + catName + ", slugName="
@@ -247,7 +258,7 @@ public class GetCategory {
 				+ catEditDate + ", catAddDate=" + catAddDate + ", catSortNo=" + catSortNo + ", catRemark=" + catRemark
 				+ ", sectionId=" + sectionId + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId
 				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", sectionName=" + sectionName
-				+ ", categoryDescriptionList=" + categoryDescriptionList + "]";
+				+ ", categoryName=" + categoryName + ", categoryDescriptionList=" + categoryDescriptionList + "]";
 	}
 
 	 
