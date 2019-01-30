@@ -398,8 +398,8 @@ public class MasterApiController {
 		List<User> conList = new ArrayList<User>();
 
 		try {
-
-			conList = userRepo.findByDelStatusOrderByUserIdDesc(1);
+  
+			conList = userRepo.findByDelStatusOrderByUserIdAsc(1);
 
 		} catch (Exception e) {
 

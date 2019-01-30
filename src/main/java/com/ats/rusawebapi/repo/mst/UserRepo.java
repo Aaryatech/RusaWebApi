@@ -17,11 +17,11 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	User findByUserIdAndDelStatus(int userId, int i);
 
 	
-	List<User> findByDelStatusOrderByUserIdDesc(int i);
+	List<User> findByDelStatusOrderByUserIdAsc(int i);
 
 	@Transactional
 	@Modifying
-	@Query("update User set del_status=0  WHERE user_id=:userId")
+	@Query("update User set del_status=0  WHERE user_id=:userId and user_id!=1")
 	int deleteUser(@Param("userId") int sectionId);
 	
 	@Transactional

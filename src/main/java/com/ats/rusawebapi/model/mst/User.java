@@ -32,6 +32,9 @@ public class User {
 	@Column(name="firstname")
 	private String firstname;
 	
+	@Column(name="lastname")
+	private String lastname; 
+	
 	@Column(name="middlename")
 	private String middlename;
 	 
@@ -58,7 +61,12 @@ public class User {
 	
 	@Column(name="login_failure_count")
 	private int loginFailureCount;
-	 
+	
+	@Column(name="added_by_user_id")
+	private int addedByUserId;
+	
+	@Column(name="edit_by_user_id")
+	private int editByUserId;
 
 	public int getUserId() {
 		return userId;
@@ -171,14 +179,42 @@ public class User {
 	public void setLoginFailureCount(int loginFailureCount) {
 		this.loginFailureCount = loginFailureCount;
 	}
+	
+	
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public int getAddedByUserId() {
+		return addedByUserId;
+	}
+
+	public void setAddedByUserId(int addedByUserId) {
+		this.addedByUserId = addedByUserId;
+	}
+
+	public int getEditByUserId() {
+		return editByUserId;
+	}
+
+	public void setEditByUserId(int editByUserId) {
+		this.editByUserId = editByUserId;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userPass=" + userPass + ", userEmail="
-				+ userEmail + ", firstname=" + firstname + ", middlename=" + middlename + ", sortNo=" + sortNo
-				+ ", delStatus=" + delStatus + ", isActive=" + isActive + ", roles=" + roles + ", lastloginDate="
-				+ lastloginDate + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
-				+ ", loginFailureCount=" + loginFailureCount + "]";
+				+ userEmail + ", firstname=" + firstname + ", lastname=" + lastname + ", middlename=" + middlename
+				+ ", sortNo=" + sortNo + ", delStatus=" + delStatus + ", isActive=" + isActive + ", roles=" + roles
+				+ ", lastloginDate=" + lastloginDate + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
+				+ ", loginFailureCount=" + loginFailureCount + ", addedByUserId=" + addedByUserId + ", editByUserId="
+				+ editByUserId + "]";
 	}
- 
+
+	
 }
