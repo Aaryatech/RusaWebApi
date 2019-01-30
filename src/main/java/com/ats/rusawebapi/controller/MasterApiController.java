@@ -13,18 +13,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.Languages;
 import com.ats.rusawebapi.model.LoginLogs;
 import com.ats.rusawebapi.model.LoginResponse;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.SectionDescription;
+import com.ats.rusawebapi.model.SectionTree;
+import com.ats.rusawebapi.model.SubCategoryList;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.model.mst.User;
+import com.ats.rusawebapi.repo.CategoryListRepository;
 import com.ats.rusawebapi.repo.LanguagesRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.SecDescRepo;
+import com.ats.rusawebapi.repo.SectionTreeRepository;
+import com.ats.rusawebapi.repo.SubCategoryListRepository;
 import com.ats.rusawebapi.repo.mst.SectionRepo;
 import com.ats.rusawebapi.repo.mst.UserRepo;
 
@@ -48,6 +54,15 @@ public class MasterApiController {
 
 	@Autowired
 	PageRepo pageRepo;
+	
+	@Autowired
+	SectionTreeRepository sectionTreeRepository;
+	
+	@Autowired
+	CategoryListRepository categoryListRepository;
+	
+	@Autowired
+	SubCategoryListRepository subCategoryListRepository;
 	// --------------------------------------Section-------------------------
 
 	@RequestMapping(value = { "/loginResponse" }, method = RequestMethod.POST)
@@ -510,6 +525,39 @@ public class MasterApiController {
 
 	}
 
+	
+	@RequestMapping(value = { "/getSectionTreeStructure" }, method = RequestMethod.GET)
+	public @ResponseBody List<SectionTree> getSectionTreeStructure( ) {
+
+		List<SectionTree> list = new ArrayList<SectionTree>();
+
+		try {
+
+			list = sectionTreeRepository.getSectionTreeStructure();
+
+			for(int i = 0 ; i < list.size() ; i++) {
+				
+				List<CategoryList> categoryList = categoryListRepository.getCategoryList(list.get(i).getSectionId());
+				
+				for(int j = 0 ; j<categoryList.size() ; j++ ) {
+					
+					List<SubCategoryList> subCategoryList = subCategoryListRepository.getSubCategoryList(categoryList.get(j).getCatId());
+					categoryList.get(j).setSubCatList(subCategoryList);
+				}
+				list.get(i).setCatList(categoryList);
+			}
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+
+		}
+
+		return list;
+
+	}
+	
 	
 /*	@RequestMapping(value = { "/getUserByTypeId" }, method = RequestMethod.POST)
 	public @ResponseBody Info getUserByTypeId(@RequestParam("typeId") int typeId) {
