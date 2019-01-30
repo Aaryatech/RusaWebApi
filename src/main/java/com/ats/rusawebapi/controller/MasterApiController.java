@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.Languages;
 import com.ats.rusawebapi.model.LoginLogs;
 import com.ats.rusawebapi.model.LoginResponse;
+import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.model.mst.User;
 import com.ats.rusawebapi.repo.LanguagesRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
+import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.SecDescRepo;
 import com.ats.rusawebapi.repo.mst.SectionRepo;
 import com.ats.rusawebapi.repo.mst.UserRepo;
@@ -44,6 +46,8 @@ public class MasterApiController {
 	@Autowired
 	LanguagesRepository languagesRepository;
 
+	@Autowired
+	PageRepo pageRepo;
 	// --------------------------------------Section-------------------------
 
 	@RequestMapping(value = { "/loginResponse" }, method = RequestMethod.POST)
@@ -140,11 +144,10 @@ public class MasterApiController {
 		Section secSaveResponse = new Section();
 		 
 		try {
-
-			secSaveResponse = secRepo.saveAndFlush(section);
-			String str = secSaveResponse.getSectionSlugname()+secSaveResponse.getSectionId();
-			int count = secRepo.updateSlugName(secSaveResponse.getSectionId(),str);
+			 
 			
+			secSaveResponse = secRepo.saveAndFlush(section); 
+			 
 			for(int i = 0 ; i<section.getSectionDescriptionList().size() ; i++) {
 				
 				section.getSectionDescriptionList().get(i).setSectionId(secSaveResponse.getSectionId());
@@ -152,7 +155,29 @@ public class MasterApiController {
 			
 			List<SectionDescription> list = secDescRepo.saveAll(section.getSectionDescriptionList());
 			secSaveResponse.setSectionDescriptionList(list);
+			
+			Page pageByPageId = new Page();
+			
+			if(section.getExInt2()!=0) {
+				
+				pageByPageId = pageRepo.findByPageId(section.getExInt2());
+				pageByPageId.setPageName(section.getSectionName());
+				pageByPageId.setTypeSecCate("sec");
+				pageByPageId.setSecCateId(secSaveResponse.getSectionId());
+				 
+			}else {
+				 
+				pageByPageId.setPageName(section.getSectionName());
+				pageByPageId.setTypeSecCate("sec");
+				pageByPageId.setSecCateId(secSaveResponse.getSectionId());
+				Page save = pageRepo.saveAndFlush(pageByPageId);
+				section.setExInt2(save.getPageId());
+			}
 			 
+			String str = secSaveResponse.getSectionSlugname()+section.getExInt2();
+			int count = secRepo.updateSlugName(secSaveResponse.getSectionId(),str,pageByPageId.getPageId());
+			pageByPageId.setPageSlug(str);
+			Page save = pageRepo.saveAndFlush(pageByPageId);
 
 		} catch (Exception e) {
 

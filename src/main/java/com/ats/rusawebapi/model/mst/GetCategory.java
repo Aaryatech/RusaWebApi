@@ -79,6 +79,9 @@ public class GetCategory {
 	@Column(name="category_name")
 	private String categoryName;
 	
+	@Column(name="ex_int2")
+	private int exInt2;
+	
 	@Transient
 	List<CategoryDescription> categoryDescriptionList;
 
@@ -250,6 +253,14 @@ public class GetCategory {
 		this.categoryName = categoryName;
 	}
 
+	public int getExInt2() {
+		return exInt2;
+	}
+
+	public void setExInt2(int exInt2) {
+		this.exInt2 = exInt2;
+	}
+
 	@Override
 	public String toString() {
 		return "GetCategory [catId=" + catId + ", parentId=" + parentId + ", catName=" + catName + ", slugName="
@@ -258,7 +269,8 @@ public class GetCategory {
 				+ catEditDate + ", catAddDate=" + catAddDate + ", catSortNo=" + catSortNo + ", catRemark=" + catRemark
 				+ ", sectionId=" + sectionId + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId
 				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", sectionName=" + sectionName
-				+ ", categoryName=" + categoryName + ", categoryDescriptionList=" + categoryDescriptionList + "]";
+				+ ", categoryName=" + categoryName + ", exInt2=" + exInt2 + ", categoryDescriptionList="
+				+ categoryDescriptionList + "]";
 	}
 
 	 

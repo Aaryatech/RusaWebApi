@@ -41,7 +41,7 @@ public interface SectionRepo extends JpaRepository<Section, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("UPDATE Section SET section_slugname=:str WHERE section_id = :sectionId")
-	int updateSlugName(@Param("sectionId")int sectionId, @Param("str") String str);
+	@Query("UPDATE Section SET section_slugname=:str,ex_int2=:pageId WHERE section_id = :sectionId")
+	int updateSlugName(@Param("sectionId")int sectionId, @Param("str") String str, @Param("pageId") int pageId);
 
 }

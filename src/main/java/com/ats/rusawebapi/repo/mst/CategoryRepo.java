@@ -31,8 +31,8 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE m_category SET slug_name=:str WHERE cat_id=:catId ",nativeQuery=true)
-	int updateSlugName(@Param("catId")int catId,@Param("str") String str);
+	@Query(value="UPDATE m_category SET slug_name=:str,ex_int2=:pageId WHERE cat_id=:catId ",nativeQuery=true)
+	int updateSlugName(@Param("catId")int catId,@Param("str") String str, @Param("pageId") int pageId);
 	
 	
 }

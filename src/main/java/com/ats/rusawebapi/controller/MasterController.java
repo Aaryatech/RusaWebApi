@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.mst.Category;
 import com.ats.rusawebapi.model.mst.CategoryDescription;
 import com.ats.rusawebapi.model.mst.FreqAskQue;
@@ -19,6 +20,7 @@ import com.ats.rusawebapi.model.mst.GetSubCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.SubCategory;
 import com.ats.rusawebapi.repo.CatDescRepo;
+import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.repo.mst.FreqAskQueRepo;
 import com.ats.rusawebapi.repo.mst.GetCategoryRepo;
@@ -40,7 +42,9 @@ public class MasterController {
 	@Autowired GetFreqAskQueRepo getGetFreqAskQueRepo;
 	
 	@Autowired GetSubCategoryRepo getGetSubCategoryRepo;
-
+	
+	@Autowired
+	PageRepo pageRepo;
 	
 	@RequestMapping(value = { "/getFreqAskQueList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetFreqAskQue> getFreqAskQueList(@RequestParam("delStatus") int delStatus) {
@@ -258,10 +262,7 @@ public class MasterController {
 	 
 		try {
 
-			catSaveResponse = catRepo.saveAndFlush(category);
-			String str = catSaveResponse.getSlugName()+catSaveResponse.getCatId();
-			
-			int count = catRepo.updateSlugName(catSaveResponse.getCatId(),str);
+			catSaveResponse = catRepo.saveAndFlush(category); 
 			
 			for(int i=0 ; i<category.getCategoryDescriptionList().size() ; i++) {
 				
@@ -270,6 +271,39 @@ public class MasterController {
 			
 			List<CategoryDescription> CategoryDescriptionList=catDescRepo.saveAll(category.getCategoryDescriptionList());
 			catSaveResponse.setCategoryDescriptionList(CategoryDescriptionList);
+			
+			
+			Page pageByPageId = new Page();
+			
+			if(category.getExInt2()!=0) {
+				
+				pageByPageId = pageRepo.findByPageId(category.getExInt2());
+				pageByPageId.setPageName(category.getCatName());
+				if(category.getParentId()==0) {
+					pageByPageId.setTypeSecCate("cat");
+				}else {
+					pageByPageId.setTypeSecCate("subcat");
+				}
+				pageByPageId.setSecCateId(catSaveResponse.getCatId());
+		 
+			}else {
+				 
+				pageByPageId.setPageName(category.getCatName());
+				if(category.getParentId()==0) {
+					pageByPageId.setTypeSecCate("cat");
+				}else {
+					pageByPageId.setTypeSecCate("subcat");
+				}
+				pageByPageId.setSecCateId(catSaveResponse.getCatId());
+				Page save = pageRepo.saveAndFlush(pageByPageId);
+				category.setExInt2(save.getPageId());
+			}
+			
+			String str = category.getSlugName()+category.getExInt2(); 
+			int count = catRepo.updateSlugName(catSaveResponse.getCatId(),str,category.getExInt2());
+			
+			pageByPageId.setPageSlug(str);
+			Page save = pageRepo.saveAndFlush(pageByPageId);
 		} catch (Exception e) {
 
 			 
