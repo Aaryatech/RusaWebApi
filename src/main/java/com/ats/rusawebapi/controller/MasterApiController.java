@@ -204,6 +204,23 @@ public class MasterApiController {
 
 	}
 
+	@RequestMapping(value = { "/getPageByPageId" }, method = RequestMethod.POST)
+	public @ResponseBody Page getPageByPageId(@RequestParam("pageId") int pageId) {
+
+		Page page = new Page();
+		 
+		try {
+			page = pageRepo.findByPageId(pageId);
+			  
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return page;
+
+	}
+	
 	@RequestMapping(value = { "/getSectionBySectionId" }, method = RequestMethod.POST)
 	public @ResponseBody Section getContractorById(@RequestParam("sectionId") int sectionId) {
 

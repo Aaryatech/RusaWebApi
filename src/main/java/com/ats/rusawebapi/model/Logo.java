@@ -24,7 +24,7 @@ public class Logo {
 	@Column(name="add_date")
 	private String addDate;
 	@Column(name="edit_date")
-	private int editDate;
+	private String editDate;
 	@Column(name="added_by_user_id")
 	private int addedByUserId;
 	@Column(name="edit_by_user_id")
@@ -59,10 +59,10 @@ public class Logo {
 	public void setAddDate(String addDate) {
 		this.addDate = addDate;
 	}
-	public int getEditDate() {
+	public String getEditDate() {
 		return editDate;
 	}
-	public void setEditDate(int editDate) {
+	public void setEditDate(String editDate) {
 		this.editDate = editDate;
 	}
 	public int getAddedByUserId() {
