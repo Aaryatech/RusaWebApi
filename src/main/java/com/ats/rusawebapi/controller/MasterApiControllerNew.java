@@ -1,5 +1,6 @@
 package com.ats.rusawebapi.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,38 @@ public class MasterApiControllerNew {
 			e.printStackTrace();
 		}
 		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getAllBannerList" }, method = RequestMethod.GET)
+	public @ResponseBody List<BannerImages> getAllBannerList() {
+
+		List<BannerImages> conList = new ArrayList<BannerImages>();
+
+		try {
+
+			conList = bannerImagesRepo.findByDelStatusOrderById(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
 
 	}
+	@RequestMapping(value = { "/deleteBanner" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteBanner(@RequestParam("id") int id) {
+
+		int isDeleted = bannerImagesRepo.deleteBannerImages(id);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Banner Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Banner Deletion Failed");
+		}
+		return infoRes;
+	}
+
 }
