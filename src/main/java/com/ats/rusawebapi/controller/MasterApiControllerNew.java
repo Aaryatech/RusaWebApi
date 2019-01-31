@@ -12,14 +12,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.model.BannerImages;
+import com.ats.rusawebapi.model.CMSPageDescription;
+import com.ats.rusawebapi.model.CMSPages;
 import com.ats.rusawebapi.model.Logo;
+import com.ats.rusawebapi.model.ModulesNames;
+import com.ats.rusawebapi.model.PagesModule;
 import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
+import com.ats.rusawebapi.repo.CMSPageDescRepository;
+import com.ats.rusawebapi.repo.CMSPagesRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.LogoRepository;
+import com.ats.rusawebapi.repo.ModuleNameRepository;
+import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
+import com.ats.rusawebapi.tx.model.Galleryheader;
 
 @RestController
 public class MasterApiControllerNew {
@@ -28,6 +37,18 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	LogoRepository LogoRepo;
+	
+	@Autowired
+	ModuleNameRepository moduleNameRepo;
+	
+	@Autowired
+	CMSPagesRepository cmsPagesRepo;
+	
+	@Autowired
+	CMSPageDescRepository cmsPagesDescRepo;
+	
+	@Autowired
+	PagesModuleRepository pagesModuleRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -139,41 +160,134 @@ public class MasterApiControllerNew {
 		}
 		return logoSaveResponse;
 	}
-	
-	/*@RequestMapping(value = { "/getAllLogoList" }, method = RequestMethod.GET)
-	public @ResponseBody Logo getAllLogoList() {
+	@RequestMapping(value = { "/saveModuleNames" }, method = RequestMethod.POST)
+	public @ResponseBody ModulesNames saveModuleNames(@RequestBody ModulesNames getmodulesList) {
 
-		Logo logoList = new Logo();
+		Info errorMessage = new Info();
+		//System.out.println("Save Modules");
+		ModulesNames moduleList=null;
+		try {
+
+			moduleList = moduleNameRepo.save(getmodulesList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return moduleList;
+
+	}
+	
+	@RequestMapping(value = { "/getModuleNameById" }, method = RequestMethod.POST)
+	public @ResponseBody ModulesNames getModuleNameById(@RequestParam("id") int id) {
+
+		ModulesNames moduleSaveRes = new ModulesNames();
+		 
+		try {
+			moduleSaveRes = moduleNameRepo.findByIdAndStatus(id, 1); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return moduleSaveRes;
+	}
+	
+	@RequestMapping(value = { "/getAllModuleNameList" }, method = RequestMethod.GET)
+	public @ResponseBody List<ModulesNames> getAllModuleNameList() {
+
+		List<ModulesNames> moduleList = new ArrayList<ModulesNames>();
 
 		try {
 
-			logoList = LogoRepo.findByOrderById(1);
+			moduleList = moduleNameRepo.findByStatusOrderById(1);
 
-			if(logoList==null)
-			{
-				 logoList = new Logo();
-			}
-			
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
-		return logoList;
+		return moduleList;
 
-	}*/
-/*	@RequestMapping(value = { "/deleteLogo" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteLogo(@RequestParam("id") int id) {
+	}
+	
+	
+	@RequestMapping(value = { "/saveCMSPagesHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody CMSPages saveCMSPagesHeaderAndDetail(@RequestBody CMSPages cmsPageDesc) {
 
-		int isDeleted = LogoRepo.deleteLogo(id);
-		Info infoRes = new Info();
-		if (isDeleted >= 1) {
-			infoRes.setError(false);
-			infoRes.setMsg("Logo Deleted Successfully");
-		} else {
-			infoRes.setError(true);
-			infoRes.setMsg("Logo Deletion Failed");
+		Info errorMessage = new Info();
+		CMSPages gHeader = new CMSPages();
+		try {
+
+			gHeader = cmsPagesRepo.save(cmsPageDesc);
+
+			for (int i = 0; i < cmsPageDesc.getDetailList().size(); i++) {
+
+				cmsPageDesc.getDetailList().get(i).setCmsPageId(gHeader.getCmsPageId());
+
+			}
+
+			List<CMSPageDescription> gDetailsList = cmsPagesDescRepo.saveAll(cmsPageDesc.getDetailList());
+			gHeader.setDetailList(gDetailsList);
+
+			errorMessage.setError(false);
+			errorMessage.setMsg("successfully Saved ");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
 		}
-		return infoRes;
-	}*/
+		return gHeader;
+
+	}
+	
+	
+	@RequestMapping(value = { "/saveCMSPages" }, method = RequestMethod.POST)
+	public @ResponseBody CMSPages saveCMSPages(@RequestBody CMSPages getCmsPagesList) {
+
+		Info errorMessage = new Info();
+		//System.out.println("Save Modules");
+		CMSPages cmsPagesList=null;
+		try {
+
+			cmsPagesList = cmsPagesRepo.save(getCmsPagesList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return cmsPagesList;
+
+	}
+	@RequestMapping(value = { "/savePagesModules" }, method = RequestMethod.POST)
+	public @ResponseBody PagesModule savePagesModules(@RequestBody PagesModule getModulesPagesList) {
+
+		Info errorMessage = new Info();
+		//System.out.println("Save Modules");
+		PagesModule modulesPagesList=null;
+		try {
+
+			modulesPagesList = pagesModuleRepo.save(getModulesPagesList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return modulesPagesList;
+
+	}
 }
