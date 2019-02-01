@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CMSPages;
+import com.ats.rusawebapi.model.ImageLink;
 import com.ats.rusawebapi.model.Logo;
+import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.ModulesNames;
+import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PagesModule;
 import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.mst.Info;
@@ -23,8 +26,10 @@ import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CMSPagesRepository;
+import com.ats.rusawebapi.repo.ImageLinkRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.LogoRepository;
+import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.ModuleNameRepository;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
@@ -49,6 +54,12 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	PagesModuleRepository pagesModuleRepo;
+	
+	@Autowired
+	MetaDataRepository metaDataRepo;
+	
+	@Autowired
+	ImageLinkRepository imageLinkRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -288,6 +299,219 @@ public class MasterApiControllerNew {
 
 		}
 		return modulesPagesList;
+	}
+	
+	@RequestMapping(value = { "/saveMetaData" }, method = RequestMethod.POST)
+	public @ResponseBody List<MetaData> saveMetaData(@RequestBody List<MetaData> getMataDataList) {
 
+		Info errorMessage = new Info();
+		System.out.println("Save Slider Images");
+		List<MetaData> MetaDataList=null;
+		try {
+
+			MetaDataList = metaDataRepo.saveAll(getMataDataList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return MetaDataList;
+
+	}
+	/*
+	@RequestMapping(value = { "/getMetaDataById" }, method = RequestMethod.POST)
+	public @ResponseBody MetaData getMetaDataById(@RequestParam("id") int id) {
+
+		MetaData metaResponse = new MetaData();
+		 
+		try {
+			metaResponse = metaDataRepo.findById(id); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return metaResponse;
+	}
+	*/
+	@RequestMapping(value = { "/getAllMetaDataList" }, method = RequestMethod.GET)
+	public @ResponseBody List<MetaData> getAllMetaDataList() {
+
+		List<MetaData> metaList = new ArrayList<MetaData>();
+
+		try {
+
+			metaList = metaDataRepo.findAll();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return metaList;  
+
+	}
+	/*@RequestMapping(value = { "/getMetaDataList" }, method = RequestMethod.GET)
+	public @ResponseBody MetaData getMetaDataList() {
+
+		MetaData metaList = new MetaData();
+
+		try {
+
+			metaList = metaDataRepo.find();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();  
+
+		}
+		return metaList;  
+
+	}*/
+	@RequestMapping(value = { "/getMetaListById" }, method = RequestMethod.POST)
+	public @ResponseBody MetaData getMetaListById(@RequestParam("id") int id) {
+
+		MetaData MetaDataResponse = new MetaData();
+		 
+		try {
+			MetaDataResponse = metaDataRepo.findById(id); 
+			if(MetaDataResponse==null)
+			{
+				MetaDataResponse = new MetaData();
+			}
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return MetaDataResponse;
+	}
+	
+	/*@RequestMapping(value = { "/saveMetaData" }, method = RequestMethod.POST)
+	public @ResponseBody Section saveMetaDataNew(@RequestBody MetaData metadata) {
+
+		MetaData secSaveResponse = new MetaData();
+		 
+		try {
+			 
+			
+			secSaveResponse = metaDataRepo.saveAndFlush(metadata); 
+			 
+			for(int i = 0 ; i<secSaveResponse.getMetaDescriptionList().size() ; i++) {
+				
+				metadata.getMetaDescriptionList().get(i).setId(secSaveResponse.getId());
+			}
+			
+			List<MetaData> list = metaDataRepo.saveAll(metadata.getMetaDescriptionList());
+			secSaveResponse.setMetaDescriptionList(list);
+			
+			Page pageByPageId = new Page();
+			
+			if(section.getExInt2()!=0) {
+				
+				pageByPageId = pageRepo.findByPageId(section.getExInt2());
+				pageByPageId.setPageName(section.getSectionName());
+				pageByPageId.setTypeSecCate("sec");
+				pageByPageId.setSecCateId(secSaveResponse.getSectionId());
+				 
+			}else {
+				 
+				pageByPageId.setPageName(section.getSectionName());
+				pageByPageId.setTypeSecCate("sec");
+				pageByPageId.setSecCateId(secSaveResponse.getSectionId());
+				Page save = pageRepo.saveAndFlush(pageByPageId);
+				section.setExInt2(save.getPageId());
+			}
+			 
+			String str = secSaveResponse.getSectionSlugname()+section.getExInt2();
+			int count = metaDataRepo.updateSlugName(secSaveResponse.getSectionId(),str,pageByPageId.getPageId());
+			pageByPageId.setPageSlug(str);
+			Page save = pageRepo.saveAndFlush(pageByPageId);
+
+		} catch (Exception e) {
+
+			 
+			e.printStackTrace();
+		}
+
+		return secSaveResponse;
+
+	}
+*/
+	
+	@RequestMapping(value = { "/saveImageLink" }, method = RequestMethod.POST)
+	public @ResponseBody ImageLink saveImageLink(@RequestBody ImageLink galDetailList) {
+
+		Info errorMessage = new Info();
+		System.out.println("Save Slider Images");
+		ImageLink imagesList=null;
+		try {
+
+			imagesList = imageLinkRepo.save(galDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return imagesList;
+
+	}
+	
+	@RequestMapping(value = { "/getImageLinksById" }, method = RequestMethod.POST)
+	public @ResponseBody ImageLink getImageLinksById(@RequestParam("id") int id) {
+
+		ImageLink imageLinkList = new ImageLink();
+		 
+		try {
+			imageLinkList = imageLinkRepo.findByIdAndDelStatus(id, 1); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return imageLinkList;
+	}
+	
+	@RequestMapping(value = { "/getAllImageLinkList" }, method = RequestMethod.GET)
+	public @ResponseBody List<ImageLink> getAllImageLinkList() {
+
+		List<ImageLink> imagesList = new ArrayList<ImageLink>();
+
+		try {
+
+			imagesList = imageLinkRepo.findByDelStatusOrderById(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return imagesList;
+
+	}
+	@RequestMapping(value = { "/deleteImagesLink" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteImagesLink(@RequestParam("id") int id) {
+
+		int isDeleted = imageLinkRepo.deleteImageLinks(id);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Banner Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Banner Deletion Failed");
+		}
+		return infoRes;
 	}
 }

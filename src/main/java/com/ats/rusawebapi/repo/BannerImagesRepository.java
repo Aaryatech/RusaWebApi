@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ats.rusawebapi.model.BannerImages;
+import com.ats.rusawebapi.model.MetaData;
 
 public interface BannerImagesRepository extends JpaRepository<BannerImages, Integer>{
 
@@ -21,5 +22,7 @@ public interface BannerImagesRepository extends JpaRepository<BannerImages, Inte
 	@Modifying
 	@Query("update BannerImages set del_status=0  WHERE id=:id")
 	int deleteBannerImages(@Param("id") int id);
+
+//	MetaData save(MetaData getMataDataList);
 
 }
