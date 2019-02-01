@@ -15,24 +15,22 @@ public interface FreqAskQueRepo extends JpaRepository<FreqAskQue, Integer> {
 	
 	List<FreqAskQue> findByDelStatus(int delStatus);
 	
-	List<FreqAskQue>  findByCatIdInAndSubCatIdInAndDelStatus(List<Integer> catIdList,List<Integer> subCatIdList,int delStatus);
+	/*List<FreqAskQue>  findByCatIdInAndSubCatIdInAndDelStatus(List<Integer> catIdList,List<Integer> subCatIdList,int delStatus);
 
 	List<FreqAskQue>  findBySubCatIdInAndDelStatus(List<Integer> subCatIdList,int delStatus);
 	
-	List<FreqAskQue>  findByCatIdInAndDelStatus(List<Integer> catIdList,int delStatus);
+	List<FreqAskQue>  findByCatIdInAndDelStatus(List<Integer> catIdList,int delStatus);*/
 	
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE t_faq SET del_status=:delStatus WHERE faq_id IN (:faqIdList) ",nativeQuery=true)
-
+	@Query(value="UPDATE t_faq SET del_status=:delStatus WHERE faq_id IN (:faqIdList) ",nativeQuery=true) 
 	int deleteFaqs(@Param("faqIdList") List<String> faqIdList,@Param("delStatus") int delStatus);
 	
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE t_faq SET is_active=:isActive WHERE faq_id IN (:faqIdIdList) ",nativeQuery=true)
-
+	@Query(value="UPDATE t_faq SET is_active=:isActive WHERE faq_id IN (:faqIdIdList) ",nativeQuery=true) 
 	int activeInactiveFaqs(@Param("faqIdIdList") List<String> faqIdIdList,@Param("isActive") int isActive);
 	
 

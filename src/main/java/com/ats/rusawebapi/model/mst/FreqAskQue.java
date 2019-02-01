@@ -1,6 +1,7 @@
 package com.ats.rusawebapi.model.mst;
 
-import java.util.Date;
+ 
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,151 +20,41 @@ public class FreqAskQue {
 	@Column(name = "faq_id")
 	private int faqId;
 
+	@Column(name = "cat_id")
 	private int catId;
-
-	private int subCatId;
-
-	private String faqQue;
-
-	private String faqAns;
-
+	
+	@Column(name = "page_id")
+	private int pageId; 
+	
+	@Column(name = "section_id")
+	private int sectionId;
+	
+	@Column(name = "faq_sort_no")
 	private int faqSortNo;
-
+	
+	@Column(name = "faq_remark")
 	private String faqRemark;
-
-	private String faqAddDate;
-
-	private String faqEditDate;
-
-	private String faqDate;
-
-	private int userId;
-
+	
+	@Column(name = "add_date")
+	private String addDate;
+	
+	@Column(name = "edit_date")
+	private String editDate;
+	
+	@Column(name = "added_by_user_id")
+	private int addedByUserId;
+	
+	@Column(name = "edit_by_user_id")
+	private int editByUserId;
+	
+	@Column(name = "is_active")
 	private int isActive;
-
+	
+	@Column(name = "delStatus")
 	private int delStatus;
 	
-
 	@Transient
-	Info info;
-	
-	
-	
-	private int exInt1;
-	private int exInt2;
-	private int exInt3;
-
-	private String exVar1;
-	private String exVar2;
-	private String exVar3;
-	private String exVar4;
-	private String exVar5;
-
-	private String exDate1;
-	private String exDate2;
-
-	private float exFloat1;
-	private float exFloat2;
-	private float exFloat3;
-	
-	
-	
-
-	public int getExInt1() {
-		return exInt1;
-	}
-
-	public void setExInt1(int exInt1) {
-		this.exInt1 = exInt1;
-	}
-
-	public int getExInt2() {
-		return exInt2;
-	}
-
-	public void setExInt2(int exInt2) {
-		this.exInt2 = exInt2;
-	}
-
-	public int getExInt3() {
-		return exInt3;
-	}
-
-	public void setExInt3(int exInt3) {
-		this.exInt3 = exInt3;
-	}
-
-	public String getExVar1() {
-		return exVar1;
-	}
-
-	public void setExVar1(String exVar1) {
-		this.exVar1 = exVar1;
-	}
-
-	public String getExVar2() {
-		return exVar2;
-	}
-
-	public void setExVar2(String exVar2) {
-		this.exVar2 = exVar2;
-	}
-
-	public String getExVar3() {
-		return exVar3;
-	}
-
-	public void setExVar3(String exVar3) {
-		this.exVar3 = exVar3;
-	}
-
-	public String getExDate1() {
-		return exDate1;
-	}
-
-	public void setExDate1(String exDate1) {
-		this.exDate1 = exDate1;
-	}
-
-	public String getExDate2() {
-		return exDate2;
-	}
-
-	public void setExDate2(String exDate2) {
-		this.exDate2 = exDate2;
-	}
-
-	public float getExFloat1() {
-		return exFloat1;
-	}
-
-	public void setExFloat1(float exFloat1) {
-		this.exFloat1 = exFloat1;
-	}
-
-	public float getExFloat2() {
-		return exFloat2;
-	}
-
-	public void setExFloat2(float exFloat2) {
-		this.exFloat2 = exFloat2;
-	}
-
-	public float getExFloat3() {
-		return exFloat3;
-	}
-
-	public void setExFloat3(float exFloat3) {
-		this.exFloat3 = exFloat3;
-	}
-
-	public Info getInfo() {
-		return info;
-	}
-
-	public void setInfo(Info info) {
-		this.info = info;
-	}
+	List<FreqAskQueDescription> descriptionList;
 
 	public int getFaqId() {
 		return faqId;
@@ -181,28 +72,20 @@ public class FreqAskQue {
 		this.catId = catId;
 	}
 
-	public int getSubCatId() {
-		return subCatId;
+	public int getPageId() {
+		return pageId;
 	}
 
-	public void setSubCatId(int subCatId) {
-		this.subCatId = subCatId;
+	public void setPageId(int pageId) {
+		this.pageId = pageId;
 	}
 
-	public String getFaqQue() {
-		return faqQue;
+	public int getSectionId() {
+		return sectionId;
 	}
 
-	public void setFaqQue(String faqQue) {
-		this.faqQue = faqQue;
-	}
-
-	public String getFaqAns() {
-		return faqAns;
-	}
-
-	public void setFaqAns(String faqAns) {
-		this.faqAns = faqAns;
+	public void setSectionId(int sectionId) {
+		this.sectionId = sectionId;
 	}
 
 	public int getFaqSortNo() {
@@ -221,36 +104,36 @@ public class FreqAskQue {
 		this.faqRemark = faqRemark;
 	}
 
-	public String getFaqAddDate() {
-		return faqAddDate;
+	public String getAddDate() {
+		return addDate;
 	}
 
-	public void setFaqAddDate(String faqAddDate) {
-		this.faqAddDate = faqAddDate;
+	public void setAddDate(String addDate) {
+		this.addDate = addDate;
 	}
 
-	public String getFaqEditDate() {
-		return faqEditDate;
+	public String getEditDate() {
+		return editDate;
 	}
 
-	public void setFaqEditDate(String faqEditDate) {
-		this.faqEditDate = faqEditDate;
+	public void setEditDate(String editDate) {
+		this.editDate = editDate;
 	}
 
-	public String getFaqDate() {
-		return faqDate;
+	public int getAddedByUserId() {
+		return addedByUserId;
 	}
 
-	public void setFaqDate(String faqDate) {
-		this.faqDate = faqDate;
+	public void setAddedByUserId(int addedByUserId) {
+		this.addedByUserId = addedByUserId;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getEditByUserId() {
+		return editByUserId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setEditByUserId(int editByUserId) {
+		this.editByUserId = editByUserId;
 	}
 
 	public int getIsActive() {
@@ -269,32 +152,23 @@ public class FreqAskQue {
 		this.delStatus = delStatus;
 	}
 
-	public String getExVar4() {
-		return exVar4;
+	public List<FreqAskQueDescription> getDescriptionList() {
+		return descriptionList;
 	}
 
-	public void setExVar4(String exVar4) {
-		this.exVar4 = exVar4;
-	}
-
-	public String getExVar5() {
-		return exVar5;
-	}
-
-	public void setExVar5(String exVar5) {
-		this.exVar5 = exVar5;
+	public void setDescriptionList(List<FreqAskQueDescription> descriptionList) {
+		this.descriptionList = descriptionList;
 	}
 
 	@Override
 	public String toString() {
-		return "FreqAskQue [faqId=" + faqId + ", catId=" + catId + ", subCatId=" + subCatId + ", faqQue=" + faqQue
-				+ ", faqAns=" + faqAns + ", faqSortNo=" + faqSortNo + ", faqRemark=" + faqRemark + ", faqAddDate="
-				+ faqAddDate + ", faqEditDate=" + faqEditDate + ", faqDate=" + faqDate + ", userId=" + userId
-				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", info=" + info + ", exInt1=" + exInt1
-				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + ", exDate1=" + exDate1
-				+ ", exDate2=" + exDate2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3="
-				+ exFloat3 + "]";
+		return "FreqAskQue [faqId=" + faqId + ", catId=" + catId + ", pageId=" + pageId + ", sectionId=" + sectionId
+				+ ", faqSortNo=" + faqSortNo + ", faqRemark=" + faqRemark + ", addDate=" + addDate + ", editDate="
+				+ editDate + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", isActive="
+				+ isActive + ", delStatus=" + delStatus + ", descriptionList=" + descriptionList + "]";
 	}
+	
+	
+	 
 
 }

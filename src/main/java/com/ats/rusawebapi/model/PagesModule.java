@@ -15,6 +15,9 @@ public class PagesModule {
 	@Column(name="id")
 	private int id;
 	
+	@Column(name="module_id")
+	private int moduleId;
+	
 	@Column(name="page_id")
 	private int pageId;
 	
@@ -45,12 +48,18 @@ public class PagesModule {
 		this.primaryKeyId = primaryKeyId;
 	}
 
+	public int getModuleId() {
+		return moduleId;
+	}
+
+	public void setModuleId(int moduleId) {
+		this.moduleId = moduleId;
+	}
+
 	@Override
 	public String toString() {
-		return "PagesModule [id=" + id + ", pageId=" + pageId + ", primaryKeyId=" + primaryKeyId + ", getId()="
-				+ getId() + ", getPageId()=" + getPageId() + ", getPrimaryKeyId()=" + getPrimaryKeyId()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+		return "PagesModule [id=" + id + ", moduleId=" + moduleId + ", pageId=" + pageId + ", primaryKeyId="
+				+ primaryKeyId + "]";
 	}
 
 	

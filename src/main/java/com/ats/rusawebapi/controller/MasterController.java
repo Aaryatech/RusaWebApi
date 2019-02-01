@@ -1,5 +1,6 @@
 package com.ats.rusawebapi.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,14 @@ import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.mst.Category;
 import com.ats.rusawebapi.model.mst.CategoryDescription;
 import com.ats.rusawebapi.model.mst.FreqAskQue;
+import com.ats.rusawebapi.model.mst.FreqAskQueDescription;
 import com.ats.rusawebapi.model.mst.GetCategory;
 import com.ats.rusawebapi.model.mst.GetFreqAskQue;
 import com.ats.rusawebapi.model.mst.GetSubCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.SubCategory;
 import com.ats.rusawebapi.repo.CatDescRepo;
+import com.ats.rusawebapi.repo.FreqAskQueDescriptionRepo;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.repo.mst.FreqAskQueRepo;
@@ -45,6 +48,9 @@ public class MasterController {
 	
 	@Autowired
 	PageRepo pageRepo;
+	
+	@Autowired
+	FreqAskQueDescriptionRepo freqAskQueDescriptionRepo;
 	
 	@RequestMapping(value = { "/getFreqAskQueList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetFreqAskQue> getFreqAskQueList(@RequestParam("delStatus") int delStatus) {
@@ -555,35 +561,24 @@ public class MasterController {
 	@RequestMapping(value = { "/saveUpdateFreqAskQue" }, method = RequestMethod.POST)
 	public @ResponseBody FreqAskQue saveUpdateFreqAskQue(@RequestBody FreqAskQue faq) {
 
-		FreqAskQue faqSaveResponse = null;
-		Info info = new Info();
+		FreqAskQue faqSaveResponse = new FreqAskQue();
+	 
 		try {
 
 			faqSaveResponse = freqAskQueRepo.saveAndFlush(faq);
-
-			if (faqSaveResponse != null) {
-
-				info.setError(false);
-				info.setMsg("success");
-
-			} else {
-
-				info.setError(true);
-				info.setMsg("failed");
+ 
+			for(int i = 0 ; i<faq.getDescriptionList().size() ; i++) {
+				
+				faq.getDescriptionList().get(i).setFaqId(faqSaveResponse.getFaqId());
 			}
-
-			faqSaveResponse.setInfo(info);
+			
+			List<FreqAskQueDescription> list = freqAskQueDescriptionRepo.saveAll(faq.getDescriptionList());
+			faqSaveResponse.setDescriptionList(list);
+			
 
 		} catch (Exception e) {
 
-			info.setError(true);
-			info.setMsg("exception");
-
-			faqSaveResponse = new FreqAskQue();
-
-			faqSaveResponse.setInfo(info);
-
-			System.err.println("Exce in saveUpdateFreqAskQue @MasterController " + e.getMessage());
+			 
 			e.printStackTrace();
 		}
 
@@ -608,38 +603,20 @@ public class MasterController {
 	}*/
 	//FreqAskQue -3
 	@RequestMapping(value = { "/getFreqAskQueByCatIdsAndSubCatIds" }, method = RequestMethod.POST)
-	public @ResponseBody List<FreqAskQue> getFreqAskQueByCatIdsAndSubCatIds(@RequestParam("catIdList") List<Integer> catIdList,
-			@RequestParam("subCatIdList") List<Integer> subCatIdList,@RequestParam("delStatus") int delStatus) {
+	public @ResponseBody List<FreqAskQue> getFreqAskQueByCatIdsAndSubCatIds(@RequestParam("delStatus") int delStatus) {
 
-		List<FreqAskQue> faqList = null;
+		List<FreqAskQue> faqList = new ArrayList<FreqAskQue>();
 		
 		try {
 			
-			if(catIdList.contains(-1) && subCatIdList.contains(-1)) {
-				System.err.println("cat sub cat -1");
+			 
 				
 				faqList=freqAskQueRepo.findByDelStatus(delStatus);
 
-			}else if(catIdList.contains(-1)) {
-				
-				System.err.println("cat  -1");
-				faqList=freqAskQueRepo.findBySubCatIdInAndDelStatus(subCatIdList, delStatus);
-
-				
-			}else if(subCatIdList.contains(-1)) {
-				System.err.println("sub cat  -1");
-				faqList=freqAskQueRepo.findByCatIdInAndDelStatus(catIdList, delStatus);
-
-			}else {
-				System.err.println("both cat sub cat +ve");
-				faqList=freqAskQueRepo.findByCatIdInAndSubCatIdInAndDelStatus(catIdList, subCatIdList, delStatus);
-				
-			}
-			
-			//faqList=freqAskQueRepo.findByCatIdInAndSubCatIdInAndDelStatus(catIdList, subCatIdList, delStatus);
+			 
 			
 		}catch (Exception e) {
-			System.err.println("Exce in getFreqAskQueByCatIdsAndSubCatIds @MasterController " + e.getMessage());
+			 
 			e.printStackTrace();
 		}
 
