@@ -330,14 +330,14 @@ public class MasterApiControllerNew {
 		try {
 			metaResponse = metaDataRepo.findById(id); 
 		
-			 
+			   
 
 		} catch (Exception e) {
 			 
 			e.printStackTrace();
 		}
 		return metaResponse;
-	}
+	}   
 	*/
 	@RequestMapping(value = { "/getAllMetaDataList" }, method = RequestMethod.GET)
 	public @ResponseBody List<MetaData> getAllMetaDataList() {
@@ -356,23 +356,7 @@ public class MasterApiControllerNew {
 		return metaList;  
 
 	}
-	/*@RequestMapping(value = { "/getMetaDataList" }, method = RequestMethod.GET)
-	public @ResponseBody MetaData getMetaDataList() {
 
-		MetaData metaList = new MetaData();
-
-		try {
-
-			metaList = metaDataRepo.find();
-
-		} catch (Exception e) {
-
-			e.printStackTrace();  
-
-		}
-		return metaList;  
-
-	}*/
 	@RequestMapping(value = { "/getMetaListById" }, method = RequestMethod.POST)
 	public @ResponseBody MetaData getMetaListById(@RequestParam("id") int id) {
 
@@ -482,6 +466,7 @@ public class MasterApiControllerNew {
 		}
 		return imageLinkList;
 	}
+	
 	
 	@RequestMapping(value = { "/getAllImageLinkList" }, method = RequestMethod.GET)
 	public @ResponseBody List<ImageLink> getAllImageLinkList() {
