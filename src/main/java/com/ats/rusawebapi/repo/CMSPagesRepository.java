@@ -16,4 +16,6 @@ public interface CMSPagesRepository extends JpaRepository<CMSPages , Integer>{
 	@Query("update CMSPages set del_status=0  WHERE cms_page_id=:cmsPageId")
 	int delete(@Param("cmsPageId") int cmsPageId);
 
+	CMSPages findByCmsPageId(int cmsPageId);
+
 }

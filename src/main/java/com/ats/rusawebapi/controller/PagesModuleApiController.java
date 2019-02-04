@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CMSPages;
 import com.ats.rusawebapi.model.GetPagesModule;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CMSPagesRepository;
 import com.ats.rusawebapi.repo.GetPagesModuleRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
@@ -31,6 +33,8 @@ public class PagesModuleApiController {
 	
 	@Autowired
 	TestImonialRepository testImonialListRepo;
+	
+	CMSPageDescRepository cmsPagesDescRepo;
 	
 	@RequestMapping(value = { "/getCmsPagesModuleList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetPagesModule> getCmsPagesModuleList() {
@@ -162,6 +166,27 @@ public class PagesModuleApiController {
 
 		}
 		return errorMessage;
+
+	}
+	
+	@RequestMapping(value = { "/getCmsPagebyId" }, method = RequestMethod.POST)
+	public @ResponseBody CMSPages getCmsPagebyId(@RequestParam("cmsPageId") int cmsPageId) {
+
+		CMSPages cMSPages = new CMSPages();
+		 
+		try {
+
+			cMSPages = cmsPagesRepo.findByCmsPageId(cmsPageId);
+			List<CMSPageDescription> gDetailsList = cmsPagesDescRepo.findByCmsPageId(cmsPageId);
+			cMSPages.setDetailList(gDetailsList);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return cMSPages;
 
 	}
 	
