@@ -56,6 +56,25 @@ public class PagesModuleApiController {
 
 	}
 	
+	@RequestMapping(value = { "/getCmsPagesModuleListByPageId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPagesModule> getCmsPagesModuleListByPageId(@RequestParam("pageId") int pageId) {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 
+				list = getPagesModuleRepository.getCmsPagesModuleListByPageId(pageId);
+			  
+			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
 	@RequestMapping(value = { "/getFaqPagesModuleList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetPagesModule> getFaqPagesModuleList() {
 
@@ -64,6 +83,25 @@ public class PagesModuleApiController {
 		try {
  
 				list = getPagesModuleRepository.getFaqPagesModuleList();
+			  
+			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getFaqPagesModuleListByPageId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPagesModule> getFaqPagesModuleListByPageId(@RequestParam("pageId") int pageId) {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 
+				list = getPagesModuleRepository.getFaqPagesModuleListByPageId(pageId);
 			  
 			 
 		} catch (Exception e) {
