@@ -63,8 +63,7 @@ public class MasterApiControllerNew {
 	@Autowired
 	ImageLinkRepository imageLinkRepo;
 	
-	@Autowired
-	TestImonialRepository testImonialListRepo;
+
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -505,27 +504,5 @@ public class MasterApiControllerNew {
 		return infoRes;
 	}
 	
-	@RequestMapping(value = { "/saveTextImonial" }, method = RequestMethod.POST)
-	public @ResponseBody TestImonial saveTextImonial(@RequestBody TestImonial getCmsPagesList) {
-
-		Info errorMessage = new Info();
-		//System.out.println("Save Modules");
-		TestImonial TestImonialList=null;
-		try {
-
-			TestImonialList = testImonialListRepo.save(getCmsPagesList);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			errorMessage.setError(true);
-			errorMessage.setMsg("failed to Save ");
-
-		}
-		return TestImonialList;
-
-	}
 	
-	
-	shruti
 }

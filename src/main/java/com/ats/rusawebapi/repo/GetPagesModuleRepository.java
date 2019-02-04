@@ -60,5 +60,22 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"        and fh.del_status=1",nativeQuery=true) 
 	List<GetPagesModule> getFaqPagesModuleList();
  
-
+	
+	
+	@Query(value="select\n" + 
+			"    pm.*,\n" + 
+			"    p.page_name,\n" + 
+			"    m.name,\n" + 
+			"    t.from_name  as content,\n" + 
+			"   coalesce(\"\")  as secction_name     \n" + 
+			"from\n" + 
+			"    t_tpages_modules pm,\n" + 
+			"    t_pages p,\n" + 
+			"    m_modules_name m,t_testimonials t      \n" + 
+			"where\n" + 
+			"    p.page_id=pm.page_id                   \n" + 
+			"    and m.id=pm.module_id                   \n" + 
+			"    and pm.module_id=6 and t.id=pm.primary_key_id and t.del_status=1",nativeQuery=true) 
+	List<GetPagesModule> getTestImonialList();
+	
 }
