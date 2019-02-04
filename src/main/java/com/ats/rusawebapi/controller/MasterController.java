@@ -585,6 +585,28 @@ public class MasterController {
 		return faqSaveResponse;
 
 	}
+	
+	@RequestMapping(value = { "/getFaqById" }, method = RequestMethod.POST)
+	public @ResponseBody FreqAskQue getFaqById(@RequestParam("faqId") int faqId) {
+
+		FreqAskQue faqSaveResponse = new FreqAskQue();
+	 
+		try {
+
+			faqSaveResponse = freqAskQueRepo.findByFaqId(faqId); 
+			List<FreqAskQueDescription> list = freqAskQueDescriptionRepo.findByFaqId(faqId);
+			faqSaveResponse.setDescriptionList(list);
+			
+
+		} catch (Exception e) {
+
+			 
+			e.printStackTrace();
+		}
+
+		return faqSaveResponse;
+
+	}
 	/*//FreqAskQue -2
 	@RequestMapping(value = { "/getAllFreqAskQue" }, method = RequestMethod.POST)
 	public @ResponseBody List<FreqAskQue> getAllFreqAskQue(@RequestParam("delStatus") int delStatus) {

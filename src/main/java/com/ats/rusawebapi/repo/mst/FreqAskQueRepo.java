@@ -32,6 +32,8 @@ public interface FreqAskQueRepo extends JpaRepository<FreqAskQue, Integer> {
 	@Modifying
 	@Query(value="UPDATE t_faq SET is_active=:isActive WHERE faq_id IN (:faqIdIdList) ",nativeQuery=true) 
 	int activeInactiveFaqs(@Param("faqIdIdList") List<String> faqIdIdList,@Param("isActive") int isActive);
+
+	FreqAskQue findByFaqId(int faqId);
 	
 
 	
