@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CMSPages;
+import com.ats.rusawebapi.model.GetPagesModule;
 import com.ats.rusawebapi.model.ImageLink;
 import com.ats.rusawebapi.model.Logo;
 import com.ats.rusawebapi.model.MetaData;
@@ -27,6 +28,7 @@ import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CMSPagesRepository;
+import com.ats.rusawebapi.repo.GetPagesModuleRepository;
 import com.ats.rusawebapi.repo.ImageLinkRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.LogoRepository;
@@ -63,7 +65,11 @@ public class MasterApiControllerNew {
 	@Autowired
 	ImageLinkRepository imageLinkRepo;
 	
+	@Autowired
+	TestImonialRepository testImonialListRepo;
 
+	@Autowired
+	GetPagesModuleRepository getPagesModuleRepository;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -504,5 +510,90 @@ public class MasterApiControllerNew {
 		return infoRes;
 	}
 	
+	@RequestMapping(value = { "/saveTextImonial" }, method = RequestMethod.POST)
+	public @ResponseBody TestImonial saveTextImonial(@RequestBody TestImonial getCmsPagesList) {
+
+		Info errorMessage = new Info();
+		//System.out.println("Save Modules");
+		TestImonial TestImonialList=null;
+		try {
+
+			TestImonialList = testImonialListRepo.save(getCmsPagesList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return TestImonialList;
+
+	}
+	@RequestMapping(value = { "/getTestImonialList" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetPagesModule> getTestImonialList() {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 
+				list = getPagesModuleRepository.getTestImonialList();
+			  
+			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 	
+	@RequestMapping(value = { "/getTestImonialById" }, method = RequestMethod.POST)
+	public @ResponseBody TestImonial getTestImonialById(@RequestParam("id") int id) {
+		TestImonial testImonial=new TestImonial();
+		
+		 
+		try {
+
+			testImonial = testImonialListRepo.getTestListById(id);
+		//	List<CMSPageDescription> gDetailsList = cmsPagesDescRepo.findByCmsPageId(id);
+			
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return testImonial;
+
+	}
+	@RequestMapping(value = { "/deleteTestImonial" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteTestImonial(@RequestParam("id") int id) {
+
+		Info errorMessage = new Info();
+		 
+		try {
+
+			int delete = testImonialListRepo.delete(id);
+			
+			if(delete==0) {
+				errorMessage.setError(true);
+				errorMessage.setMsg("failed to delete ");
+			}else {
+				errorMessage.setError(false);
+				errorMessage.setMsg(" deleted");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to delete ");
+
+		}
+		return errorMessage;
+
+	}
 }
