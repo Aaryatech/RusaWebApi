@@ -21,6 +21,7 @@ import com.ats.rusawebapi.model.ModulesNames;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PagesModule;
 import com.ats.rusawebapi.model.SectionDescription;
+import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
@@ -32,6 +33,7 @@ import com.ats.rusawebapi.repo.LogoRepository;
 import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.ModuleNameRepository;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
+import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
 import com.ats.rusawebapi.tx.model.Galleryheader;
 
@@ -60,6 +62,9 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	ImageLinkRepository imageLinkRepo;
+	
+	@Autowired
+	TestImonialRepository testImonialListRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -498,5 +503,26 @@ public class MasterApiControllerNew {
 			infoRes.setMsg("Banner Deletion Failed");
 		}
 		return infoRes;
+	}
+	
+	@RequestMapping(value = { "/saveTextImonial" }, method = RequestMethod.POST)
+	public @ResponseBody TestImonial saveTextImonial(@RequestBody TestImonial getCmsPagesList) {
+
+		Info errorMessage = new Info();
+		//System.out.println("Save Modules");
+		TestImonial TestImonialList=null;
+		try {
+
+			TestImonialList = testImonialListRepo.save(getCmsPagesList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return TestImonialList;
+
 	}
 }
