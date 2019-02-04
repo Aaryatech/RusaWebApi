@@ -34,6 +34,7 @@ public class PagesModuleApiController {
 	@Autowired
 	TestImonialRepository testImonialListRepo;
 	
+	@Autowired
 	CMSPageDescRepository cmsPagesDescRepo;
 	
 	@RequestMapping(value = { "/getCmsPagesModuleList" }, method = RequestMethod.GET)
@@ -177,7 +178,7 @@ public class PagesModuleApiController {
 		try {
 
 			cMSPages = cmsPagesRepo.findByCmsPageId(cmsPageId);
-			List<CMSPageDescription> gDetailsList = cmsPagesDescRepo.findByCmsPageId(cmsPageId);
+			List<CMSPageDescription> gDetailsList = cmsPagesDescRepo.findAllByCmsPageId(cmsPageId);
 			cMSPages.setDetailList(gDetailsList);
 			
 		} catch (Exception e) {
