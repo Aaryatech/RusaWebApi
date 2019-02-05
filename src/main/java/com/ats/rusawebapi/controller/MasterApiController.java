@@ -221,6 +221,23 @@ public class MasterApiController {
 
 	}
 	
+	@RequestMapping(value = { "/savePage" }, method = RequestMethod.POST)
+	public @ResponseBody Page savePage(@RequestBody Page page) {
+
+		Page save = new Page();
+		 
+		try {
+			save = pageRepo.save(page);
+			  
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return save;
+
+	}
+	
 	@RequestMapping(value = { "/getSectionBySectionId" }, method = RequestMethod.POST)
 	public @ResponseBody Section getContractorById(@RequestParam("sectionId") int sectionId) {
 

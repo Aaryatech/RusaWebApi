@@ -30,6 +30,9 @@ public class Page {
 	
 	@Column(name="externalUrl")
 	private String externalUrl;
+
+	@Column(name="external_url_target")
+	private String externalUrlTarget;
 	
 	@Column(name="type_sec_cate")
 	private String typeSecCate;
@@ -134,12 +137,21 @@ public class Page {
 		this.pageMetaKeyword = pageMetaKeyword;
 	}
 
+	public String getExternalUrlTarget() {
+		return externalUrlTarget;
+	}
+
+	public void setExternalUrlTarget(String externalUrlTarget) {
+		this.externalUrlTarget = externalUrlTarget;
+	}
+
 	@Override
 	public String toString() {
 		return "Page [pageId=" + pageId + ", templateId=" + templateId + ", moduleId=" + moduleId + ", pageName="
-				+ pageName + ", pageSlug=" + pageSlug + ", externalUrl=" + externalUrl + ", typeSecCate=" + typeSecCate
-				+ ", secCateId=" + secCateId + ", pageMetaTitle=" + pageMetaTitle + ", pageMetaDescription="
-				+ pageMetaDescription + ", pageMetaKeyword=" + pageMetaKeyword + "]";
+				+ pageName + ", pageSlug=" + pageSlug + ", externalUrl=" + externalUrl + ", externalUrlTarget="
+				+ externalUrlTarget + ", typeSecCate=" + typeSecCate + ", secCateId=" + secCateId + ", pageMetaTitle="
+				+ pageMetaTitle + ", pageMetaDescription=" + pageMetaDescription + ", pageMetaKeyword="
+				+ pageMetaKeyword + "]";
 	}
 	
 	
