@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CMSPages;
+import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GetPagesModule;
 import com.ats.rusawebapi.model.ImageLink;
 import com.ats.rusawebapi.model.Logo;
@@ -28,6 +29,7 @@ import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CMSPagesRepository;
+import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.GetPagesModuleRepository;
 import com.ats.rusawebapi.repo.ImageLinkRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
@@ -70,6 +72,9 @@ public class MasterApiControllerNew {
 
 	@Autowired
 	GetPagesModuleRepository getPagesModuleRepository;
+	
+	@Autowired
+	DocumentUploadRepository uploadDocRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -577,6 +582,90 @@ public class MasterApiControllerNew {
 		try {
 
 			int delete = testImonialListRepo.delete(id);
+			
+			if(delete==0) {
+				errorMessage.setError(true);
+				errorMessage.setMsg("failed to delete ");
+			}else {
+				errorMessage.setError(false);
+				errorMessage.setMsg(" deleted");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to delete ");
+
+		}
+		return errorMessage;
+
+	}
+	
+	@RequestMapping(value = { "/saveDocumentFiles" }, method = RequestMethod.POST)
+	public @ResponseBody DocumentUpload saveDocumentFiles(@RequestBody DocumentUpload galDetailList) {
+
+		Info errorMessage = new Info();
+		System.out.println("Save Slider Images");
+		DocumentUpload documentUploadList=null;
+		try {
+
+			documentUploadList = uploadDocRepo.save(galDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return documentUploadList;
+
+	}
+	@RequestMapping(value = { "/getDocumentList" }, method = RequestMethod.GET)
+	public @ResponseBody List<DocumentUpload> getDocumentList() {
+
+		List<DocumentUpload> list = new ArrayList<>();
+
+		try {
+ 				list = uploadDocRepo.getDocumentList();
+			 } catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getDocumentById" }, method = RequestMethod.POST)
+	public @ResponseBody DocumentUpload getDocumentById(@RequestParam("id") int id) {
+		DocumentUpload documentUploadList=new DocumentUpload();
+		
+		 
+		try {
+
+			documentUploadList = uploadDocRepo.getDocumentByDocId(id);
+		//	List<CMSPageDescription> gDetailsList = cmsPagesDescRepo.findByCmsPageId(id);
+			
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return documentUploadList;
+
+	}
+	@RequestMapping(value = { "/deleteDocument" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteDocument(@RequestParam("docId") int id) {
+
+		Info errorMessage = new Info();
+		 
+		try {
+
+			int delete = uploadDocRepo.delete(id);
 			
 			if(delete==0) {
 				errorMessage.setError(true);
