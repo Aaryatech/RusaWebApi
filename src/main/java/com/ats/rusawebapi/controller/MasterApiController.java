@@ -592,6 +592,38 @@ public class MasterApiController {
 
 	}
 	
+	@RequestMapping(value = { "/getSectionListByLangId" }, method = RequestMethod.POST)
+	public @ResponseBody List<SectionTree> getSectionListByLangId(@RequestParam("langId") int langId) {
+
+		List<SectionTree> list = new ArrayList<SectionTree>();
+
+		try {
+
+			list = sectionTreeRepository.getSectionListByLangId(langId);
+ 
+			for(int i = 0 ; i < list.size() ; i++) {
+				
+				List<CategoryList> categoryList = categoryListRepository.getCategoryListByLangId(list.get(i).getSectionId(),langId);
+				
+				for(int j = 0 ; j<categoryList.size() ; j++ ) {
+					
+					List<SubCategoryList> subCategoryList = subCategoryListRepository.getSubCategoryListByLangId(categoryList.get(j).getCatId(),langId);
+					categoryList.get(j).setSubCatList(subCategoryList);
+				}
+				list.get(i).setCatList(categoryList);
+			} 
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+
+		}
+
+		return list;
+
+	}
+	
 	
 /*	@RequestMapping(value = { "/getUserByTypeId" }, method = RequestMethod.POST)
 	public @ResponseBody Info getUserByTypeId(@RequestParam("typeId") int typeId) {

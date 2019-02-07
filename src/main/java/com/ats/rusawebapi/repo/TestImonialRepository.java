@@ -1,5 +1,7 @@
 package com.ats.rusawebapi.repo;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +22,7 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 	
 	@Query(value="select * from t_testimonials where id=:id",nativeQuery=true) 
 	TestImonial getTestListById(@Param("id") int id);
+
+
+	List<TestImonial> findByPageIdAndDelStatusAndIsActive(int pageId, int i, int j);
 }
