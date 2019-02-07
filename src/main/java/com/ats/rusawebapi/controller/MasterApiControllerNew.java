@@ -20,6 +20,8 @@ import com.ats.rusawebapi.model.ImageLink;
 import com.ats.rusawebapi.model.Logo;
 import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.ModulesNames;
+import com.ats.rusawebapi.model.NewsBlog;
+import com.ats.rusawebapi.model.NewsBlogDescription;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PagesModule;
 import com.ats.rusawebapi.model.SectionDescription;
@@ -36,6 +38,8 @@ import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.LogoRepository;
 import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.ModuleNameRepository;
+import com.ats.rusawebapi.repo.NewsBlogDescRepository;
+import com.ats.rusawebapi.repo.NewsBlogRepository;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
@@ -75,6 +79,12 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	DocumentUploadRepository uploadDocRepo;
+	
+	@Autowired
+	NewsBlogRepository newsBolgRepo;
+	
+	@Autowired
+	NewsBlogDescRepository newsBolgDescRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -685,4 +695,70 @@ public class MasterApiControllerNew {
 		return errorMessage;
 
 	}
+	
+
+	@RequestMapping(value = { "/saveNewsBlogHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody NewsBlog saveNewsBlogHeaderAndDetail(@RequestBody NewsBlog newsBlogDesc) {
+
+		Info errorMessage = new Info();
+		NewsBlog newsBolg = new NewsBlog();
+		try {
+
+			newsBolg = newsBolgRepo.save(newsBlogDesc);
+
+			for (int i = 0; i < newsBlogDesc.getDetailList().size(); i++) 
+			{
+
+				newsBlogDesc.getDetailList().get(i).setNewsblogsId(newsBolg.getNewsblogsId());
+
+			}
+
+			List<NewsBlogDescription> gDetailsList = newsBolgDescRepo.saveAll(newsBlogDesc.getDetailList());
+			newsBolg.setDetailList(gDetailsList);
+
+			errorMessage.setError(false);
+			errorMessage.setMsg("successfully Saved ");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return newsBolg;
+
+	}
+	@RequestMapping(value = { "/getNewsBlogsListByPageId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPagesModule> getNewsBlogsListByPageId(@RequestParam("pageId") int pageId) {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 				list = getPagesModuleRepository.getNewsBlogListByPageId(pageId);
+			  			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	@RequestMapping(value = { "/getNewsBlogList" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetPagesModule> getNewsBlogList() {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 				list = getPagesModuleRepository.getNewsBlogList();
+			 } catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
 }
