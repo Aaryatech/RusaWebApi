@@ -23,6 +23,8 @@ public interface DocumentUploadRepository extends JpaRepository<DocumentUpload, 
 
 	@Query(value="select * from t_documentupload where del_status=1",nativeQuery=true) 
 	List<DocumentUpload> getDocumentList();
+ 
+	List<DocumentUpload> findByPageIdAndDelStatusAndIsActive(int pageId, int i, int j);
 
 	
 }
