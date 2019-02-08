@@ -13,4 +13,6 @@ public interface PagesModuleRepository extends JpaRepository<PagesModule ,Intege
 	@Query(value="select module_id from t_tpages_modules where  page_id=:pageId group by module_id",nativeQuery=true) 
 	List<Integer> getmoduleList(@Param("pageId") int pageId);
 
+	PagesModule findByModuleIdAndPageId(int moduleId, int pageId);
+
 }

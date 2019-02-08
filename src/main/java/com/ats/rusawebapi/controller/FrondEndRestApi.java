@@ -1,25 +1,21 @@
 package com.ats.rusawebapi.controller;
-
-import java.util.ArrayList;
+ 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ats.rusawebapi.model.DocumentUpload;
-import com.ats.rusawebapi.model.GetPagesModule;
+import com.ats.rusawebapi.model.DocumentUpload; 
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.frontend.CmsContent;
 import com.ats.rusawebapi.model.frontend.FaqContent;
 import com.ats.rusawebapi.model.frontend.PageContent;
-import com.ats.rusawebapi.repo.DocumentUploadRepository;
-import com.ats.rusawebapi.repo.GetPagesModuleRepository;
+import com.ats.rusawebapi.repo.DocumentUploadRepository; 
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
