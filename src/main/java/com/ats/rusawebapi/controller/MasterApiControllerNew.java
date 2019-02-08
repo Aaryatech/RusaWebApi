@@ -790,7 +790,7 @@ public class MasterApiControllerNew {
 		List<GetPagesModule> list = new ArrayList<>();
 
 		try {
- 				list = getPagesModuleRepository.getEventListByNewsblogsId(pageId);
+ 				list = getPagesModuleRepository.getEventListByPageId(pageId);
 			  			 
 		} catch (Exception e) {
 		 
