@@ -1,6 +1,5 @@
 package com.ats.rusawebapi.model;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,10 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-
-
 
 @Entity
 @Table(name = "t_newsblogs_description")
@@ -24,6 +19,9 @@ public class NewsBlogDescription {
 	@Column(name="newsblogs_id")
 	private int newsblogsId;
 	
+	@Column(name="page_id")
+	private int pageId;
+	
 	@Column(name="heading")
 	private String heading;
 	
@@ -33,8 +31,6 @@ public class NewsBlogDescription {
 	@Column(name="language_id")
 	private int languageId;
 	
-	@Column(name="page_id")
-	private int pageId;
 	
 	@Column(name="page_meta_title")
 	private String pageMetaTitle;
@@ -64,9 +60,8 @@ public class NewsBlogDescription {
 	@Column(name="ex_var1")
 	private String exVar1;
 
-	
 	public int getPageId() {
-		return pageId;
+	return pageId;
 	}
 
 	public void setPageId(int pageId) {
@@ -187,22 +182,17 @@ public class NewsBlogDescription {
 
 	@Override
 	public String toString() {
-		return "NewsBlogDescription [newsblogsDescId=" + newsblogsDescId + ", newsblogsId=" + newsblogsId + ", heading="
-				+ heading + ", descriptions=" + descriptions + ", languageId=" + languageId + ", pageId=" + pageId
+		return "NewsBlogDescription [newsblogsDescId=" + newsblogsDescId + ", newsblogsId=" + newsblogsId + ", pageId="
+				+ pageId + ", heading=" + heading + ", descriptions=" + descriptions + ", languageId=" + languageId
 				+ ", pageMetaTitle=" + pageMetaTitle + ", pageMetaDescription=" + pageMetaDescription
 				+ ", pageMetaKeyword=" + pageMetaKeyword + ", exDate1=" + exDate1 + ", exFloat1=" + exFloat1
 				+ ", exText1=" + exText1 + ", dateTransaction=" + dateTransaction + ", exInt1=" + exInt1 + ", exVar1="
-				+ exVar1 + ", getPageId()=" + getPageId() + ", getNewsblogsDescId()=" + getNewsblogsDescId()
-				+ ", getNewsblogsId()=" + getNewsblogsId() + ", getHeading()=" + getHeading() + ", getDescriptions()="
-				+ getDescriptions() + ", getLanguageId()=" + getLanguageId() + ", getPageMetaTitle()="
-				+ getPageMetaTitle() + ", getPageMetaDescription()=" + getPageMetaDescription()
-				+ ", getPageMetaKeyword()=" + getPageMetaKeyword() + ", getExDate1()=" + getExDate1()
-				+ ", getExFloat1()=" + getExFloat1() + ", getExText1()=" + getExText1() + ", getDateTransaction()="
-				+ getDateTransaction() + ", getExInt1()=" + getExInt1() + ", getExVar1()=" + getExVar1()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+				+ exVar1 + "]";
 	}
 
+	
+
+	
 	
 	
 }

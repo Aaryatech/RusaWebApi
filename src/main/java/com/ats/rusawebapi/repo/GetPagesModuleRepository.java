@@ -132,11 +132,22 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1",nativeQuery=true) 
 	List<GetPagesModule> getNewsBlogList();
 
+	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content"
+			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
+			+ "where  p.page_id=pm.page_id  and m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=11  "
+			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1",nativeQuery=true) 
+	List<GetPagesModule> getEventList();
 
 	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content"
 			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
 			+ "where    m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=9  "
-			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and  pm.page_id=:pageId",nativeQuery=true) 
+			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and  pm.page_id=:pageId and t.newsblogs_id=nd.newsblogs_id",nativeQuery=true) 
 	List<GetPagesModule> getNewsBlogListByPageId(@Param("pageId") int pageId);
+	
+	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content"
+			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
+			+ "where    m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=11  "
+			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and  pm.page_id=:pageId ",nativeQuery=true) 
+	List<GetPagesModule> getEventListByNewsblogsId(@Param("pageId") int pageId);
 	
 }

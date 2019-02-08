@@ -745,6 +745,30 @@ public class MasterApiControllerNew {
 		return list;
 
 	}
+	
+	@RequestMapping(value = { "/getNewsPagebyId" }, method = RequestMethod.POST)
+	public @ResponseBody NewsBlog getNewsPagebyId(@RequestParam("newsblogsId") int newsblogsId) {
+
+		NewsBlog cMSPages = new NewsBlog();
+		 
+		try {  
+			System.out.println("ID: "+newsblogsId);
+
+			
+			cMSPages = newsBolgRepo.findByNewsblogsId(newsblogsId);
+			List<NewsBlogDescription> gDetailsList = newsBolgDescRepo.findAllByNewsblogsId(newsblogsId);
+			cMSPages.setDetailList(gDetailsList);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return cMSPages;
+
+	}
+	
 	@RequestMapping(value = { "/getNewsBlogList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetPagesModule> getNewsBlogList() {
 
@@ -758,6 +782,64 @@ public class MasterApiControllerNew {
 		}
 
 		return list;
+
+	}
+	@RequestMapping(value = { "/getEventListByNewsblogsId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPagesModule> getEventListByNewsblogsId(@RequestParam("pageId") int pageId) {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 				list = getPagesModuleRepository.getEventListByNewsblogsId(pageId);
+			  			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	@RequestMapping(value = { "/getEventList" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetPagesModule> getEventList() {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 				list = getPagesModuleRepository.getEventList();
+			 } catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	@RequestMapping(value = { "/deleteNewsBlogContent" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteNewsBlogContent(@RequestParam("newsblogsId") int newsblogsId) {
+
+		Info errorMessage = new Info();
+		 
+		try {
+
+			int delete = newsBolgRepo.deleteNewsBlog(newsblogsId);
+			
+			if(delete==0) {
+				errorMessage.setError(true);
+				errorMessage.setMsg("failed to delete ");
+			}else {
+				errorMessage.setError(false);
+				errorMessage.setMsg(" deleted");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to delete ");
+
+		}
+		return errorMessage;
 
 	}
 	

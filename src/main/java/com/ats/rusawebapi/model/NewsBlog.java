@@ -37,8 +37,8 @@ public class NewsBlog {
 	@Column(name="event_contact_person")
 	private String eventContactPerson;
 	
-	@Column(name="eventContactNumer")
-	private String eventContactNumer;
+	@Column(name="eventContactNumber")
+	private String eventContactNumber;
 	
 	@Column(name="page_order")
 	private int pageOrder;
@@ -145,12 +145,12 @@ public class NewsBlog {
 		this.eventContactPerson = eventContactPerson;
 	}
 
-	public String getEventContactNumer() {
-		return eventContactNumer;
+	public String getEventContactNumber() {
+		return eventContactNumber;
 	}
 
-	public void setEventContactNumer(String eventContactNumer) {
-		this.eventContactNumer = eventContactNumer;
+	public void setEventContactNumber(String eventContactNumber) {
+		this.eventContactNumber = eventContactNumber;
 	}
 
 	public int getPageOrder() {
@@ -285,26 +285,15 @@ public class NewsBlog {
 	public String toString() {
 		return "NewsBlog [newsblogsId=" + newsblogsId + ", pageId=" + pageId + ", newsSourceUrlName="
 				+ newsSourceUrlName + ", eventLocation=" + eventLocation + ", eventDateFrom=" + eventDateFrom
-				+ ", eventDateTo=" + eventDateTo + ", eventContactPerson=" + eventContactPerson + ", eventContactNumer="
-				+ eventContactNumer + ", pageOrder=" + pageOrder + ", featuredImage=" + featuredImage
-				+ ", featuredImageAlignment=" + featuredImageAlignment + ", downloadPdf=" + downloadPdf + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + ", addDate=" + addDate + ", editDate=" + editDate
-				+ ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", exInt1=" + exInt1
-				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", viewsCount=" + viewsCount
-				+ ", getNewsblogsId()=" + getNewsblogsId() + ", getPageId()=" + getPageId()
-				+ ", getNewsSourceUrlName()=" + getNewsSourceUrlName() + ", getEventLocation()=" + getEventLocation()
-				+ ", getEventDateFrom()=" + getEventDateFrom() + ", getEventDateTo()=" + getEventDateTo()
-				+ ", getEventContactPerson()=" + getEventContactPerson() + ", getEventContactNumer()="
-				+ getEventContactNumer() + ", getPageOrder()=" + getPageOrder() + ", getFeaturedImage()="
-				+ getFeaturedImage() + ", getFeaturedImageAlignment()=" + getFeaturedImageAlignment()
-				+ ", getDownloadPdf()=" + getDownloadPdf() + ", getIsActive()=" + getIsActive() + ", getDelStatus()="
-				+ getDelStatus() + ", getAddDate()=" + getAddDate() + ", getEditDate()=" + getEditDate()
-				+ ", getAddedByUserId()=" + getAddedByUserId() + ", getEditByUserId()=" + getEditByUserId()
-				+ ", getExInt1()=" + getExInt1() + ", getExInt2()=" + getExInt2() + ", getExVar1()=" + getExVar1()
-				+ ", getExVar2()=" + getExVar2() + ", getViewsCount()=" + getViewsCount() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", eventDateTo=" + eventDateTo + ", eventContactPerson=" + eventContactPerson
+				+ ", eventContactNumber=" + eventContactNumber + ", pageOrder=" + pageOrder + ", featuredImage="
+				+ featuredImage + ", featuredImageAlignment=" + featuredImageAlignment + ", downloadPdf=" + downloadPdf
+				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", addDate=" + addDate + ", editDate="
+				+ editDate + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", detailList="
+				+ detailList + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", viewsCount=" + viewsCount + "]";
 	}
-	
+
 	
 	
 }
