@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GallaryDetail;
+import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.TestImonial;
 
 public class PageContent {
@@ -17,7 +18,9 @@ public class PageContent {
 	List<DocumentUpload> documentUploadList;
 	List<TestImonial> testImonialList;
 	List<GallaryDetail> gallaryDetailList;
+	List<NewsDetails> detailNewsList;
 	
+
 	public int getPageId() {
 		return pageId;
 	}
@@ -75,12 +78,19 @@ public class PageContent {
 	public void setGallaryDetailList(List<GallaryDetail> gallaryDetailList) {
 		this.gallaryDetailList = gallaryDetailList;
 	}
+	public List<NewsDetails> getDetailNewsList() {
+		return detailNewsList;
+	}
+	public void setDetailNewsList(List<NewsDetails> detailNewsList) {
+		this.detailNewsList = detailNewsList;
+	}
 	@Override
 	public String toString() {
 		return "PageContent [pageId=" + pageId + ", pageName=" + pageName + ", slugName=" + slugName + ", sectioinId="
 				+ sectioinId + ", cmsContentList=" + cmsContentList + ", faqContentList=" + faqContentList
 				+ ", documentUploadList=" + documentUploadList + ", testImonialList=" + testImonialList
-				+ ", gallaryDetailList=" + gallaryDetailList + "]";
+				+ ", gallaryDetailList=" + gallaryDetailList + ", detailNewsList=" + detailNewsList + "]";
 	}
+	
 
 }
