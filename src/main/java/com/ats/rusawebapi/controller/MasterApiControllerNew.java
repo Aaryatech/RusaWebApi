@@ -500,7 +500,7 @@ public class MasterApiControllerNew {
 
 		try {
 
-			imagesList = imageLinkRepo.findByDelStatusOrderById(1);
+			imagesList = imageLinkRepo.findByDelStatusAndIsActiveOrderById(1,1);
 
 		} catch (Exception e) {
 

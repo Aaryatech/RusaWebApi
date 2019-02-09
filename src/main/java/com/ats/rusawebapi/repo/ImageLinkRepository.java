@@ -20,4 +20,6 @@ public interface ImageLinkRepository extends JpaRepository<ImageLink, Integer>{
 	@Query("update ImageLink set del_status=0  WHERE id=:id")
 	int deleteImageLinks(int id);
 
+	List<ImageLink> findByDelStatusAndIsActiveOrderById(int i, int j);
+
 }

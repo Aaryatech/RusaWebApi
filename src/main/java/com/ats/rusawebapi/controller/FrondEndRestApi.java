@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GallaryDetail;
+import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.frontend.CmsContent;
@@ -19,6 +20,7 @@ import com.ats.rusawebapi.model.frontend.FaqContent;
 import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
+import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
@@ -48,6 +50,9 @@ public class FrondEndRestApi {
 	
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
+	
+	@Autowired
+	NewsDetailsRepository newsBolgRepo;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -88,7 +93,12 @@ public class FrondEndRestApi {
 					
 					 List<GallaryDetail> gallaryDetailList = gallaryDetailRepository.findByIsActiveAndDelStatusAndPageId(1,1,page.getPageId());
 					pageContent.setGallaryDetailList(gallaryDetailList);
+				}else if(moduleList.get(i)==9){
+					
+					List<NewsDetails> newsBlogList = newsBolgRepo.getNewsContent(langId,page.getPageId());
+					pageContent.setDetailNewsList(newsBlogList);
 				}
+
 				
 				
 				
