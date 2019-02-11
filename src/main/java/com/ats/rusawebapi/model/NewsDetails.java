@@ -1,11 +1,14 @@
 package com.ats.rusawebapi.model;
 
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 @Entity
 public class NewsDetails {
 	@Id
@@ -84,7 +87,7 @@ public class NewsDetails {
 	
 	@Column(name="language_id")
 	private int languageId;
-
+	
 	
 	public int getNewsblogsId() {
 		return newsblogsId;
@@ -296,21 +299,11 @@ public class NewsDetails {
 				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", addDate=" + addDate + ", editDate="
 				+ editDate + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", heading=" + heading
-				+ ", descriptions=" + descriptions + ", languageId=" + languageId + ", getNewsblogsId()="
-				+ getNewsblogsId() + ", getPageId()=" + getPageId() + ", getNewsSourceUrlName()="
-				+ getNewsSourceUrlName() + ", getEventLocation()=" + getEventLocation() + ", getEventDateFrom()="
-				+ getEventDateFrom() + ", getEventDateTo()=" + getEventDateTo() + ", getEventContactPerson()="
-				+ getEventContactPerson() + ", getEventContactNumber()=" + getEventContactNumber() + ", getPageOrder()="
-				+ getPageOrder() + ", getFeaturedImage()=" + getFeaturedImage() + ", getFeaturedImageAlignment()="
-				+ getFeaturedImageAlignment() + ", getDownloadPdf()=" + getDownloadPdf() + ", getIsActive()="
-				+ getIsActive() + ", getDelStatus()=" + getDelStatus() + ", getAddDate()=" + getAddDate()
-				+ ", getEditDate()=" + getEditDate() + ", getAddedByUserId()=" + getAddedByUserId()
-				+ ", getEditByUserId()=" + getEditByUserId() + ", getExInt1()=" + getExInt1() + ", getExInt2()="
-				+ getExInt2() + ", getExVar1()=" + getExVar1() + ", getExVar2()=" + getExVar2() + ", getHeading()="
-				+ getHeading() + ", getDescriptions()=" + getDescriptions() + ", getLanguageId()=" + getLanguageId()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+				+ ", descriptions=" + descriptions + ", languageId=" + languageId + "]";
 	}
 
+	
+
+	
 	
 }

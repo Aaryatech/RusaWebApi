@@ -22,10 +22,12 @@ import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.ModulesNames;
 import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.NewsBlogDescription;
+import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PagesModule;
 import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.TestImonial;
+import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
@@ -40,6 +42,7 @@ import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.ModuleNameRepository;
 import com.ats.rusawebapi.repo.NewsBlogDescRepository;
 import com.ats.rusawebapi.repo.NewsBlogRepository;
+import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
@@ -85,6 +88,9 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	NewsBlogDescRepository newsBolgDescRepo;
+	
+	@Autowired
+	NewsDetailsRepository newsDetailRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -842,5 +848,29 @@ public class MasterApiControllerNew {
 		return errorMessage;
 
 	}
-	
+	@RequestMapping(value = { "/getNewsBlogById" }, method = RequestMethod.POST)
+	public @ResponseBody NewsDetails getNewsBlogById( @RequestParam("langId") int langId,
+			@RequestParam("pageId") int pageId,@RequestParam("newsblogsId") int newsblogsId) {
+
+		NewsDetails newsDetails = new NewsDetails();
+		//PageContent pageContent = new PageContent();
+		try {  
+			System.out.println("ID: "+newsblogsId);
+			System.out.println("pageId: "+pageId);
+			System.out.println("langId: "+langId);
+
+			newsDetails = newsDetailRepo.getNewsList(langId,pageId,newsblogsId);
+			System.out.println("list: "+newsDetails.toString());
+			//newsDetails.setDetailList(newsBlogList);
+			//System.out.println("list_new: "+pageContent.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return newsDetails;
+
+	}
 }
