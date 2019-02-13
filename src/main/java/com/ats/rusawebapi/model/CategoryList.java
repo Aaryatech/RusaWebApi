@@ -32,6 +32,12 @@ public class CategoryList {
 	@Column(name="cat_sort_no")
 	private int catSortNo;
 
+	@Column(name="external_url")
+	private String externalUrl;
+	
+	@Column(name="external_url_target")
+	private String externalUrlTarget;
+	
 	@Transient
 	List<SubCategoryList> subCatList;
 
@@ -91,10 +97,27 @@ public class CategoryList {
 		this.subCatList = subCatList;
 	}
 
+	public String getExternalUrl() {
+		return externalUrl;
+	}
+
+	public void setExternalUrl(String externalUrl) {
+		this.externalUrl = externalUrl;
+	}
+
+	public String getExternalUrlTarget() {
+		return externalUrlTarget;
+	}
+
+	public void setExternalUrlTarget(String externalUrlTarget) {
+		this.externalUrlTarget = externalUrlTarget;
+	}
+
 	@Override
 	public String toString() {
 		return "CategoryList [catId=" + catId + ", catName=" + catName + ", catDesc=" + catDesc + ", slugName="
-				+ slugName + ", pageId=" + pageId + ", catSortNo=" + catSortNo + ", subCatList=" + subCatList + "]";
+				+ slugName + ", pageId=" + pageId + ", catSortNo=" + catSortNo + ", externalUrl=" + externalUrl
+				+ ", externalUrlTarget=" + externalUrlTarget + ", subCatList=" + subCatList + "]";
 	}
 	
 	

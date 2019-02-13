@@ -32,6 +32,12 @@ public class SectionTree {
 	@Column(name="sec_sort_no")
 	private int secSortNo;
 	
+	@Column(name="external_url")
+	private String externalUrl;
+	
+	@Column(name="external_url_target")
+	private String externalUrlTarget;
+	
 	@Transient
 	List<CategoryList> catList;
 
@@ -91,11 +97,28 @@ public class SectionTree {
 		this.catList = catList;
 	}
 
+	public String getExternalUrl() {
+		return externalUrl;
+	}
+
+	public void setExternalUrl(String externalUrl) {
+		this.externalUrl = externalUrl;
+	}
+
+	public String getExternalUrlTarget() {
+		return externalUrlTarget;
+	}
+
+	public void setExternalUrlTarget(String externalUrlTarget) {
+		this.externalUrlTarget = externalUrlTarget;
+	}
+
 	@Override
 	public String toString() {
 		return "SectionTree [sectionId=" + sectionId + ", sectionName=" + sectionName + ", sectionSlugname="
 				+ sectionSlugname + ", sectionDesc=" + sectionDesc + ", pageId=" + pageId + ", secSortNo=" + secSortNo
-				+ ", catList=" + catList + "]";
+				+ ", externalUrl=" + externalUrl + ", externalUrlTarget=" + externalUrlTarget + ", catList=" + catList
+				+ "]";
 	}
  
 }

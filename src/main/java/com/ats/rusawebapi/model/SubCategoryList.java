@@ -29,6 +29,12 @@ public class SubCategoryList {
 	@Column(name="sub_sort_no")
 	private int subSortNo;
 
+	@Column(name="external_url")
+	private String externalUrl;
+	
+	@Column(name="external_url_target")
+	private String externalUrlTarget;
+	
 	public int getSubCatId() {
 		return subCatId;
 	}
@@ -77,10 +83,27 @@ public class SubCategoryList {
 		this.subSortNo = subSortNo;
 	}
 
+	public String getExternalUrl() {
+		return externalUrl;
+	}
+
+	public void setExternalUrl(String externalUrl) {
+		this.externalUrl = externalUrl;
+	}
+
+	public String getExternalUrlTarget() {
+		return externalUrlTarget;
+	}
+
+	public void setExternalUrlTarget(String externalUrlTarget) {
+		this.externalUrlTarget = externalUrlTarget;
+	}
+
 	@Override
 	public String toString() {
 		return "SubCategoryList [subCatId=" + subCatId + ", subCatName=" + subCatName + ", subCatDesc=" + subCatDesc
-				+ ", subSlugName=" + subSlugName + ", pageId=" + pageId + ", subSortNo=" + subSortNo + "]";
+				+ ", subSlugName=" + subSlugName + ", pageId=" + pageId + ", subSortNo=" + subSortNo + ", externalUrl="
+				+ externalUrl + ", externalUrlTarget=" + externalUrlTarget + "]";
 	}
 	
 	
