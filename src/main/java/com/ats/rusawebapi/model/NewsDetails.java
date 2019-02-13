@@ -2,11 +2,15 @@ package com.ats.rusawebapi.model;
 
 
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class NewsDetails {
@@ -56,10 +60,10 @@ public class NewsDetails {
 	private int delStatus;
 	
 	@Column(name="add_date")
-	private String addDate;
+	private Date addDate;
 	
 	@Column(name="edit_date")
-	private String editDate;
+	private Date editDate;
 	
 	@Column(name="added_by_user_id")
 	private int addedByUserId;
@@ -232,20 +236,20 @@ public class NewsDetails {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
-
-	public String getAddDate() {
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "MMMM d, yyyy")
+	public Date getAddDate() {
 		return addDate;
 	}
 
-	public void setAddDate(String addDate) {
+	public void setAddDate(Date addDate) {
 		this.addDate = addDate;
 	}
-
-	public String getEditDate() {
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "MMMM d, yyyy")
+	public Date getEditDate() {
 		return editDate;
 	}
 
-	public void setEditDate(String editDate) {
+	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
 	}
 

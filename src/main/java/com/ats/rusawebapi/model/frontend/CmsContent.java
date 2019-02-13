@@ -137,7 +137,7 @@ public class CmsContent {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "MMMM d, yyyy")
 	public Date getAddDate() {
 		return addDate;
 	}
@@ -145,7 +145,7 @@ public class CmsContent {
 	public void setAddDate(Date addDate) {
 		this.addDate = addDate;
 	}
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "MMMM d, yyyy")
 	public Date getEditDate() {
 		return editDate;
 	}
