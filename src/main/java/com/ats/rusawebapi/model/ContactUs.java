@@ -42,6 +42,12 @@ public class ContactUs {
 	@Column(name="status")
 	private int status;
 	
+	@Column(name="remark")
+	private String remark;
+	
+	@Column(name="status_by_admin")
+	private int statusByAdmin;
+	
 	@Column(name="ip_address")
 	private String ipAddress;
 	
@@ -124,6 +130,24 @@ public class ContactUs {
 	public void setAddDate(String addDate) {
 		this.addDate = addDate;
 	}
+	
+	
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remar) {
+		this.remark = remar;
+	}
+
+	public int getStatusByAdmin() {
+		return statusByAdmin;
+	}
+
+	public void setStatusByAdmin(int statusByAdmin) {
+		this.statusByAdmin = statusByAdmin;
+	}
 
 	public int getStatus() {
 		return status;
@@ -186,16 +210,12 @@ public class ContactUs {
 	public String toString() {
 		return "ContactUs [id=" + id + ", contactName=" + contactName + ", emailId=" + emailId + ", mobileNo="
 				+ mobileNo + ", message=" + message + ", topic=" + topic + ", userAgent=" + userAgent + ", addDate="
-				+ addDate + ", status=" + status + ", ipAddress=" + ipAddress + ", exInt1=" + exInt1 + ", exInt2="
-				+ exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", delStatus=" + delStatus + ", getId()="
-				+ getId() + ", getContactName()=" + getContactName() + ", getEmailId()=" + getEmailId()
-				+ ", getMobileNo()=" + getMobileNo() + ", getMessage()=" + getMessage() + ", getTopic()=" + getTopic()
-				+ ", getUserAgent()=" + getUserAgent() + ", getAddDate()=" + getAddDate() + ", getStatus()="
-				+ getStatus() + ", getIpAddress()=" + getIpAddress() + ", getExInt1()=" + getExInt1() + ", getExInt2()="
-				+ getExInt2() + ", getExVar1()=" + getExVar1() + ", getExVar2()=" + getExVar2() + ", getDelStatus()="
-				+ getDelStatus() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ addDate + ", status=" + status + ", remark=" + remark + ", statusByAdmin=" + statusByAdmin
+				+ ", ipAddress=" + ipAddress + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
+				+ ", exVar2=" + exVar2 + ", delStatus=" + delStatus + "]";
 	}
+
+	
 
 	
 }

@@ -1,9 +1,13 @@
 package com.ats.rusawebapi.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,5 +42,50 @@ public class FrontController {
 		}
 		return ContactUsList;
 
+	}
+	@RequestMapping(value = { "/getContactById" }, method = RequestMethod.POST)
+	public @ResponseBody ContactUs getContactById(@RequestParam("id") int id) {
+		ContactUs secSaveResponse = new ContactUs();
+		 
+		try {
+			secSaveResponse = contactUsRepo.findByIdAndDelStatus(id, 1); 
+		
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getAllContactList" }, method = RequestMethod.GET)
+	public @ResponseBody List<ContactUs> getAllContactList() {
+
+		List<ContactUs> conList = new ArrayList<ContactUs>();
+
+		try {
+
+			conList = contactUsRepo.findByDelStatusOrderById(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
+
+	}
+	@RequestMapping(value = { "/deleteContact" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteContact(@RequestParam("id") int id) {
+
+		int isDeleted = contactUsRepo.deleteContactId(id);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Contact Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Contact Deletion Failed");
+		}
+		return infoRes;
 	}
 }
