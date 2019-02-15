@@ -29,11 +29,11 @@ public interface CmsSearchDataRepository extends JpaRepository<CmsSearchData, In
 			"            cd.page_desc LIKE  %:word%  \n" + 
 			"            or cd.heading LIKE  %:word%   \n" + 
 			"        ) \n" + 
-			"        and cd.language_id=1  \n" + 
+			"        and cd.language_id=:langId  \n" + 
 			"        and cd.cms_page_id=ch.cms_page_id \n" + 
 			"        and ch.del_status=1 \n" + 
 			"        and ch.is_active=1\n" + 
 			"        and t.page_id=ch.page_id",nativeQuery=true) 
-	List<CmsSearchData> cmsSerchList(@Param("word") String word);
+	List<CmsSearchData> cmsSerchList(@Param("word") String word,@Param("langId") int langId);
 
 }

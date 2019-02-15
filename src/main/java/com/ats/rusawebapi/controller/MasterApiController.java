@@ -592,7 +592,7 @@ public class MasterApiController {
 
 	}
 	
-	@RequestMapping(value = { "/getSectionListByLangId" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/getSectionListByLangId" }, method = RequestMethod.POST)
 	public @ResponseBody List<SectionTree> getSectionListByLangId(@RequestParam("langId") int langId) {
 
 		List<SectionTree> list = new ArrayList<SectionTree>();
@@ -622,7 +622,7 @@ public class MasterApiController {
 
 		return list;
 
-	}
+	}*/
 	
 	
 /*	@RequestMapping(value = { "/getUserByTypeId" }, method = RequestMethod.POST)

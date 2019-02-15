@@ -40,15 +40,15 @@ public class SearchRestController {
 	DocumentSearchDataRepository documentSearchDataRepository;
 	
 	@RequestMapping(value = { "/serchWordFromTable" }, method = RequestMethod.POST)
-	public @ResponseBody SearchData serchWordFromTable(@RequestParam("word") String word) {
+	public @ResponseBody SearchData serchWordFromTable(@RequestParam("word") String word,@RequestParam("langId") int langId) {
 
 		SearchData searchData = new SearchData();
 		 
 		try {
 
-			List<CmsSearchData> cmsSerchList = cmsSearchDataRepository.cmsSerchList(word);
-			List<FaqSearchData> faqSerchList = faqSearchDataRepository.faqSerchList(word);
-			List<NewsSearchData> newsSerchList = newsSearchDataRepository.newsSerchList(word);
+			List<CmsSearchData> cmsSerchList = cmsSearchDataRepository.cmsSerchList(word,langId);
+			List<FaqSearchData> faqSerchList = faqSearchDataRepository.faqSerchList(word,langId);
+			List<NewsSearchData> newsSerchList = newsSearchDataRepository.newsSerchList(word,langId);
 			List<GallerySearchData> gallerySerchList = gallerySearchDataRepository.gallerySerchList(word);
 			List<DocumentSearchData> documentSerchList = documentSearchDataRepository.documentSerchList(word);
 			

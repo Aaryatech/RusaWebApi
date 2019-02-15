@@ -32,6 +32,9 @@ public class SectionTree {
 	@Column(name="sec_sort_no")
 	private int secSortNo;
 	
+	@Column(name="cat_count")
+	private int catCount;
+	
 	@Column(name="external_url")
 	private String externalUrl;
 	
@@ -113,12 +116,20 @@ public class SectionTree {
 		this.externalUrlTarget = externalUrlTarget;
 	}
 
+	public int getCatCount() {
+		return catCount;
+	}
+
+	public void setCatCount(int catCount) {
+		this.catCount = catCount;
+	}
+
 	@Override
 	public String toString() {
 		return "SectionTree [sectionId=" + sectionId + ", sectionName=" + sectionName + ", sectionSlugname="
 				+ sectionSlugname + ", sectionDesc=" + sectionDesc + ", pageId=" + pageId + ", secSortNo=" + secSortNo
-				+ ", externalUrl=" + externalUrl + ", externalUrlTarget=" + externalUrlTarget + ", catList=" + catList
-				+ "]";
+				+ ", catCount=" + catCount + ", externalUrl=" + externalUrl + ", externalUrlTarget=" + externalUrlTarget
+				+ ", catList=" + catList + "]";
 	}
  
 }

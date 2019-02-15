@@ -35,18 +35,22 @@ public interface SectionTreeRepository extends JpaRepository<SectionTree, Intege
 			"        s.section_slugname,\n" + 
 			"        sd.section_desc,\n" + 
 			"        s.sec_sort_no,\n" + 
-			"        s.ex_int2 as page_id, t.external_url,\n" + 
-			"        t.external_url_target \n" + 
+			"        s.ex_int2 as page_id,\n" + 
+			"        t.external_url,\n" + 
+			"        t.external_url_target, \n" + 
+			"        coalesce((select count(*) from m_category where parent_id=0 and section_id=s.section_id and del_status=1 and is_active=1),0) as cat_count \n" + 
 			"    from\n" + 
 			"        m_section s,\n" + 
-			"        m_section_description sd,t_pages t \n" + 
+			"        m_section_description sd,\n" + 
+			"        t_pages t      \n" + 
 			"    where\n" + 
-			"        s.del_status=1  \n" + 
-			"        and sd.section_id=s.section_id\n" + 
-			"        and sd.language_id=:langId\n" + 
-			"        and s.is_active=1 and t.page_slug=s.section_slugname\n" + 
+			"        s.del_status=1           \n" + 
+			"        and sd.section_id=s.section_id         \n" + 
+			"        and sd.language_id=:langId       \n" + 
+			"        and s.is_active=1 \n" + 
+			"        and t.page_slug=s.section_slugname     \n" + 
 			"    order by\n" + 
 			"        s.sec_sort_no",nativeQuery=true) 
-	List<SectionTree> getSectionListByLangId(@Param("langId")int langId);
+	List<SectionTree> getSectionListByLangId(@Param("langId") int langId);
 
 }

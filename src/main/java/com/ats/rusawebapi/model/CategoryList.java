@@ -29,6 +29,15 @@ public class CategoryList {
 	@Column(name="page_id")
 	private int pageId;
 	
+	@Column(name="parent_id")
+	private int parentId;
+	
+	@Column(name="section_id")
+	private int sectionId;
+	
+	@Column(name="sub_cat_count")
+	private int subCatCount;
+	
 	@Column(name="cat_sort_no")
 	private int catSortNo;
 
@@ -113,10 +122,35 @@ public class CategoryList {
 		this.externalUrlTarget = externalUrlTarget;
 	}
 
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+
+	public int getSectionId() {
+		return sectionId;
+	}
+
+	public void setSectionId(int sectionId) {
+		this.sectionId = sectionId;
+	}
+
+	public int getSubCatCount() {
+		return subCatCount;
+	}
+
+	public void setSubCatCount(int subCatCount) {
+		this.subCatCount = subCatCount;
+	}
+
 	@Override
 	public String toString() {
 		return "CategoryList [catId=" + catId + ", catName=" + catName + ", catDesc=" + catDesc + ", slugName="
-				+ slugName + ", pageId=" + pageId + ", catSortNo=" + catSortNo + ", externalUrl=" + externalUrl
+				+ slugName + ", pageId=" + pageId + ", parentId=" + parentId + ", sectionId=" + sectionId
+				+ ", subCatCount=" + subCatCount + ", catSortNo=" + catSortNo + ", externalUrl=" + externalUrl
 				+ ", externalUrlTarget=" + externalUrlTarget + ", subCatList=" + subCatList + "]";
 	}
 	

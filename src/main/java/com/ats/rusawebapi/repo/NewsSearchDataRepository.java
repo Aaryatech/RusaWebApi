@@ -28,11 +28,11 @@ public interface NewsSearchDataRepository extends JpaRepository<NewsSearchData, 
 			"            cd.heading LIKE  %:word% \n" + 
 			"            or cd.descriptions LIKE  %:word% \n" + 
 			"        ) \n" + 
-			"        and cd.language_id=1  \n" + 
+			"        and cd.language_id=:langId  \n" + 
 			"        and cd.newsblogs_id=ch.newsblogs_id \n" + 
 			"        and ch.del_status=1 \n" + 
 			"        and ch.is_active=1\n" + 
 			"        and t.page_id=ch.page_id",nativeQuery=true)
-	List<NewsSearchData> newsSerchList(@Param("word") String word);
+	List<NewsSearchData> newsSerchList(@Param("word") String word,@Param("langId") int langId);
 
 }

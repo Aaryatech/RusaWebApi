@@ -28,11 +28,11 @@ public interface FaqSearchDataRepository extends JpaRepository<FaqSearchData, In
 			"            cd.faq_que LIKE  %:word% \n" + 
 			"            or cd.faq_ans LIKE  %:word% \n" + 
 			"        ) \n" + 
-			"        and cd.language_id=1  \n" + 
+			"        and cd.language_id=:langId  \n" + 
 			"        and cd.faq_id=ch.faq_id \n" + 
 			"        and ch.del_status=1 \n" + 
 			"        and ch.is_active=1\n" + 
 			"        and t.page_id=ch.page_id",nativeQuery=true) 
-	List<FaqSearchData> faqSerchList(@Param("word") String word);
+	List<FaqSearchData> faqSerchList(@Param("word") String word, @Param("langId") int langId);
 
 }

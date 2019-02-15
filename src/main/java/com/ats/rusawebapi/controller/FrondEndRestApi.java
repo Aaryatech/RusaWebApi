@@ -10,19 +10,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.Page;
+import com.ats.rusawebapi.model.SectionTree;
+import com.ats.rusawebapi.model.SubCategoryList;
 import com.ats.rusawebapi.model.TestImonial;
+import com.ats.rusawebapi.model.TopMenuList;
 import com.ats.rusawebapi.model.frontend.CmsContent;
 import com.ats.rusawebapi.model.frontend.FaqContent;
 import com.ats.rusawebapi.model.frontend.PageContent;
+import com.ats.rusawebapi.repo.CategoryListRepository;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
+import com.ats.rusawebapi.repo.SectionTreeRepository;
+import com.ats.rusawebapi.repo.SubCategoryListRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.repo.frontend.CmsContentRepository;
 import com.ats.rusawebapi.repo.frontend.FaqContentRepository; 
@@ -53,6 +60,15 @@ public class FrondEndRestApi {
 	
 	@Autowired
 	NewsDetailsRepository newsBolgRepo;
+	
+	@Autowired
+	SectionTreeRepository sectionTreeRepository;
+	
+	@Autowired
+	CategoryListRepository categoryListRepository;
+	
+	@Autowired
+	SubCategoryListRepository subCategoryListRepository;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -111,6 +127,36 @@ public class FrondEndRestApi {
 			 
 		}
 		return pageContent;
+
+	}
+	
+	@RequestMapping(value = { "/getTopMenuList" }, method = RequestMethod.POST)
+	public @ResponseBody TopMenuList getTopMenuList(@RequestParam("langId") int langId) {
+
+		TopMenuList topMenuList = new TopMenuList();
+		
+		  
+
+		try {
+
+			List<SectionTree> list = sectionTreeRepository.getSectionListByLangId(langId);
+			topMenuList.setSectionlist(list);
+			
+			List<CategoryList> categoryList = categoryListRepository.getCategoryListByLangId(langId);
+			topMenuList.setCategoryList(categoryList);
+			
+			List<SubCategoryList> subCategoryList = subCategoryListRepository.getSubCategoryListByLangId(langId);
+			topMenuList.setSubCatList(subCategoryList);
+			
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+
+		}
+
+		return topMenuList;
 
 	}
 
