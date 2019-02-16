@@ -38,6 +38,9 @@ public class User {
 	@Column(name="middlename")
 	private String middlename;
 	 
+	@Column(name="file_name")
+	private String fileName;
+	
 	@Column(name="sort_no")
 	private int sortNo;
 	
@@ -114,6 +117,16 @@ public class User {
 
 	public void setMiddlename(String middlename) {
 		this.middlename = middlename;
+	}
+	
+	
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public int getSortNo() {
@@ -210,11 +223,21 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userPass=" + userPass + ", userEmail="
 				+ userEmail + ", firstname=" + firstname + ", lastname=" + lastname + ", middlename=" + middlename
-				+ ", sortNo=" + sortNo + ", delStatus=" + delStatus + ", isActive=" + isActive + ", roles=" + roles
-				+ ", lastloginDate=" + lastloginDate + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
-				+ ", loginFailureCount=" + loginFailureCount + ", addedByUserId=" + addedByUserId + ", editByUserId="
-				+ editByUserId + "]";
+				+ ", fileName=" + fileName + ", sortNo=" + sortNo + ", delStatus=" + delStatus + ", isActive="
+				+ isActive + ", roles=" + roles + ", lastloginDate=" + lastloginDate + ", createdDate=" + createdDate
+				+ ", modifiedDate=" + modifiedDate + ", loginFailureCount=" + loginFailureCount + ", addedByUserId="
+				+ addedByUserId + ", editByUserId=" + editByUserId + ", getUserId()=" + getUserId() + ", getUserName()="
+				+ getUserName() + ", getUserPass()=" + getUserPass() + ", getUserEmail()=" + getUserEmail()
+				+ ", getFirstname()=" + getFirstname() + ", getMiddlename()=" + getMiddlename() + ", getFileName()="
+				+ getFileName() + ", getSortNo()=" + getSortNo() + ", getDelStatus()=" + getDelStatus()
+				+ ", getIsActive()=" + getIsActive() + ", getRoles()=" + getRoles() + ", getLastloginDate()="
+				+ getLastloginDate() + ", getCreatedDate()=" + getCreatedDate() + ", getModifiedDate()="
+				+ getModifiedDate() + ", getLoginFailureCount()=" + getLoginFailureCount() + ", getLastname()="
+				+ getLastname() + ", getAddedByUserId()=" + getAddedByUserId() + ", getEditByUserId()="
+				+ getEditByUserId() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
 
+	
 	
 }
