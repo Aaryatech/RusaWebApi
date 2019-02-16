@@ -51,6 +51,9 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	int updateCount(@Param("count")int count,@Param("userId") int userId);
 
 
+	List<User> findByDelStatusAndRolesIsNotOrderByUserIdAsc(int i, String string);
+
+
 	//User findByTypeIdAndDelStatus(int typeId, int i);
 	
 	

@@ -473,7 +473,7 @@ public class MasterApiController {
 
 		try {
   
-			conList = userRepo.findByDelStatusOrderByUserIdAsc(1);
+			conList = userRepo.findByDelStatusAndRolesIsNotOrderByUserIdAsc(1,"DA");
 
 		} catch (Exception e) {
 

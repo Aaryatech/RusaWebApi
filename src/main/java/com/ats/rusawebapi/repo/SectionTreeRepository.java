@@ -35,7 +35,7 @@ public interface SectionTreeRepository extends JpaRepository<SectionTree, Intege
 			"        s.section_slugname,\n" + 
 			"        sd.section_desc,\n" + 
 			"        s.sec_sort_no,\n" + 
-			"        s.ex_int2 as page_id,\n" + 
+			"        t.page_id,\n" + 
 			"        t.external_url,\n" + 
 			"        t.external_url_target, \n" + 
 			"        coalesce((select count(*) from m_category where parent_id=0 and section_id=s.section_id and del_status=1 and is_active=1),0) as cat_count \n" + 
