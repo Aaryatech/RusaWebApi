@@ -18,6 +18,7 @@ import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GetPagesModule;
 import com.ats.rusawebapi.model.ImageLink;
 import com.ats.rusawebapi.model.Logo;
+import com.ats.rusawebapi.model.Maintainance;
 import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.ModulesNames;
 import com.ats.rusawebapi.model.NewsBlog;
@@ -26,6 +27,8 @@ import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PagesModule;
 import com.ats.rusawebapi.model.SectionDescription;
+import com.ats.rusawebapi.model.SiteMaitenance;
+import com.ats.rusawebapi.model.SocialChannels;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.model.mst.Info;
@@ -44,6 +47,8 @@ import com.ats.rusawebapi.repo.NewsBlogDescRepository;
 import com.ats.rusawebapi.repo.NewsBlogRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
+import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
+import com.ats.rusawebapi.repo.SocialChannelRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
 import com.ats.rusawebapi.tx.model.Galleryheader;
@@ -91,6 +96,12 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	NewsDetailsRepository newsDetailRepo;
+	
+	@Autowired
+	SocialChannelRepository socialDetailRepo;
+	
+	@Autowired
+	SiteMaintenanceRepository siteMaintenanceRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -873,4 +884,142 @@ public class MasterApiControllerNew {
 		return newsDetails;
 
 	}
+	@RequestMapping(value = { "/saveSocialChannel" }, method = RequestMethod.POST)
+	public @ResponseBody SocialChannels saveSocialChannel(@RequestBody SocialChannels galDetailList) {
+
+		Info errorMessage = new Info();
+		System.out.println("Save Slider Images");
+		SocialChannels socialChannelsList=null;
+		try {
+
+			socialChannelsList = socialDetailRepo.save(galDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return socialChannelsList;
+
+	}
+	
+	@RequestMapping(value = { "/getSocialChannelById" }, method = RequestMethod.POST)
+	public @ResponseBody SocialChannels getSocialChannelById(@RequestParam("id") int id) {
+
+		SocialChannels socialResponse = new SocialChannels();
+		 
+		try {
+			socialResponse = socialDetailRepo.findByIdAndDelStatus(id, 1); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return socialResponse;
+	}
+	
+	@RequestMapping(value = { "/getAllSocialList" }, method = RequestMethod.GET)
+	public @ResponseBody List<SocialChannels> getAllSocialList() {
+
+		List<SocialChannels> conList = new ArrayList<SocialChannels>();
+
+		try {
+
+			conList = socialDetailRepo.findByDelStatusOrderById(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
+
+	}
+	@RequestMapping(value = { "/deleteSocialChannel" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteSocialChannel(@RequestParam("id") int id) {
+
+		int isDeleted = socialDetailRepo.deleteChannel(id);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Social Channel Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Social Channel Deletion Failed");
+		}
+		return infoRes;
+	}
+	@RequestMapping(value = { "/saveSiteMaintenance" }, method = RequestMethod.POST)
+	public @ResponseBody Maintainance saveSiteMaintenance(@RequestBody Maintainance galDetailList) {
+
+		Info errorMessage = new Info();
+		Maintainance siteList=null;
+		System.out.println(galDetailList);
+		try {
+
+			siteList = siteMaintenanceRepo.save(galDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return siteList;
+
+	}
+	
+/*	@RequestMapping(value = { "/getSiteById" }, method = RequestMethod.POST)
+	public @ResponseBody SiteMaitenance getSiteById(@RequestParam("id") int id) {
+
+		SiteMaitenance secSaveResponse = new SiteMaitenance();
+		 
+		try {
+			secSaveResponse = siteMaintenanceRepo.findByIdAndDelStatus(id, 1); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}*/  
+	
+/*	@RequestMapping(value = { "/getAllSiteMaintenancesList" }, method = RequestMethod.POST)
+	public @ResponseBody SiteMaitenance getAllSiteMaintenancesList(@RequestParam("mantenancesKey") String mantenancesKey) {
+
+		SiteMaitenance conList = new SiteMaitenance();
+
+		try {  
+
+			conList = siteMaintenanceRepo.getSiteDetails(mantenancesKey);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
+
+	}*/
+/*@RequestMapping(value = { "/UpdateSiteMaintenance" }, method = RequestMethod.POST)
+	public @ResponseBody Info UpdateSiteMaintenance(@RequestParam("group") String group,@RequestParam("message") String message,@RequestParam("settingId") int settingId) {
+
+		int isDeleted = siteMaintenanceRepo.updateSiteMaintenance(group,message,settingId);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			//infoRes.setMsg("Banner Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			//infoRes.setMsg("Banner Deletion Failed");
+		}
+		return infoRes;
+	}*/
 }

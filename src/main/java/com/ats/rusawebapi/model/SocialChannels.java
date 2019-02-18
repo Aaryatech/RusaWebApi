@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "t_newsblogs")
+@Table(name = "t_socialchannels")
 public class SocialChannels {
 
 	@Id
@@ -20,7 +20,7 @@ public class SocialChannels {
 	private int id;
 	
 	@Column(name="title")
-	private int title;
+	private String title;
 	
 	@Column(name="urllinks")
 	private String urllinks;
@@ -29,7 +29,7 @@ public class SocialChannels {
 	private String imageName;
 	
 	@Column(name="sort_no")
-	private String sortNo;
+	private int sortNo;
 
 	@Column(name="is_active")
 	private int isActive;
@@ -68,11 +68,12 @@ public class SocialChannels {
 		this.id = id;
 	}
 
-	public int getTitle() {
+
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(int title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -92,11 +93,11 @@ public class SocialChannels {
 		this.imageName = imageName;
 	}
 
-	public String getSortNo() {
+	public int getSortNo() {
 		return sortNo;
 	}
 
-	public void setSortNo(String sortNo) {
+	public void setSortNo(int sortNo) {
 		this.sortNo = sortNo;
 	}
 
