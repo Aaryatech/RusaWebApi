@@ -23,4 +23,9 @@ public interface GallaryDetailRepository extends JpaRepository<GallaryDetail, In
 
 	List<GallaryDetail> findByIsActiveAndDelStatusAndPageId(int i, int j, int pageId);
 
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE t_gallery_details SET title=:title WHERE gallery_details_id=:galleryDetailsId ",nativeQuery=true)
+	int updateTitleName(@Param("galleryDetailsId")int galleryDetailsId,@Param("title") String title);
+
 }

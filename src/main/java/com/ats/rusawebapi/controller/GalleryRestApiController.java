@@ -161,6 +161,22 @@ public class GalleryRestApiController {
 			return infoRes;
 		}
 	 
+	 @RequestMapping(value = { "/updateTitleName" }, method = RequestMethod.POST)
+		public @ResponseBody Info updateTitleName(@RequestParam("galleryDetailsId") int galleryDetailsId,
+				@RequestParam("title") String title) {
+
+			int update = gallaryDetailRepository.updateTitleName(galleryDetailsId,title);
+			Info infoRes = new Info();
+			if (update >= 1) {
+				infoRes.setError(false);
+				infoRes.setMsg("Section Deleted Successfully");
+			} else {
+				infoRes.setError(true);
+				infoRes.setMsg("Section Deletion Failed");
+			}
+			return infoRes;
+		}
+	 
 	 @RequestMapping(value = { "/deleteGalleryCategory" }, method = RequestMethod.POST)
 		public @ResponseBody Info deleteGalleryCategory(@RequestParam("galleryCatId") int galleryCatId) {
 

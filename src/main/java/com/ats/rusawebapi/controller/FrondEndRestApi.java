@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GallaryDetail;
+import com.ats.rusawebapi.model.Maintainance;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.SectionTree;
@@ -29,6 +30,7 @@ import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
+import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SubCategoryListRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.repo.frontend.CmsContentRepository;
@@ -69,6 +71,9 @@ public class FrondEndRestApi {
 	
 	@Autowired
 	SubCategoryListRepository subCategoryListRepository;
+	
+	@Autowired
+	SiteMaintenanceRepository siteMaintenanceRepo;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -157,6 +162,28 @@ public class FrondEndRestApi {
 		}
 
 		return topMenuList;
+
+	}
+	
+	@RequestMapping(value = { "/checkIsMaintenance" }, method = RequestMethod.GET)
+	public @ResponseBody Maintainance checkIsMaintenance() {
+
+		Maintainance maintainance = new Maintainance();
+		
+		  
+
+		try {
+
+			maintainance = siteMaintenanceRepo.checkIsMaintenance();
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+
+		}
+
+		return maintainance;
 
 	}
 

@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.rusawebapi.model.Maintainance;
-import com.ats.rusawebapi.model.SiteMaitenance;
+import com.ats.rusawebapi.model.Maintainance; 
 
 public interface SiteMaintenanceRepository extends JpaRepository<Maintainance, Integer>{
+
+	@Query(value="select * from m_maintenance  where id=1",nativeQuery=true)
+	Maintainance checkIsMaintenance();
 
 
 
