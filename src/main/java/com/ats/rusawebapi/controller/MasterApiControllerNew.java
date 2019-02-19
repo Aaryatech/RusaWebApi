@@ -15,6 +15,7 @@ import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CMSPages;
 import com.ats.rusawebapi.model.DocumentUpload;
+import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.GetPagesModule;
 import com.ats.rusawebapi.model.ImageLink;
 import com.ats.rusawebapi.model.Logo;
@@ -36,6 +37,7 @@ import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CMSPagesRepository;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
+import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.GetPagesModuleRepository;
 import com.ats.rusawebapi.repo.ImageLinkRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
@@ -101,6 +103,10 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	SiteMaintenanceRepository siteMaintenanceRepo;
+	
+
+	@Autowired
+	GallaryDetailRepository gallaryDetailRepository;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -973,52 +979,20 @@ public class MasterApiControllerNew {
 
 	}
 	
-/*	@RequestMapping(value = { "/getSiteById" }, method = RequestMethod.POST)
-	public @ResponseBody SiteMaitenance getSiteById(@RequestParam("id") int id) {
+	@RequestMapping(value = { "/getListByGalleryId" }, method = RequestMethod.POST)
+	public @ResponseBody GallaryDetail getListByGalleryId(@RequestParam("galleryDetailsId") int galleryDetailsId) {
 
-		SiteMaitenance secSaveResponse = new SiteMaitenance();
-		 
+		GallaryDetail list = new GallaryDetail();
+
 		try {
-			secSaveResponse = siteMaintenanceRepo.findByIdAndDelStatus(id, 1); 
-		
-			 
-
+ 				list = gallaryDetailRepository.findByGalleryDetailsId(galleryDetailsId);
+			  			 
 		} catch (Exception e) {
-			 
+		 
 			e.printStackTrace();
 		}
-		return secSaveResponse;
-	}*/  
-	
-/*	@RequestMapping(value = { "/getAllSiteMaintenancesList" }, method = RequestMethod.POST)
-	public @ResponseBody SiteMaitenance getAllSiteMaintenancesList(@RequestParam("mantenancesKey") String mantenancesKey) {
 
-		SiteMaitenance conList = new SiteMaitenance();
+		return list;
 
-		try {  
-
-			conList = siteMaintenanceRepo.getSiteDetails(mantenancesKey);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-		return conList;
-
-	}*/
-/*@RequestMapping(value = { "/UpdateSiteMaintenance" }, method = RequestMethod.POST)
-	public @ResponseBody Info UpdateSiteMaintenance(@RequestParam("group") String group,@RequestParam("message") String message,@RequestParam("settingId") int settingId) {
-
-		int isDeleted = siteMaintenanceRepo.updateSiteMaintenance(group,message,settingId);
-		Info infoRes = new Info();
-		if (isDeleted >= 1) {
-			infoRes.setError(false);
-			//infoRes.setMsg("Banner Deleted Successfully");
-		} else {
-			infoRes.setError(true);
-			//infoRes.setMsg("Banner Deletion Failed");
-		}
-		return infoRes;
-	}*/
+	}
 }

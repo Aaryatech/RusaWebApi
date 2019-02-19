@@ -28,4 +28,6 @@ public interface GallaryDetailRepository extends JpaRepository<GallaryDetail, In
 	@Query(value="UPDATE t_gallery_details SET title=:title WHERE gallery_details_id=:galleryDetailsId ",nativeQuery=true)
 	int updateTitleName(@Param("galleryDetailsId")int galleryDetailsId,@Param("title") String title);
 
+	GallaryDetail findByGalleryDetailsId(int galleryDetailsId);
+
 }
