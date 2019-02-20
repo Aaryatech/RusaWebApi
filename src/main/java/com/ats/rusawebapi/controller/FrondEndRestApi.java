@@ -198,7 +198,7 @@ public class FrondEndRestApi {
 	}
 	
 	@RequestMapping(value = { "/getPageMetaData" }, method = RequestMethod.POST)
-	public @ResponseBody PageMetaData getPageMetaData(@RequestParam("slugName") int slugName) {
+	public @ResponseBody PageMetaData getPageMetaData(@RequestParam("slugName") String slugName) {
 
 		PageMetaData pageMetaData = new PageMetaData();
 		

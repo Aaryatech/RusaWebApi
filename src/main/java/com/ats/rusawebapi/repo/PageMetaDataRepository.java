@@ -24,11 +24,11 @@ public interface PageMetaDataRepository extends JpaRepository<PageMetaData, Inte
 			"            where\n" + 
 			"                p.sec_cate_id=c.cat_id                  \n" + 
 			"                and c.section_id= s.section_id)                    \n" + 
-			"        END  as secction_id     \n" + 
+			"        END  as section_id     \n" + 
 			"    from\n" + 
 			"        t_pages p     \n" + 
 			"    where\n" + 
 			"        page_slug=:slugName or external_url=:slugName",nativeQuery=true) 
-	PageMetaData getPageMetaData(@Param("slugName") int slugName);
+	PageMetaData getPageMetaData(@Param("slugName") String slugName);
 
 }

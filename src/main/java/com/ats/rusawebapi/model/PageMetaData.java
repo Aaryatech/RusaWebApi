@@ -25,7 +25,10 @@ public class PageMetaData {
 	
 	@Column(name="page_meta_keyword")
 	private String pageMetaKeyword;
-
+	
+	@Column(name="section_id")
+	private int sectionId;
+	
 	public int getPageId() {
 		return pageId;
 	}
@@ -66,10 +69,19 @@ public class PageMetaData {
 		this.pageMetaKeyword = pageMetaKeyword;
 	}
 
+	public int getSectionId() {
+		return sectionId;
+	}
+
+	public void setSectionId(int sectionId) {
+		this.sectionId = sectionId;
+	}
+
 	@Override
 	public String toString() {
 		return "PageMetaData [pageId=" + pageId + ", pagName=" + pagName + ", pageMetaTitle=" + pageMetaTitle
-				+ ", pageMetaDescription=" + pageMetaDescription + ", pageMetaKeyword=" + pageMetaKeyword + "]";
+				+ ", pageMetaDescription=" + pageMetaDescription + ", pageMetaKeyword=" + pageMetaKeyword
+				+ ", sectionId=" + sectionId + "]";
 	}
 	
 	
