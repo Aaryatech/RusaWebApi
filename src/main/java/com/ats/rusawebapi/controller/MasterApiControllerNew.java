@@ -978,6 +978,25 @@ public class MasterApiControllerNew {
 
 	}
 	
+	@RequestMapping(value = { "/getMaintananceRecord" }, method = RequestMethod.GET)
+	public @ResponseBody Maintainance getMaintananceRecord() {
+
+	 
+		Maintainance maintainance = new Maintainance();
+		 
+		try {
+
+			maintainance = siteMaintenanceRepo.checkIsMaintenance();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+		}
+		return maintainance;
+
+	}
+	
 	@RequestMapping(value = { "/getListByGalleryId" }, method = RequestMethod.POST)
 	public @ResponseBody GallaryDetail getListByGalleryId(@RequestParam("galleryDetailsId") int galleryDetailsId) {
 
