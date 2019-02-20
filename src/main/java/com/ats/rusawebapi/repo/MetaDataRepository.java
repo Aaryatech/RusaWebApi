@@ -10,6 +10,8 @@ public interface MetaDataRepository extends JpaRepository<MetaData, Integer>{
 
 	MetaData findById(int id);
 
+	MetaData findByLanguageId(int langId);
+
 //	MetaData findByLanguageId();
 
 	//MetaData findByLanguageId(int i);

@@ -14,8 +14,10 @@ import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.Maintainance;
+import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.Page;
+import com.ats.rusawebapi.model.PageMetaData;
 import com.ats.rusawebapi.model.SectionTree;
 import com.ats.rusawebapi.model.SubCategoryList;
 import com.ats.rusawebapi.model.TestImonial;
@@ -26,7 +28,9 @@ import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.repo.CategoryListRepository;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
+import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
+import com.ats.rusawebapi.repo.PageMetaDataRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
@@ -74,6 +78,12 @@ public class FrondEndRestApi {
 	
 	@Autowired
 	SiteMaintenanceRepository siteMaintenanceRepo;
+	
+	@Autowired
+	MetaDataRepository metaDataRepo;
+	
+	@Autowired
+	PageMetaDataRepository pageMetaDataRepo;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -185,6 +195,45 @@ public class FrondEndRestApi {
 
 		return maintainance;
 
+	}
+	
+	@RequestMapping(value = { "/getPageMetaData" }, method = RequestMethod.POST)
+	public @ResponseBody PageMetaData getPageMetaData(@RequestParam("slugName") int slugName) {
+
+		PageMetaData pageMetaData = new PageMetaData();
+		
+		  
+
+		try {
+
+			pageMetaData = pageMetaDataRepo.getPageMetaData(slugName);
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+
+		}
+
+		return pageMetaData;
+
+	}
+	
+	@RequestMapping(value = { "/getHomePageMetaDataByLangId" }, method = RequestMethod.POST)
+	public @ResponseBody MetaData getHomePageMetaDataByLangId(@RequestParam("langId") int langId) {
+
+		MetaData metaResponse = new MetaData();
+		 
+		try {
+			metaResponse = metaDataRepo.findByLanguageId(langId); 
+		System.out.println(metaResponse);
+			   
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return metaResponse;
 	}
 
 }
