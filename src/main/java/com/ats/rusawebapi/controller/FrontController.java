@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.model.BannerImages;
+import com.ats.rusawebapi.model.CMSPageDescription;
+import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.repo.CMSPageDescRepository;
+import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.PageRepo;
@@ -27,6 +31,9 @@ public class FrontController {
 	
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
+	
+	@Autowired
+	CmsSearchDataRepository cmsPageDescRepository;
 	
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
@@ -118,5 +125,19 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
+	@RequestMapping(value = { "/getCMSDescByExInt1" }, method = RequestMethod.POST)
+	public @ResponseBody List<CmsSearchData> getCMSDescByExInt1(@RequestParam("langId") int langId) {
+		List<CmsSearchData> secSaveResponse = new  ArrayList<CmsSearchData>();
+		 
+		try {
+			secSaveResponse = cmsPageDescRepository.getCMSDescByExInt1(langId); 
+		
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
 	
 }
