@@ -584,6 +584,42 @@ public class MasterApiControllerNew {
 		return list;
 
 	}
+	@RequestMapping(value = { "/getSuccessStoryList" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetPagesModule> getSuccessStoryList() {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 
+				list = getPagesModuleRepository.getSuccessStoryList();
+			  
+			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	@RequestMapping(value = { "/getTeamList" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetPagesModule> getTeamList() {
+
+		List<GetPagesModule> list = new ArrayList<>();
+
+		try {
+ 
+				list = getPagesModuleRepository.getTeamList();
+			  
+			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 	
 	@RequestMapping(value = { "/getTestImonialById" }, method = RequestMethod.POST)
 	public @ResponseBody TestImonial getTestImonialById(@RequestParam("id") int id) {

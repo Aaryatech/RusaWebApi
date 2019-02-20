@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.TestImonial;
 
 public interface TestImonialRepository extends JpaRepository<TestImonial, Integer>{
@@ -20,9 +21,13 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 	int delete(@Param("id") int id);
 
 	
-	@Query(value="select * from t_testimonials where id=:id",nativeQuery=true) 
+	@Query(value="select * from t_testimonials where id=:id and is_active=1 and del_status=1",nativeQuery=true) 
 	TestImonial getTestListById(@Param("id") int id);
 
 
 	List<TestImonial> findByPageIdAndDelStatusAndIsActive(int pageId, int i, int j);
+	
+	@Query(value="SELECT t.* FROM t_testimonials t where t.is_active=1 and t.del_status=1 and t.section_id=6 ORDER BY t.id DESC LIMIT 5",nativeQuery=true)
+	List<TestImonial> getLastFiveTestImonials();
+	
 }

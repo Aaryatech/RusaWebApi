@@ -16,12 +16,14 @@ import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.GallaryDetail;
+import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.PageRepo;
+import com.ats.rusawebapi.repo.TestImonialRepository;
 
 @RestController
 public class FrontController {
@@ -34,6 +36,9 @@ public class FrontController {
 	
 	@Autowired
 	CmsSearchDataRepository cmsPageDescRepository;
+	
+	@Autowired
+	TestImonialRepository testImonialListRepo;
 	
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
@@ -131,6 +136,20 @@ public class FrontController {
 		 
 		try {
 			secSaveResponse = cmsPageDescRepository.getCMSDescByExInt1(langId); 
+		
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getLastFiveTestImonials" }, method = RequestMethod.GET)
+	public @ResponseBody List<TestImonial> getLastFiveTestImonials() {
+		List<TestImonial> secSaveResponse = new  ArrayList<TestImonial>();
+		 
+		try {
+			secSaveResponse = testImonialListRepo.getLastFiveTestImonials(); 
 		
 		} catch (Exception e) {
 			 

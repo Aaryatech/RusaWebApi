@@ -31,7 +31,7 @@ public class GalleryApiController {
 	GalleryDetailRepo galleryDetailRepo;
 	
 	@Autowired
-	GetGalleryHeaderRepo  getgRepo;
+	GetGalleryHeaderRepo  getgRepo;   
 
 	@RequestMapping(value = { "/saveGalleryHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody Galleryheader saveGalleryHeaderAndDetail(@RequestBody Galleryheader gallery) {
@@ -176,7 +176,6 @@ public class GalleryApiController {
 
 	}
 
-	
 	
 	@RequestMapping(value = { "/deleteGalleryHeader" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteGalleryHeader(@RequestParam("galleryHeadId") int galleryHeadId) {
