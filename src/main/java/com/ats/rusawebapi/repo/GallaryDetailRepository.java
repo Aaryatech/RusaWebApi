@@ -29,5 +29,11 @@ public interface GallaryDetailRepository extends JpaRepository<GallaryDetail, In
 	int updateTitleName(@Param("galleryDetailsId")int galleryDetailsId,@Param("title") String title);
 
 	GallaryDetail findByGalleryDetailsId(int galleryDetailsId);
+	
+	@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image='4'  ORDER BY v.gallery_details_id DESC LIMIT 1",nativeQuery=true)
+	List<GallaryDetail> getLastTenVedios();
+
+	@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image='3'  ORDER BY v.gallery_details_id DESC LIMIT 10",nativeQuery=true)
+	List<GallaryDetail> getLastTenPhotos();
 
 }

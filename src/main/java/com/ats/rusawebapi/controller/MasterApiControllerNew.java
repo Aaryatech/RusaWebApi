@@ -104,7 +104,6 @@ public class MasterApiControllerNew {
 	@Autowired
 	SiteMaintenanceRepository siteMaintenanceRepo;
 	
-
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
 	

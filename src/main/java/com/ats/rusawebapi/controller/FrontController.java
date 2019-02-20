@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.ContactUs;
+import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.repo.ContactUsRepo;
+import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 
 @RestController
@@ -23,7 +25,9 @@ public class FrontController {
 	@Autowired
 	ContactUsRepo contactUsRepo;
 	
-
+	@Autowired
+	GallaryDetailRepository gallaryDetailRepository;
+	
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
 
@@ -88,4 +92,31 @@ public class FrontController {
 		}
 		return infoRes;
 	}
+	@RequestMapping(value = { "/getLastTenVideos" }, method = RequestMethod.GET)
+	public @ResponseBody List<GallaryDetail> getLastTenVideos() {
+		List<GallaryDetail> secSaveResponse = new  ArrayList<GallaryDetail>();
+		 
+		try {
+			secSaveResponse = gallaryDetailRepository.getLastTenVedios(); 
+		
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	@RequestMapping(value = { "/getLastTenPhotos" }, method = RequestMethod.GET)
+	public @ResponseBody List<GallaryDetail> getLastTenPhotos() {
+		List<GallaryDetail> secSaveResponse = new  ArrayList<GallaryDetail>();
+		 
+		try {
+			secSaveResponse = gallaryDetailRepository.getLastTenPhotos(); 
+		
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
 }
