@@ -123,7 +123,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"where\n" + 
 			"    p.page_id=pm.page_id                   \n" + 
 			"    and m.id=pm.module_id                   \n" + 
-			"    and pm.module_id=6 and t.id=pm.primary_key_id and t.del_status=1",nativeQuery=true) 
+			"    and pm.module_id=6 and t.id=pm.primary_key_id and t.del_status=1 and t.section_id=6 and t.del_status=1 ",nativeQuery=true) 
 	List<GetPagesModule> getTestImonialList();
 
 	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content"
@@ -150,5 +150,37 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"	where    m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=11 \n" + 
 			"		and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and pm.page_id=:pageId group by t.newsblogs_id ",nativeQuery=true) 
 	List<GetPagesModule> getEventListByPageId(@Param("pageId") int pageId);
+	
+	@Query(value="select\n" + 
+			"    pm.*,\n" + 
+			"    p.page_name,\n" + 
+			"    m.name,\n" + 
+			"    t.from_name  as content,\n" + 
+			"   coalesce(\"\")  as secction_name     \n" + 
+			"from\n" + 
+			"    t_tpages_modules pm,\n" + 
+			"    t_pages p,\n" + 
+			"    m_modules_name m,t_testimonials t      \n" + 
+			"where\n" + 
+			"    p.page_id=pm.page_id                   \n" + 
+			"    and m.id=pm.module_id                   \n" + 
+			"    and pm.module_id=8 and t.id=pm.primary_key_id and t.section_id=8 and t.del_status=1 ",nativeQuery=true) 
+	List<GetPagesModule> getSuccessStoryList();
+	
+	@Query(value="select\n" + 
+			"    pm.*,\n" + 
+			"    p.page_name,\n" + 
+			"    m.name,\n" + 
+			"    t.from_name  as content,\n" + 
+			"   coalesce(\"\")  as secction_name     \n" + 
+			"from\n" + 
+			"    t_tpages_modules pm,\n" + 
+			"    t_pages p,\n" + 
+			"    m_modules_name m,t_testimonials t      \n" + 
+			"where\n" +   
+			"    p.page_id=pm.page_id                   \n" + 
+			"    and m.id=pm.module_id                   \n" + 
+			"    and pm.module_id=13 and t.id=pm.primary_key_id and t.section_id=13 and t.del_status=1",nativeQuery=true) 
+	List<GetPagesModule> getTeamList();
 	
 }
