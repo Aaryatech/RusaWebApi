@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.NewsDetails;
 
-public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Integer>{
+public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Integer>
+{
 
-	
 	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword from t_newsblogs n,t_newsblogs_description nd "
 			+ "where  n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId "
 			+ "and n.page_id=:pageId and n.ex_int1=9 order by n.page_order",nativeQuery=true)
@@ -31,4 +32,14 @@ public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Intege
 			+ "from t_newsblogs n,t_newsblogs_description nd "
 			+ "where n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and n.ex_int1=9",nativeQuery=true)
 	List<NewsDetails> getAllNewsBlogList();
+
+	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword "
+			+ "from t_newsblogs n,t_newsblogs_description nd "
+			+ "where n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and n.ex_int1=13",nativeQuery=true)
+	List<NewsBlog> getTeamList();
+
+	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword "
+			+ "from t_newsblogs n,t_newsblogs_description nd "
+			+ "where n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and n.ex_int1=8",nativeQuery=true)
+	List<NewsBlog> getLastTenSuccessStory();
 }

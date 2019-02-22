@@ -16,12 +16,14 @@ import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.GallaryDetail;
+import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
+import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 
@@ -39,6 +41,9 @@ public class FrontController {
 	
 	@Autowired
 	TestImonialRepository testImonialListRepo;
+	
+	@Autowired
+	NewsDetailsRepository newsDetailRepo;
 	
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
@@ -157,6 +162,31 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+	@RequestMapping(value = { "/getTeamDetail" }, method = RequestMethod.GET)
+	public @ResponseBody List<TestImonial> getLastTenTeam() {
+		List<TestImonial> secSaveResponse = new  ArrayList<TestImonial>();
+		 
+		try {
+			secSaveResponse = testImonialListRepo.getTeamDetail(); 
+		
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	@RequestMapping(value = { "/getSuccessStory" }, method = RequestMethod.GET)
+	public @ResponseBody List<TestImonial> getLastTenSuccessStory() {
+		List<TestImonial> secSaveResponse = new  ArrayList<TestImonial>();
+		 
+		try {
+			secSaveResponse = testImonialListRepo.getSuccessStory(); 
+		
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 	
 }
