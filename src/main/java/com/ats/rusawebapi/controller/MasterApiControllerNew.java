@@ -857,7 +857,22 @@ public class MasterApiControllerNew {
 		return list;
 
 	}
-	
+	@RequestMapping(value = { "/getLastFourNewsByLangId" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getLastFourNewsByLangId(@RequestParam("langId") int langId) {
+
+		List<NewsDetails> list = new ArrayList<>();
+
+		try {
+ 				list = newsDetailRepo.getLastFourNewsByLangId(langId);
+			  			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 	
 	@RequestMapping(value = { "/getEventListByNewsblogsId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetPagesModule> getEventListByNewsblogsId(@RequestParam("pageId") int pageId) {
