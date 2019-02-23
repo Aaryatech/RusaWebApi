@@ -11,7 +11,7 @@ import com.ats.rusawebapi.model.CmsSearchData;
 
 public interface CmsSearchDataRepository extends JpaRepository<CmsSearchData, Integer>{
 	
-	@Query(value="SELECT\n" + 
+	 @Query(value="SELECT\n" + 
 			"        cd.cms_page_id ,\n" + 
 			"        1 as module_id,\n" + 
 			"        cd.heading  ,\n" + 
@@ -33,7 +33,8 @@ public interface CmsSearchDataRepository extends JpaRepository<CmsSearchData, In
 			"        and cd.cms_page_id=ch.cms_page_id \n" + 
 			"        and ch.del_status=1 \n" + 
 			"        and ch.is_active=1\n" + 
-			"        and t.page_id=ch.page_id",nativeQuery=true) 
+			"        and t.page_id=ch.page_id",nativeQuery=true)  
+	/*@Query(value=":word",nativeQuery=true)*/
 	List<CmsSearchData> cmsSerchList(@Param("word") String word,@Param("langId") int langId);
 
 	@Query(value="SELECT\n" + 
