@@ -31,6 +31,7 @@ import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.SocialChannels;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.frontend.PageContent;
+import com.ats.rusawebapi.model.mst.GetCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
@@ -51,6 +52,7 @@ import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SocialChannelRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
+import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
 import com.ats.rusawebapi.tx.model.Galleryheader;
 
@@ -106,6 +108,9 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
+	
+	@Autowired 
+	CategoryRepo catRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -1080,6 +1085,39 @@ public class MasterApiControllerNew {
 		}
 
 		return list;
+	}
+	
+	@RequestMapping(value = { "/getParentIdCountByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody int getParentIdCountByCatId(@RequestParam("catId") int catId) {
 
+		int conList = 0;
+
+		try {
+
+			conList = catRepo.getParentIdCountByCatId(catId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
+	}
+	
+	@RequestMapping(value = { "/getParentIdCountBySectionId" }, method = RequestMethod.POST)
+	public @ResponseBody int getParentIdCountBySectionId(@RequestParam("sectionId") int sectionId) {
+
+		int conList = 0;
+
+		try {
+
+			conList = catRepo.getParentIdCountBySectionId(sectionId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
 	}
 }
