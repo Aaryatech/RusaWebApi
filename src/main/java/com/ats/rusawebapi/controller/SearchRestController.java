@@ -154,12 +154,13 @@ public class SearchRestController {
 			String docQry=documentUpperQuery+documentMiddleQuery+documentBaseQuery; 
 			List<DocumentSearchData> documentSerchList = jdbcTemplate.query(docQry, new BeanPropertyRowMapper(DocumentSearchData.class));
 			 
-			for (int i = 0; i < cmsSerchList.size(); i++) {
+			 for (int i = 0; i < cmsSerchList.size(); i++) {
 				
 				StringBuilder sb = new StringBuilder(); 
-				 String nohtml = sb.append(cmsSerchList.get(i).getHeading()).toString().replaceAll("\\<.*?>","");
+				 String nohtml = sb.append(cmsSerchList.get(i).getPageDesc()).toString().replaceAll("\\<.*?>","");
 				 cmsSerchList.get(i).setPageDesc(nohtml);
-			}
+				 
+			} 
 			
 			for (int i = 0; i < faqSerchList.size(); i++) {
 				
@@ -179,6 +180,8 @@ public class SearchRestController {
 			searchData.setFaqSerchList(faqSerchList);
 			searchData.setNewsSerchList(newsSerchList);
 			searchData.setDocumentSerchList(documentSerchList);
+			
+			//System.out.println(searchData);
 
 		} catch (Exception e) {
 
