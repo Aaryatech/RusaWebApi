@@ -265,7 +265,7 @@ public class MasterApiController {
 
 		try {
 
-			conList = secRepo.findByDelStatusOrderBySectionSortNo(1);
+			conList = secRepo.getDelStatusOrderBySectionSortNo();
 
 		} catch (Exception e) {
 
