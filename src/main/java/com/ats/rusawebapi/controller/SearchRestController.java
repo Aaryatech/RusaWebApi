@@ -180,7 +180,7 @@ public class SearchRestController {
 			searchData.setFaqSerchList(faqSerchList);
 			searchData.setNewsSerchList(newsSerchList);
 			searchData.setDocumentSerchList(documentSerchList);
-			
+			searchData.setSearchWorld(wordList);
 			//System.out.println(searchData);
 
 		} catch (Exception e) {

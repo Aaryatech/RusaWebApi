@@ -9,6 +9,7 @@ public class SearchData {
 	 List<NewsSearchData> newsSerchList;
 	 List<GallerySearchData> gallerySerchList;
 	 List<DocumentSearchData> documentSerchList;
+	 List<String> searchWorld;
 	 
 	public List<CmsSearchData> getCmsSerchList() {
 		return cmsSerchList;
@@ -50,11 +51,19 @@ public class SearchData {
 		this.documentSerchList = documentSerchList;
 	}
 
+	public List<String> getSearchWorld() {
+		return searchWorld;
+	}
+
+	public void setSearchWorld(List<String> searchWorld) {
+		this.searchWorld = searchWorld;
+	}
+
 	@Override
 	public String toString() {
 		return "SearchData [cmsSerchList=" + cmsSerchList + ", faqSerchList=" + faqSerchList + ", newsSerchList="
 				+ newsSerchList + ", gallerySerchList=" + gallerySerchList + ", documentSerchList=" + documentSerchList
-				+ "]";
+				+ ", searchWorld=" + searchWorld + "]";
 	}
 	 
 
