@@ -114,7 +114,7 @@ public class FrondEndRestApi {
 					
 				}else if(moduleList.get(i)==7){
 					
-					List<DocumentUpload> documentUploadList= documentUploadRepository.findByPageIdAndDelStatusAndIsActive(page.getPageId(),1,1);
+					List<DocumentUpload> documentUploadList= documentUploadRepository.findByPageIdAndDelStatusAndIsActiveOrderBySortNo(page.getPageId(),1,1);
 					pageContent.setDocumentUploadList(documentUploadList);
 				} else if(moduleList.get(i)==6){
 					

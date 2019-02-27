@@ -19,6 +19,7 @@ import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
@@ -44,6 +45,9 @@ public class FrontController {
 	
 	@Autowired
 	NewsDetailsRepository newsDetailRepo;
+	
+	@Autowired
+	BannerImagesRepository bannerImagesRepo;
 	
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
@@ -188,5 +192,22 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
+	@RequestMapping(value = { "/getLastSliderImagesByStatus" }, method = RequestMethod.GET)
+	public @ResponseBody BannerImages getLastSliderImagesByStatus() {
+
+		BannerImages secSaveResponse = new BannerImages();
+		 
+		try {
+			secSaveResponse = bannerImagesRepo.getLastSliderImagesByStatus(1); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
 	
 }

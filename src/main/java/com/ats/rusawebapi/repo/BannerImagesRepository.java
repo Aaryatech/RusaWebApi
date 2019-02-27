@@ -22,6 +22,9 @@ public interface BannerImagesRepository extends JpaRepository<BannerImages, Inte
 	@Modifying
 	@Query("update BannerImages set del_status=0  WHERE id=:id")
 	int deleteBannerImages(@Param("id") int id);
+	
+	@Query(value="SELECT b.* FROM m_banner_slider b where is_active=1 and del_status=1 ORDER BY b.id DESC LIMIT 1",nativeQuery=true)
+	BannerImages getLastSliderImagesByStatus(int i);
 
 //	MetaData save(MetaData getMataDataList);
 
