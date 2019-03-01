@@ -34,6 +34,8 @@ public class FrontController {
 	@Autowired
 	ContactUsRepo contactUsRepo;
 	
+	
+	
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
 	

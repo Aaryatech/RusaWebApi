@@ -1007,7 +1007,7 @@ public class MasterApiControllerNew {
 
 		try {
 
-			conList = socialDetailRepo.findByDelStatusOrderById(1);
+			conList = socialDetailRepo.findByDelStatusAndIsActiveOrderById(1,1);
 
 		} catch (Exception e) {
 

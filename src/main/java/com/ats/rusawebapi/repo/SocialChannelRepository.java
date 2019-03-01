@@ -24,4 +24,6 @@ public interface SocialChannelRepository extends JpaRepository<SocialChannels, I
 	@Query("update SocialChannels set del_status=0  WHERE id=:id")
 	int deleteChannel(int id);
 
+	List<SocialChannels> findByDelStatusAndIsActiveOrderById(int i, int j);
+
 }
