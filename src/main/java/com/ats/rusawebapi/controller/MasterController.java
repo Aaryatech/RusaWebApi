@@ -42,8 +42,7 @@ public class MasterController {
 	@Autowired SubCategoryRepo subCatRepo;
 	@Autowired FreqAskQueRepo freqAskQueRepo;
 	@Autowired GetCategoryRepo getGetCategoryRepo;
-	@Autowired GetFreqAskQueRepo getGetFreqAskQueRepo;
-	
+	@Autowired GetFreqAskQueRepo getGetFreqAskQueRepo;	
 	@Autowired GetSubCategoryRepo getGetSubCategoryRepo;
 	
 	@Autowired
