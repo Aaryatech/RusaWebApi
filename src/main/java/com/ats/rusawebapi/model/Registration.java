@@ -13,54 +13,57 @@ public class Registration {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="reg_id")
-	private int reg_id;
+	private int regId;
 	
 	@Column(name="user_uuid")
-	private String user_uuid;
+	private String userUuid;
 	
 	@Column(name="user_type")
-	private int user_type;
+	private int userType;
 	
 	@Column(name="emails")
 	private String emails;
 	
 	@Column(name="alternate_email")
-	private String alternate_email;
+	private String alternateEmail;
 
 	@Column(name="user_password")
-	private String user_password;
+	private String userPassword;
 	
 	@Column(name="name")
 	private String name;
 	
 	@Column(name="aishe_code")
-	private String aishe_code;
+	private String aisheCode;
 	
 	@Column(name="college_name")
-	private String college_name;
+	private String collegeName;
 	
 	@Column(name="unversity_name")
-	private String unversity_name;
+	private String unversityName;
 	
 	@Column(name="designation_name")
-	private String designation_name;
+	private String designationName;
 
 	@Column(name="department_name")
-	private String department_name;
+	private String departmentName;
 	@Column(name="mobile_number")
-	private String mobile_number;
+	private String mobileNumber;
 	
 	@Column(name="authorized_person")
-	private String authorized_person;
+	private String authorizedPerson;
 	
 	@Column(name="dob")
 	private String dob;
+	
 	@Column(name="image_name")
-	private String image_name;
+	private String imageName;
+	
 	@Column(name="token_id")
-	private String token_id;
+	private String tokenId;
+	
 	@Column(name="register_via")
-	private String register_via;
+	private String registerVia;
 	
 	@Column(name="is_active")
 	private int isActive;
@@ -91,28 +94,28 @@ public class Registration {
 	@Column(name="ex_var2")
 	private String exVar2;
 
-	public int getReg_id() {
-		return reg_id;
+	public int getRegId() {
+		return regId;
 	}
 
-	public void setReg_id(int reg_id) {
-		this.reg_id = reg_id;
+	public void setRegId(int regId) {
+		this.regId = regId;
 	}
 
-	public String getUser_uuid() {
-		return user_uuid;
+	public String getUserUuid() {
+		return userUuid;
 	}
 
-	public void setUser_uuid(String user_uuid) {
-		this.user_uuid = user_uuid;
+	public void setUserUuid(String userUuid) {
+		this.userUuid = userUuid;
 	}
 
-	public int getUser_type() {
-		return user_type;
+	public int getUserType() {
+		return userType;
 	}
 
-	public void setUser_type(int user_type) {
-		this.user_type = user_type;
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
 
 	public String getEmails() {
@@ -123,20 +126,20 @@ public class Registration {
 		this.emails = emails;
 	}
 
-	public String getAlternate_email() {
-		return alternate_email;
+	public String getAlternateEmail() {
+		return alternateEmail;
 	}
 
-	public void setAlternate_email(String alternate_email) {
-		this.alternate_email = alternate_email;
+	public void setAlternateEmail(String alternateEmail) {
+		this.alternateEmail = alternateEmail;
 	}
 
-	public String getUser_password() {
-		return user_password;
+	public String getUserPassword() {
+		return userPassword;
 	}
 
-	public void setUser_password(String user_password) {
-		this.user_password = user_password;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
 	public String getName() {
@@ -147,60 +150,60 @@ public class Registration {
 		this.name = name;
 	}
 
-	public String getAishe_code() {
-		return aishe_code;
+	public String getAisheCode() {
+		return aisheCode;
 	}
 
-	public void setAishe_code(String aishe_code) {
-		this.aishe_code = aishe_code;
+	public void setAisheCode(String aisheCode) {
+		this.aisheCode = aisheCode;
 	}
 
-	public String getCollege_name() {
-		return college_name;
+	public String getCollegeName() {
+		return collegeName;
 	}
 
-	public void setCollege_name(String college_name) {
-		this.college_name = college_name;
+	public void setCollegeName(String collegeName) {
+		this.collegeName = collegeName;
 	}
 
-	public String getUnversity_name() {
-		return unversity_name;
+	public String getUnversityName() {
+		return unversityName;
 	}
 
-	public void setUnversity_name(String unversity_name) {
-		this.unversity_name = unversity_name;
+	public void setUnversityName(String unversityName) {
+		this.unversityName = unversityName;
 	}
 
-	public String getDesignation_name() {
-		return designation_name;
+	public String getDesignationName() {
+		return designationName;
 	}
 
-	public void setDesignation_name(String designation_name) {
-		this.designation_name = designation_name;
+	public void setDesignationName(String designationName) {
+		this.designationName = designationName;
 	}
 
-	public String getDepartment_name() {
-		return department_name;
+	public String getDepartmentName() {
+		return departmentName;
 	}
 
-	public void setDepartment_name(String department_name) {
-		this.department_name = department_name;
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 
-	public String getMobile_number() {
-		return mobile_number;
+	public String getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setMobile_number(String mobile_number) {
-		this.mobile_number = mobile_number;
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
-	public String getAuthorized_person() {
-		return authorized_person;
+	public String getAuthorizedPerson() {
+		return authorizedPerson;
 	}
 
-	public void setAuthorized_person(String authorized_person) {
-		this.authorized_person = authorized_person;
+	public void setAuthorizedPerson(String authorizedPerson) {
+		this.authorizedPerson = authorizedPerson;
 	}
 
 	public String getDob() {
@@ -211,28 +214,28 @@ public class Registration {
 		this.dob = dob;
 	}
 
-	public String getImage_name() {
-		return image_name;
+	public String getImageName() {
+		return imageName;
 	}
 
-	public void setImage_name(String image_name) {
-		this.image_name = image_name;
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
-	public String getToken_id() {
-		return token_id;
+	public String getTokenId() {
+		return tokenId;
 	}
 
-	public void setToken_id(String token_id) {
-		this.token_id = token_id;
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
 	}
 
-	public String getRegister_via() {
-		return register_via;
+	public String getRegisterVia() {
+		return registerVia;
 	}
 
-	public void setRegister_via(String register_via) {
-		this.register_via = register_via;
+	public void setRegisterVia(String registerVia) {
+		this.registerVia = registerVia;
 	}
 
 	public int getIsActive() {
@@ -317,16 +320,17 @@ public class Registration {
 
 	@Override
 	public String toString() {
-		return "Registration [reg_id=" + reg_id + ", user_uuid=" + user_uuid + ", user_type=" + user_type + ", emails="
-				+ emails + ", alternate_email=" + alternate_email + ", user_password=" + user_password + ", name="
-				+ name + ", aishe_code=" + aishe_code + ", college_name=" + college_name + ", unversity_name="
-				+ unversity_name + ", designation_name=" + designation_name + ", department_name=" + department_name
-				+ ", mobile_number=" + mobile_number + ", authorized_person=" + authorized_person + ", dob=" + dob
-				+ ", image_name=" + image_name + ", token_id=" + token_id + ", register_via=" + register_via
-				+ ", isActive=" + isActive + ", delStatus=" + delStatus + ", addDate=" + addDate + ", editDate="
-				+ editDate + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", exInt1="
-				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+		return "Registration [regId=" + regId + ", userUuid=" + userUuid + ", userType=" + userType + ", emails="
+				+ emails + ", alternateEmail=" + alternateEmail + ", userPassword=" + userPassword + ", name=" + name
+				+ ", aisheCode=" + aisheCode + ", collegeName=" + collegeName + ", unversityName=" + unversityName
+				+ ", designationName=" + designationName + ", departmentName=" + departmentName + ", mobileNumber="
+				+ mobileNumber + ", authorizedPerson=" + authorizedPerson + ", dob=" + dob + ", imageName=" + imageName
+				+ ", tokenId=" + tokenId + ", registerVia=" + registerVia + ", isActive=" + isActive + ", delStatus="
+				+ delStatus + ", addDate=" + addDate + ", editDate=" + editDate + ", addedByUserId=" + addedByUserId
+				+ ", editByUserId=" + editByUserId + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
+				+ ", exVar2=" + exVar2 + "]";
 	}
+
 
 	
 	
