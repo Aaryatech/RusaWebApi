@@ -97,7 +97,22 @@ public class Registration {
 	
 	@Column(name="ex_var2")
 	private String exVar2;
-
+	
+	@Column(name="email_code")
+	private String emailCode;
+	
+	@Column(name="email_verified")
+	private String emailVerified;
+	
+	@Column(name="sms_code")
+	private String smsCode;
+	
+	@Column(name="sms_verified")
+	private String smsVerified;
+	
+	@Column(name="edit_by_adminuser_id")
+	private String editByAdminuserId;
+	
 	
 	public int getRegId() {
 		return regId;
@@ -323,6 +338,46 @@ public class Registration {
 		this.exVar2 = exVar2;
 	}
 
+	public String getEmailCode() {
+		return emailCode;
+	}
+
+	public void setEmailCode(String emailCode) {
+		this.emailCode = emailCode;
+	}
+
+	public String getEmailVerified() {
+		return emailVerified;
+	}
+
+	public void setEmailVerified(String emailVerified) {
+		this.emailVerified = emailVerified;
+	}
+
+	public String getSmsCode() {
+		return smsCode;
+	}
+
+	public void setSmsCode(String smsCode) {
+		this.smsCode = smsCode;
+	}
+
+	public String getSmsVerified() {
+		return smsVerified;
+	}
+
+	public void setSmsVerified(String smsVerified) {
+		this.smsVerified = smsVerified;
+	}
+
+	public String getEditByAdminuserId() {
+		return editByAdminuserId;
+	}
+
+	public void setEditByAdminuserId(String editByAdminuserId) {
+		this.editByAdminuserId = editByAdminuserId;
+	}
+
 	@Override
 	public String toString() {
 		return "Registration [regId=" + regId + ", userUuid=" + userUuid + ", userType=" + userType + ", emails="
@@ -333,6 +388,8 @@ public class Registration {
 				+ ", tokenId=" + tokenId + ", registerVia=" + registerVia + ", isActive=" + isActive + ", delStatus="
 				+ delStatus + ", addDate=" + addDate + ", editDate=" + editDate + ", addedByUserId=" + addedByUserId
 				+ ", editByUserId=" + editByUserId + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + "]";
+				+ ", exVar2=" + exVar2 + ", emailCode=" + emailCode + ", emailVerified=" + emailVerified + ", smsCode="
+				+ smsCode + ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + "]";
 	}
+
 }
