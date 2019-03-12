@@ -6,4 +6,6 @@ import com.ats.rusawebapi.model.Registration;
 
 public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 
+	Registration findByUserUuidAndUserTypeAndDelStatus(int suuid, int type, int i);
+
 }

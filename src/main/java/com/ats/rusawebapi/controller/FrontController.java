@@ -268,5 +268,22 @@ public class FrontController {
 		return registrationList;
 
 	}
+	@RequestMapping(value = { "/getUserByUUIDAndType" }, method = RequestMethod.POST)
+	public @ResponseBody Registration getUserByUUIDAndType(@RequestParam("suuid") int suuid,@RequestParam("type") int type) {
+
+		Registration secSaveResponse = new Registration();
+		 
+		try {
+			secSaveResponse = registrationRepo.findByUserUuidAndUserTypeAndDelStatus(suuid,type, 1); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
 	
 }

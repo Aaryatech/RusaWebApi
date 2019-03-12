@@ -1,11 +1,15 @@
 package com.ats.rusawebapi.model;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 
 @Entity
 @Table(name = "t_registration")
@@ -94,6 +98,7 @@ public class Registration {
 	@Column(name="ex_var2")
 	private String exVar2;
 
+	
 	public int getRegId() {
 		return regId;
 	}
@@ -330,9 +335,4 @@ public class Registration {
 				+ ", editByUserId=" + editByUserId + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
 				+ ", exVar2=" + exVar2 + "]";
 	}
-
-
-	
-	
-
 }
