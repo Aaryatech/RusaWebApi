@@ -1,14 +1,11 @@
 package com.ats.rusawebapi.model;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 
 @Entity
@@ -80,10 +77,7 @@ public class Registration {
 	
 	@Column(name="edit_date")
 	private String editDate;
-	
-	@Column(name="added_by_user_id")
-	private int addedByUserId;
-	
+		
 	@Column(name="edit_by_user_id")
 	private int editByUserId;
 
@@ -102,13 +96,13 @@ public class Registration {
 	private String emailCode;
 	
 	@Column(name="email_verified")
-	private String emailVerified;
+	private int emailVerified;
 	
 	@Column(name="sms_code")
 	private String smsCode;
 	
 	@Column(name="sms_verified")
-	private String smsVerified;
+	private int smsVerified;
 	
 	@Column(name="edit_by_adminuser_id")
 	private String editByAdminuserId;
@@ -290,14 +284,6 @@ public class Registration {
 		this.editDate = editDate;
 	}
 
-	public int getAddedByUserId() {
-		return addedByUserId;
-	}
-
-	public void setAddedByUserId(int addedByUserId) {
-		this.addedByUserId = addedByUserId;
-	}
-
 	public int getEditByUserId() {
 		return editByUserId;
 	}
@@ -346,11 +332,11 @@ public class Registration {
 		this.emailCode = emailCode;
 	}
 
-	public String getEmailVerified() {
+	public int getEmailVerified() {
 		return emailVerified;
 	}
 
-	public void setEmailVerified(String emailVerified) {
+	public void setEmailVerified(int emailVerified) {
 		this.emailVerified = emailVerified;
 	}
 
@@ -362,11 +348,11 @@ public class Registration {
 		this.smsCode = smsCode;
 	}
 
-	public String getSmsVerified() {
+	public int getSmsVerified() {
 		return smsVerified;
 	}
 
-	public void setSmsVerified(String smsVerified) {
+	public void setSmsVerified(int smsVerified) {
 		this.smsVerified = smsVerified;
 	}
 
@@ -386,10 +372,12 @@ public class Registration {
 				+ ", designationName=" + designationName + ", departmentName=" + departmentName + ", mobileNumber="
 				+ mobileNumber + ", authorizedPerson=" + authorizedPerson + ", dob=" + dob + ", imageName=" + imageName
 				+ ", tokenId=" + tokenId + ", registerVia=" + registerVia + ", isActive=" + isActive + ", delStatus="
-				+ delStatus + ", addDate=" + addDate + ", editDate=" + editDate + ", addedByUserId=" + addedByUserId
-				+ ", editByUserId=" + editByUserId + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + ", emailCode=" + emailCode + ", emailVerified=" + emailVerified + ", smsCode="
-				+ smsCode + ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + "]";
+				+ delStatus + ", addDate=" + addDate + ", editDate=" + editDate + ", editByUserId=" + editByUserId
+				+ ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", emailCode=" + emailCode + ", emailVerified=" + emailVerified + ", smsCode=" + smsCode
+				+ ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + "]";
 	}
 
+
+	
 }

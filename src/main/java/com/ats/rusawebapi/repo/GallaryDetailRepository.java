@@ -30,7 +30,7 @@ public interface GallaryDetailRepository extends JpaRepository<GallaryDetail, In
 
 	GallaryDetail findByGalleryDetailsId(int galleryDetailsId);
 	
-	@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image=4 and is_active=1 and del_status=1 ORDER BY v.gallery_details_id DESC LIMIT 1",nativeQuery=true)
+	@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image=4 and is_active=1 and del_status=1 ORDER BY v.gallery_details_id DESC LIMIT 10",nativeQuery=true)
 	List<GallaryDetail> getLastTenVedios();
 
 	@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image=3 and is_active=1 and del_status=1 ORDER BY v.gallery_details_id DESC LIMIT 10",nativeQuery=true)

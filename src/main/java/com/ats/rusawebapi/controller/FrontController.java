@@ -1,6 +1,9 @@
 package com.ats.rusawebapi.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.Commons;
+import com.ats.rusawebapi.EmailUtility;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.Setting;
+import com.ats.rusawebapi.model.SmsCode;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
@@ -26,6 +32,7 @@ import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.RegistrationRepo;
 import com.ats.rusawebapi.repo.SettingRepo;
+import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 
 @RestController
@@ -54,6 +61,9 @@ public class FrontController {
 	
 	@Autowired
 	RegistrationRepo registrationRepo;
+	
+	@Autowired
+	SmsCodeRepository smsCodeRepo;
 	
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
@@ -285,5 +295,52 @@ public class FrontController {
 		return secSaveResponse;
 	}
 	
-	
+	@RequestMapping(value = { "/saveReg" }, method = RequestMethod.POST)
+    public @ResponseBody Registration saveReg(@RequestBody Registration reg) {
+
+		Registration studResp = null;
+ 
+        try {
+
+            if (reg.getRegId() == 0) {
+            	int randomPin   =(int)(Math.random()*9000)+1000;
+    			String otp  =String.valueOf(randomPin);
+    		        System.out.println("You OTP is "+otp);
+    		        
+            	reg.setSmsCode(otp);
+            	
+                studResp = registrationRepo.saveAndFlush(reg);    
+            
+    				
+    				Date date = new Date(); // your date
+    				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+    				Calendar cal = Calendar.getInstance();
+    				cal.setTime(date);
+    			
+    		        SmsCode sms=new SmsCode();
+    		       
+    		        sms.setSmsCode(otp);
+    		        sms.setUserUuid(studResp.getUserUuid());
+    		        sms.setSmsType(1);
+    		        sms.setDateSent(sf.format(date));
+    		        
+    		        smsCodeRepo.saveAndFlush(sms);
+    		          
+				
+				  Info info1=EmailUtility.sendMsg(otp, studResp.getMobileNumber());
+				  
+				  System.err.println("Info email sent response   "+info1.toString());
+				 
+
+            }
+        } catch (Exception e) {
+            System.err.println("Exce in saving Librarian " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return reg;
+
+    }
+
+
 }
