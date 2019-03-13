@@ -3,7 +3,7 @@ package com.ats.rusawebapi.model;
 public class OtpResponse {
 	private boolean isError;
 	private String msg;
-	private Registration reg;
+	private Registration reg;  
 	
 	public boolean isError() {
 		return isError;
