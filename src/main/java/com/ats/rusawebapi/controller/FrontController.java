@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ats.rusawebapi.Commons;
 import com.ats.rusawebapi.EmailUtility;
 import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
@@ -70,6 +69,12 @@ public class FrontController {
 	@Autowired
 	AppTokenRepository appTokenListRepo;
 	
+	/*
+	 * <dependency> <groupId>javax.mail</groupId> 
+	 * <artifactId>mail</artifactId>
+	 * <version>1.4</version> </dependency>
+	 */
+
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
 
