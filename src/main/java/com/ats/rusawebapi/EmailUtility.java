@@ -87,18 +87,19 @@ public class EmailUtility {
 			
 			try {
 				   
-				RestTemplate restTemplate = new RestTemplate();
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("authkey", "74499AcqeCdljW5ae561dd");
-				map.add("mobiles", phoneNo);
-				map.add("message", "The Secret OTP for mobile number verification :" + otp +". Valid till 15:03:26. Do not share OTP for security reason. ");
-				map.add("sender", "ESYRTO");
-				map.add("route", "4");
-				map.add("country", "91");
-				String response = restTemplate.postForObject("http://control.bestsms.co.in/api/sendhttp.php", map, String.class);
-				
-				info.setError(false);
-				info.setMsg(response);
+			/*
+			 * RestTemplate restTemplate = new RestTemplate(); MultiValueMap<String, Object>
+			 * map = new LinkedMultiValueMap<String, Object>(); map.add("authkey",
+			 * "74499AcqeCdljW5ae561dd"); map.add("mobiles", phoneNo); map.add("message",
+			 * "The Secret OTP for mobile number verification :" + otp
+			 * +". Valid till 15:03:26. Do not share OTP for security reason. "); //
+			 * map.add("sender", "ESYRTO"); map.add("route", "4"); map.add("country", "91");
+			 * String response =
+			 * restTemplate.postForObject("http://control.bestsms.co.in/api/sendhttp.php",
+			 * map, String.class);
+			 * 
+			 * info.setError(false); info.setMsg(response);
+			 */
 			  
 			}catch (Exception e) {
 				

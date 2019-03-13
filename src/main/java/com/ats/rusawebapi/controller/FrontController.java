@@ -21,11 +21,14 @@ import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.HomeData;
+import com.ats.rusawebapi.model.LoginResponse;
+import com.ats.rusawebapi.model.OtpResponse;
 import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.Setting;
 import com.ats.rusawebapi.model.SmsCode;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.model.mst.User;
 import com.ats.rusawebapi.repo.AppTokenRepository;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
@@ -69,7 +72,8 @@ public class FrontController {
 
 	@Autowired
 	AppTokenRepository appTokenListRepo;
-
+	
+	
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -396,6 +400,56 @@ public class FrontController {
 		}
 
 		return homeData;
+	}
+	@RequestMapping(value = { "/verifyOtpResponse" }, method = RequestMethod.POST)
+	public @ResponseBody OtpResponse verifyOtpResponse(@RequestParam("userOtp") String userOtp,
+			@RequestParam("uuid") String uuid) {
+
+		//User user = new User();
+		Registration regResponse = new Registration();
+		OtpResponse otpRespose=new OtpResponse();
+		try {
+			
+			//user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndIsActiveAndSmsVerified(uuid,1,1,0);
+			
+			if (regResponse != null) {
+ 
+				Registration reg1 = registrationRepo.findBySmsCodeAndUserUuidAndDelStatus(userOtp,uuid, 1);
+				
+				  if (reg1 != null)
+				  { 
+					  int updateDate =  registrationRepo.updateSmsStatus(1,regResponse.getRegId());
+					  otpRespose.setError(false);
+					  otpRespose.setMsg("Login Sucess "); 
+					  otpRespose.setReg(reg1);
+				  } 
+				  else 
+				  {				  
+					//  int updateDate =  registrationRepo.updateSmsStatus(0,regResponse.getRegId());
+					  otpRespose.setError(true); 
+					  otpRespose.setMsg("password Wrong"); 
+				  }
+				 
+				
+				
+			} else {
+
+				otpRespose.setError(true);
+				otpRespose.setMsg("Invalid Credencials");
+			}
+			 
+
+		} catch (Exception e) {
+			otpRespose.setError(true);
+			otpRespose.setMsg("exception");
+			 
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return otpRespose;
+
 	}
 
 }
