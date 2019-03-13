@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.Commons;
 import com.ats.rusawebapi.EmailUtility;
+import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
@@ -25,6 +26,7 @@ import com.ats.rusawebapi.model.Setting;
 import com.ats.rusawebapi.model.SmsCode;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.repo.AppTokenRepository;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
@@ -64,6 +66,9 @@ public class FrontController {
 	
 	@Autowired
 	SmsCodeRepository smsCodeRepo;
+	
+	@Autowired
+	AppTokenRepository appTokenListRepo;
 	
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
@@ -308,7 +313,7 @@ public class FrontController {
     		        System.out.println("You OTP is "+otp);
     		        
             	reg.setSmsCode(otp);
-            	
+            	reg.setSmsVerified(0);
                 studResp = registrationRepo.saveAndFlush(reg);    
             
     				
@@ -341,6 +346,23 @@ public class FrontController {
         return reg;
 
     }
+	@RequestMapping(value = { "/saveAppTokens" }, method = RequestMethod.POST)
+	public @ResponseBody AppToken saveAppTokens(@RequestBody AppToken getContactList) {
 
+		Info errorMessage = new Info();
+		AppToken appTokenList=null;
+		try {
+
+			appTokenList = appTokenListRepo.save(getContactList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return appTokenList;
+	}
 
 }
