@@ -72,8 +72,7 @@ public class FrontController {
 
 	@Autowired
 	AppTokenRepository appTokenListRepo;
-	
-	
+
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -393,71 +392,66 @@ public class FrontController {
 			homeData.setTestimonialList(getLastFiveTestImonials());
 			homeData.setSocialList(new MasterApiControllerNew().getAllSocialList());
 			homeData.setCmsList(getCMSDescByExInt1(langId));
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return homeData;
 	}
+
 	@RequestMapping(value = { "/verifyOtpResponse" }, method = RequestMethod.POST)
 	public @ResponseBody OtpResponse verifyOtpResponse(@RequestParam("userOtp") String userOtp,
 			@RequestParam("uuid") String uuid) {
 
-		//User user = new User();
+		// User user = new User();
 		Registration regResponse = new Registration();
-		OtpResponse otpRespose=new OtpResponse();
+		OtpResponse otpRespose = new OtpResponse();
 		try {
-			
-			//user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByUserUuidAndDelStatusAndIsActiveAndSmsVerified(uuid,1,1,0);
-			
+			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndIsActiveAndSmsVerified(uuid, 1, 1, 0);
+
 			if (regResponse != null) {
- 
-				Registration reg1 = registrationRepo.findBySmsCodeAndUserUuidAndDelStatus(userOtp,uuid, 1);
-				
-				  if (reg1 != null)
-				  { 
-					  int updateDate =  registrationRepo.updateSmsStatus(1,regResponse.getRegId());
-					  otpRespose.setError(false);
-					  otpRespose.setMsg("Login Sucess "); 
-					  otpRespose.setReg(reg1);
-				  } 
-				  else 
-				  {				  
-					//  int updateDate =  registrationRepo.updateSmsStatus(0,regResponse.getRegId());
-					  otpRespose.setError(true); 
-					  otpRespose.setMsg("password Wrong"); 
-				  }
-				 
-				
-				
+
+				Registration reg1 = registrationRepo.findBySmsCodeAndUserUuidAndDelStatus(userOtp, uuid, 1);
+
+				if (reg1 != null) {
+					int updateDate = registrationRepo.updateSmsStatus(1, regResponse.getRegId());
+					otpRespose.setError(false);
+					otpRespose.setMsg("Login Sucess ");
+					otpRespose.setReg(reg1);
+				} else {
+					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
+					otpRespose.setError(true);
+					otpRespose.setMsg("password Wrong");
+				}
+
 			} else {
 
 				otpRespose.setError(true);
 				otpRespose.setMsg("Invalid Credencials");
 			}
-			 
 
 		} catch (Exception e) {
 			otpRespose.setError(true);
 			otpRespose.setMsg("exception");
-			 
+
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
 		return otpRespose;
 
 	}
+
 	@RequestMapping(value = { "/getAllRegUserList" }, method = RequestMethod.GET)
 	public @ResponseBody List<Registration> getAllRegUserList() {
 
 		List<Registration> conList = new ArrayList<Registration>();
 
 		try {
-  
+
 			conList = registrationRepo.findByDelStatusOrderByRegId(1);
 
 		} catch (Exception e) {
@@ -473,7 +467,7 @@ public class FrontController {
 
 		int isDeleted = registrationRepo.updateEmailStatus(regId);
 		Info infoRes = new Info();
-		
+
 		if (isDeleted >= 1) {
 			infoRes.setError(false);
 			infoRes.setMsg("Updated Email status Successfully");
@@ -484,5 +478,38 @@ public class FrontController {
 		return infoRes;
 	}
 	
+	@RequestMapping(value = { "/getMobileNumberByUuidId" }, method = RequestMethod.POST)
+	public @ResponseBody Registration getMobileNumberByUuidId(@RequestParam("uuid") String uuid) {
+
+		Registration secSaveResponse = new Registration();
+		 
+		try {
+			secSaveResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1 ,0); 
+		
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 	
+	@RequestMapping(value = { "/updateOtpByUuid" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateOtpByUuid(@RequestParam("uuid") String uuid,@RequestParam("otp") String otp) {
+
+		int isDeleted = registrationRepo.updateOtpByUuid(uuid,otp);
+		Info infoRes = new Info();
+
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Updated OTP Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("OTP status Failed");
+		}
+		return infoRes;
+	}
+	
+
 }

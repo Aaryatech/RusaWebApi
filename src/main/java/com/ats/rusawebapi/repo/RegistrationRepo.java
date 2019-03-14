@@ -31,6 +31,13 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	@Modifying
 	@Query("update Registration set email_verified=1  WHERE reg_id=:regId")
 	int updateEmailStatus(@Param("regId") int regId);
+
+	Registration findByUserUuidAndDelStatusAndSmsVerified(String uuid, int i, int j);
+
+	@Transactional
+	@Modifying
+	@Query("update Registration set sms_code=:otp  WHERE reg_id=:uuid")
+	int updateOtpByUuid(String uuid,String otp);
 	
 
 	
