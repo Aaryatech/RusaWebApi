@@ -30,7 +30,7 @@ public class EmailUtility {
 		final String mailStoreType = "imaps";
 		final String username = senderEmail;//"atsinfosoft@gmail.com";
 		final String password =senderPassword;//"atsinfosoft@123";
-
+  
 		System.out.println("username" + username);
 		System.out.println("password" + password);
 
