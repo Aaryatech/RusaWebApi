@@ -451,5 +451,38 @@ public class FrontController {
 		return otpRespose;
 
 	}
+	@RequestMapping(value = { "/getAllRegUserList" }, method = RequestMethod.GET)
+	public @ResponseBody List<Registration> getAllRegUserList() {
 
+		List<Registration> conList = new ArrayList<Registration>();
+
+		try {
+  
+			conList = registrationRepo.findByDelStatusOrderByRegId(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
+	}
+
+	@RequestMapping(value = { "/updateUserByRegId" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateUserByRegId(@RequestParam("regId") int regId) {
+
+		int isDeleted = registrationRepo.updateEmailStatus(regId);
+		Info infoRes = new Info();
+		
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Updated Email status Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Email status Failed");
+		}
+		return infoRes;
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package com.ats.rusawebapi.repo;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +24,13 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	@Modifying
 	@Query("UPDATE Registration SET sms_verified=:i WHERE reg_id=:regId ") 
 	int updateSmsStatus(@Param("i") int i, @Param("regId") int regId);
+
+	List<Registration> findByDelStatusOrderByRegId(int i);
+
+	@Transactional
+	@Modifying
+	@Query("update Registration set email_verified=1  WHERE reg_id=:regId")
+	int updateEmailStatus(@Param("regId") int regId);
 	
 
 	
