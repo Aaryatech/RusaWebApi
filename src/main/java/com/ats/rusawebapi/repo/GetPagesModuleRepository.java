@@ -12,7 +12,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,\n" + 
+			"        p.page_name,t.is_active,\n" + 
 			"        m.name,\n" + 
 			"        heading  as content,\n" + 
 			"        CASE\n" + 
@@ -37,7 +37,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,\n" + 
+			"        p.page_name,t.is_active,\n" + 
 			"        m.name,\n" + 
 			"        heading  as content,\n" + 
 			"        CASE\n" + 
@@ -62,7 +62,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 	
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,\n" + 
+			"        p.page_name,t.is_active,\n" + 
 			"        m.name,\n" + 
 			"        faq_que as content,\n" + 
 			"        CASE\n" + 
@@ -87,7 +87,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
  
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,\n" + 
+			"        p.page_name,t.is_active,\n" + 
 			"        m.name,\n" + 
 			"        faq_que as content,\n" + 
 			"        CASE\n" + 
@@ -113,7 +113,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 	@Query(value="select\n" + 
 			"    pm.*,\n" + 
 			"    p.page_name,\n" + 
-			"    m.name,\n" + 
+			"    m.name,t.is_active,\n" + 
 			"    t.from_name  as content,\n" + 
 			"   coalesce(\"\")  as secction_name     \n" + 
 			"from\n" + 
@@ -126,26 +126,26 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"    and pm.module_id=6 and t.id=pm.primary_key_id and t.del_status=1 and t.section_id=6 and t.del_status=1 ",nativeQuery=true) 
 	List<GetPagesModule> getTestImonialList();
 
-	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content"
+	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,t.is_active,nd.heading  as content"
 			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
 			+ "where  p.page_id=pm.page_id  and m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=9  "
 			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1",nativeQuery=true) 
 	List<GetPagesModule> getNewsBlogList();
 
-	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content"
+	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,t.is_active,nd.heading  as content"
 			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
 			+ "where  p.page_id=pm.page_id  and m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=11  "
 			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1",nativeQuery=true) 
 	List<GetPagesModule> getEventList();
 
-	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content"
+	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,t.is_active,nd.heading  as content"
 			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
 			+ "where    m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=9  "
 			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and  pm.page_id=:pageId "
 			+ "and t.newsblogs_id=nd.newsblogs_id group by t.newsblogs_id ",nativeQuery=true) 
 	List<GetPagesModule> getNewsBlogListByPageId(@Param("pageId") int pageId);
 	
-	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,nd.heading  as content\n" + 
+	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,t.is_active,nd.heading  as content\n" + 
 			"		from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd \n" + 
 			"	where    m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=11 \n" + 
 			"		and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and pm.page_id=:pageId group by t.newsblogs_id ",nativeQuery=true) 
@@ -154,7 +154,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 	@Query(value="select\n" + 
 			"    pm.*,\n" + 
 			"    p.page_name,\n" + 
-			"    m.name,\n" + 
+			"    m.name,t.is_active,\n" + 
 			"    t.from_name  as content,\n" + 
 			"   coalesce(\"\")  as secction_name     \n" + 
 			"from\n" + 
@@ -170,7 +170,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 	@Query(value="select\n" + 
 			"    pm.*,\n" + 
 			"    p.page_name,\n" + 
-			"    m.name,\n" + 
+			"    m.name, t.is_active,\n" + 
 			"    t.from_name  as content,\n" + 
 			"   coalesce(\"\")  as secction_name     \n" + 
 			"from\n" + 

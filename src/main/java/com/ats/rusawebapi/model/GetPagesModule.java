@@ -34,6 +34,9 @@ public class GetPagesModule {
 	
 	@Column(name="secction_name")
 	private String secctionName;
+	
+	@Column(name="is_active")
+	private int isActive;
 
 	public int getId() {
 		return id;
@@ -99,13 +102,20 @@ public class GetPagesModule {
 		this.secctionName = secctionName;
 	}
 
+	public int getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "GetPagesModule [id=" + id + ", moduleId=" + moduleId + ", pageId=" + pageId + ", primaryKeyId="
 				+ primaryKeyId + ", pageName=" + pageName + ", name=" + name + ", content=" + content
-				+ ", secctionName=" + secctionName + "]";
+				+ ", secctionName=" + secctionName + ", isActive=" + isActive + "]";
 	}
-	
-	
+
 
 }

@@ -502,6 +502,20 @@ public class FrontController {
 		Info infoRes = new Info();
 
 		if (isDeleted >= 1) {
+
+			Date date = new Date(); // your date
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			SmsCode sms = new SmsCode();
+
+			sms.setSmsCode(otp);
+			sms.setUserUuid(uuid);
+			sms.setSmsType(1);
+			sms.setDateSent(sf.format(date));
+
+			smsCodeRepo.saveAndFlush(sms);
+			System.out.println(" save sms ");
 			infoRes.setError(false);
 			infoRes.setMsg("Updated OTP Successfully");
 		} else {
@@ -511,5 +525,19 @@ public class FrontController {
 		return infoRes;
 	}
 	
+
+	@RequestMapping(value = { "/getRegUserbyRegId" }, method = RequestMethod.POST)
+	public @ResponseBody Registration getRegUserbyRegId(@RequestParam("regId") int regId) {
+		Registration secSaveResponse = new Registration();
+
+		try {
+			secSaveResponse = registrationRepo.findByRegIdAndDelStatusAndIsActive(regId,1,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 
 }

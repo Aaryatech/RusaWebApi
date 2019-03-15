@@ -38,6 +38,8 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	@Modifying
 	@Query("update Registration set sms_code=:otp  WHERE reg_id=:uuid")
 	int updateOtpByUuid(String uuid,String otp);
+
+	Registration findByRegIdAndDelStatusAndIsActive(int regId, int i, int j);
 	
 
 	
