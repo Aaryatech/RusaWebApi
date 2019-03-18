@@ -540,4 +540,68 @@ public class FrontController {
 		return secSaveResponse;
 	}
 
+	@RequestMapping(value = { "/verifyResendOtpResponse" }, method = RequestMethod.POST)
+	public @ResponseBody OtpResponse verifyResendOtpResponse(@RequestParam("uuid") String uuid) {
+
+		// User user = new User();
+		Registration regResponse = new Registration();
+		OtpResponse otpRespose = new OtpResponse();
+		try {
+
+			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndIsActiveAndSmsVerified(uuid, 1, 1, 0);
+
+			if (regResponse != null) {
+
+				Registration reg1 = registrationRepo.findByUserUuidAndDelStatus(uuid, 1);
+
+				if (reg1 != null) {
+					int randomPin = (int) (Math.random() * 9000) + 1000;
+					String otp = String.valueOf(randomPin);
+					System.out.println("You OTP is " + otp);
+
+					Date date = new Date(); // your date
+					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+
+					SmsCode sms = new SmsCode();
+
+					sms.setSmsCode(otp);
+					sms.setUserUuid(uuid);
+					sms.setSmsType(1);
+					sms.setDateSent(sf.format(date));
+
+					smsCodeRepo.saveAndFlush(sms);
+
+					Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
+
+					int updateDate = registrationRepo.updateOtp(otp, uuid);
+					System.out.println(" update ragistration table :"+updateDate);
+					otpRespose.setError(false);
+					otpRespose.setMsg("Otp Updated ");
+					otpRespose.setReg(reg1);
+				} else {
+					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
+					otpRespose.setError(true);
+					otpRespose.setMsg("UUID Wrong");
+				}
+
+			} else {
+
+				otpRespose.setError(true);
+				otpRespose.setMsg("Invalid Credencials");
+			}
+
+		} catch (Exception e) {
+			otpRespose.setError(true);
+			otpRespose.setMsg("exception");
+
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return otpRespose;
+
+	}
 }

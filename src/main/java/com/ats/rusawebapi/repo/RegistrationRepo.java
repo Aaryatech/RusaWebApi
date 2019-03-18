@@ -36,10 +36,17 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 
 	@Transactional
 	@Modifying
-	@Query("update Registration set sms_code=:otp  WHERE reg_id=:uuid")
-	int updateOtpByUuid(String uuid,String otp);
+	@Query("update Registration set sms_code=:otp  WHERE user_uuid=:uuid")
+	int updateOtpByUuid(@Param("uuid") String uuid,@Param("otp") String otp);
 
 	Registration findByRegIdAndDelStatusAndIsActive(int regId, int i, int j);
+
+	Registration findByUserUuidAndDelStatus(String uuid, int i);
+
+	@Transactional
+	@Modifying
+	@Query("update Registration set sms_code=:otp  WHERE user_uuid=:uuid")
+	int updateOtp(@Param("otp") String otp, @Param("uuid") String uuid);
 	
 
 	
