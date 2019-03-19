@@ -442,7 +442,6 @@ public class FrontController {
 			e.printStackTrace();
 		}
 		return otpRespose;
-
 	}
 
 	@RequestMapping(value = { "/getAllRegUserList" }, method = RequestMethod.GET)
@@ -523,8 +522,7 @@ public class FrontController {
 			infoRes.setMsg("OTP status Failed");
 		}
 		return infoRes;
-	}
-	
+	}	
 
 	@RequestMapping(value = { "/getRegUserbyRegId" }, method = RequestMethod.POST)
 	public @ResponseBody Registration getRegUserbyRegId(@RequestParam("regId") int regId) {

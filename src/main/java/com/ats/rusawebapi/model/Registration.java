@@ -105,7 +105,7 @@ public class Registration {
 	private int smsVerified;
 	
 	@Column(name="edit_by_adminuser_id")
-	private String editByAdminuserId;
+	private int editByAdminuserId;
 	
 	
 	public int getRegId() {
@@ -356,11 +356,11 @@ public class Registration {
 		this.smsVerified = smsVerified;
 	}
 
-	public String getEditByAdminuserId() {
+	public int getEditByAdminuserId() {
 		return editByAdminuserId;
 	}
 
-	public void setEditByAdminuserId(String editByAdminuserId) {
+	public void setEditByAdminuserId(int editByAdminuserId) {
 		this.editByAdminuserId = editByAdminuserId;
 	}
 
@@ -377,7 +377,7 @@ public class Registration {
 				+ ", emailCode=" + emailCode + ", emailVerified=" + emailVerified + ", smsCode=" + smsCode
 				+ ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + "]";
 	}
-
-
+	
+	
 	
 }
