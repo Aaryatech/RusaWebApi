@@ -12,7 +12,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,t.is_active,\n" + 
+			"        p.page_name,ch.is_active,\n" + 
 			"        m.name,\n" + 
 			"        heading  as content,\n" + 
 			"        CASE\n" + 
@@ -37,7 +37,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,t.is_active,\n" + 
+			"        p.page_name,ch.is_active,\n" + 
 			"        m.name,\n" + 
 			"        heading  as content,\n" + 
 			"        CASE\n" + 
@@ -62,7 +62,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 	
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,t.is_active,\n" + 
+			"        p.page_name,fh.is_active,\n" + 
 			"        m.name,\n" + 
 			"        faq_que as content,\n" + 
 			"        CASE\n" + 
@@ -87,7 +87,7 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
  
 	@Query(value="select\n" + 
 			"        pm.*,\n" + 
-			"        p.page_name,t.is_active,\n" + 
+			"        p.page_name,fh.is_active,\n" + 
 			"        m.name,\n" + 
 			"        faq_que as content,\n" + 
 			"        CASE\n" + 

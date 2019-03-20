@@ -66,7 +66,7 @@ public class FrontController {
 
 	@Autowired
 	RegistrationRepo registrationRepo;
-
+	
 	@Autowired
 	SmsCodeRepository smsCodeRepo;
 
@@ -411,7 +411,7 @@ public class FrontController {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByUserUuidAndDelStatusAndIsActiveAndSmsVerified(uuid, 1, 1, 0);
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1,0);
 
 			if (regResponse != null) {
 
@@ -529,7 +529,7 @@ public class FrontController {
 		Registration secSaveResponse = new Registration();
 
 		try {
-			secSaveResponse = registrationRepo.findByRegIdAndDelStatusAndIsActive(regId,1,1);
+			secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId,1);
 
 		} catch (Exception e) {
 
@@ -548,7 +548,7 @@ public class FrontController {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByUserUuidAndDelStatusAndIsActiveAndSmsVerified(uuid, 1, 1, 0);
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1, 0);
 
 			if (regResponse != null) {
 

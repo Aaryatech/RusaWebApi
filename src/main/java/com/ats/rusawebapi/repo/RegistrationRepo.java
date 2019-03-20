@@ -16,7 +16,7 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 
 	Registration findByUserUuidAndUserTypeAndDelStatus(int suuid, int type, int i);
 
-	Registration findByUserUuidAndDelStatusAndIsActiveAndSmsVerified(String uuid, int i, int j, int k);
+	Registration findByUserUuidAndDelStatusAndSmsVerified(String uuid, int i, int j);
 
 	Registration findBySmsCodeAndUserUuidAndDelStatus(String userOtp, String uuid, int i);
 	
@@ -32,14 +32,14 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	@Query("update Registration set email_verified=1  WHERE reg_id=:regId")
 	int updateEmailStatus(@Param("regId") int regId);
 
-	Registration findByUserUuidAndDelStatusAndSmsVerified(String uuid, int i, int j);
+	//Registration findByUserUuidAndDelStatusAndSmsVerified(String uuid, int i, int j);
 
 	@Transactional
 	@Modifying
 	@Query("update Registration set sms_code=:otp  WHERE user_uuid=:uuid")
 	int updateOtpByUuid(@Param("uuid") String uuid,@Param("otp") String otp);
 
-	Registration findByRegIdAndDelStatusAndIsActive(int regId, int i, int j);
+	Registration findByRegIdAndDelStatus(int regId, int i);
 
 	Registration findByUserUuidAndDelStatus(String uuid, int i);
 
