@@ -23,7 +23,8 @@ public interface NewsBlogRepository extends JpaRepository<NewsBlog, Integer>{
 	int deleteNewsBlog(@Param("newsblogsId") int newsblogsId);
 
 	
-	
+
+
 	
 
 }

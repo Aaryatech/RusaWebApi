@@ -23,6 +23,7 @@ import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.HomeData;
 import com.ats.rusawebapi.model.LoginResponse;
+import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.OtpResponse;
 import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.Setting;
@@ -73,6 +74,8 @@ public class FrontController {
 
 	@Autowired
 	AppTokenRepository appTokenListRepo;
+	
+	
 
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
@@ -721,5 +724,50 @@ public class FrontController {
 		}
 		return infoRes;
 	}	
+	
+	@RequestMapping(value = { "/getAllEventsList" }, method = RequestMethod.GET)
+	public @ResponseBody List<Registration> getAllEventsList() {
 
+		List<Registration> conList = new ArrayList<Registration>();
+
+		try {
+
+			conList = registrationRepo.findByDelStatusOrderByRegId(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
+	}
+	
+
+	@RequestMapping(value = { "/getAllPreviousEvents" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getAllPreviousEvents(@RequestParam("langId") int langId) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
+
+		try {
+			secSaveResponse = newsDetailRepo.getAllPreviousEvents(langId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getAllUpcomingEvents" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getAllUpcomingEvents(@RequestParam("langId") int langId) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
+
+		try {
+			secSaveResponse = newsDetailRepo.getAllUpcomingEvents(langId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 }
