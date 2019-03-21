@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -48,6 +49,7 @@ public class Registration {
 
 	@Column(name="department_name")
 	private String departmentName;
+	
 	@Column(name="mobile_number")
 	private String mobileNumber;
 	
@@ -106,6 +108,12 @@ public class Registration {
 	
 	@Column(name="edit_by_adminuser_id")
 	private int editByAdminuserId;
+	
+	@Transient
+	private String msg;
+	
+	@Transient
+	private boolean isError;
 	
 	
 	public int getRegId() {
@@ -364,6 +372,22 @@ public class Registration {
 		this.editByAdminuserId = editByAdminuserId;
 	}
 
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public boolean isError() {
+		return isError;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
+
 	@Override
 	public String toString() {
 		return "Registration [regId=" + regId + ", userUuid=" + userUuid + ", userType=" + userType + ", emails="
@@ -375,9 +399,11 @@ public class Registration {
 				+ delStatus + ", addDate=" + addDate + ", editDate=" + editDate + ", editByUserId=" + editByUserId
 				+ ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
 				+ ", emailCode=" + emailCode + ", emailVerified=" + emailVerified + ", smsCode=" + smsCode
-				+ ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + "]";
+				+ ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + ", msg=" + msg
+				+ ", isError=" + isError + "]";
 	}
+
 	
-	
-	
+
+		
 }

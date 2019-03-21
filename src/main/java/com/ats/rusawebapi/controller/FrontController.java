@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.Commons;
 import com.ats.rusawebapi.EmailUtility;
 import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
@@ -78,6 +79,9 @@ public class FrontController {
 	 * <version>1.4</version> </dependency>
 	 */
 
+	 static String senderEmail = "atsinfosoft@gmail.com";
+	 static String senderPassword = "atsinfosoft@123";
+	 static String mailsubject = " RUSA Login Credentials ";
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
 
@@ -602,4 +606,120 @@ public class FrontController {
 		return otpRespose;
 
 	}
+	
+	@RequestMapping(value = { "/loginFrontEnd" }, method = RequestMethod.POST)
+	public @ResponseBody Registration loginFrontEnd(@RequestParam("userName") String userName,@RequestParam("password") String password) {
+
+		Registration regResponse = new Registration();
+		OtpResponse otpRespose = new OtpResponse();
+		try {
+
+			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			regResponse = registrationRepo.findByEmailsAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(userName,password, 1, 1,1);
+
+			if (regResponse != null) {
+				regResponse.setError(false);
+				regResponse.setMsg("Successful Login");	
+				} 
+			else
+				{
+				regResponse = registrationRepo.findByMobileNumberAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(userName,password, 1,1,1);
+
+					if (regResponse != null) {
+						regResponse.setError(false);
+						regResponse.setMsg("Successful Login");				
+					}
+					else
+					{
+						regResponse.setError(true);
+						regResponse.setMsg("Invalid Credencials");
+						
+					}
+				}
+			
+
+		} catch (Exception e) {
+			otpRespose.setError(true);
+			otpRespose.setMsg("exception");
+
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return regResponse;
+
+	}
+	
+	@RequestMapping(value = { "/forgetPassword" }, method = RequestMethod.POST)
+	public @ResponseBody Registration forgetPassword(@RequestParam("email") String email,@RequestParam("mobileNumber") String mobileNumber) {
+
+		// User user = new User();
+		Registration regResponse = new Registration();
+		OtpResponse otpRespose = new OtpResponse();
+		Info info1=null;
+		try {
+
+			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			regResponse = registrationRepo.findByEmailsAndMobileNumberAndDelStatusAndEmailVerifiedAndIsActive(email,mobileNumber, 1, 1,1);
+
+			if (regResponse != null) {
+
+					Date date = new Date(); // your date
+					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+					
+					String password=Commons.getAlphaNumericString(5);
+					
+					regResponse.setUserPassword(password);
+					regResponse.setEditDate(sf.format(date));
+					registrationRepo.saveAndFlush(regResponse);
+					System.out.println("save");
+					  info1 = EmailUtility.sendEmail(senderEmail,senderPassword,email,mailsubject,regResponse.getName(),  password);
+					  if(info1!=null) 
+					  {
+						  	int updateDate = registrationRepo.updatePassword(password,regResponse.getUserUuid());
+						  	System.out.println(" update ragistration table :"+updateDate);
+						  	regResponse.setError(false);
+						  	regResponse.setMsg("Password Updated ");
+					  }
+			} else {
+
+				regResponse.setError(true);
+				regResponse.setMsg("Invalid Credencials");
+			}
+
+		} catch (Exception e) {
+			regResponse.setError(true);
+			regResponse.setMsg("exception");
+
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return regResponse;
+
+	}
+	@RequestMapping(value = { "/changePassword" }, method = RequestMethod.POST)
+	public @ResponseBody Info changePassword(@RequestParam("regId") String regId,@RequestParam("password") String password) {
+
+		Date date = new Date(); // your date
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		String f=sf.format(date);
+		int isUpdate = registrationRepo.updatePasswordByRegId(regId,password);
+		Info infoRes = new Info();
+
+		if (isUpdate  >= 1) {
+
+			
+			
+			infoRes.setError(false);
+			infoRes.setMsg("Updated Password Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Password Failed to update");
+		}
+		return infoRes;
+	}	
+
 }
