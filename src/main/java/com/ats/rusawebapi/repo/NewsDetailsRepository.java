@@ -49,12 +49,12 @@ public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Intege
 	List<NewsDetails> getLastFourNewsByLangId(int langId);
 	
 	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword \r\n" + 
-			"from t_newsblogs n,t_newsblogs_description nd where DATE(n.add_date) < DATE(NOW()) and  n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId and n.ex_int1=11 order by n.newsblogs_id DESC\r\n" + 
+			"from t_newsblogs n,t_newsblogs_description nd where DATE(n.add_date) < DATE(NOW()) and DATE(n.edit_date) < DATE(NOW()) and  n.is_active=1  and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId and n.ex_int1=11 order by n.newsblogs_id DESC\r\n" + 
 			"",nativeQuery=true)
 	List<NewsDetails> getAllPreviousEvents(int langId);
 	
 	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword \r\n" + 
-			"from t_newsblogs n,t_newsblogs_description nd where DATE(n.add_date) >= DATE(NOW()) and  n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId and n.ex_int1=11 order by n.newsblogs_id DESC\r\n" + 
+			"from t_newsblogs n,t_newsblogs_description nd where DATE(n.add_date) >= DATE(NOW()) and DATE(n.edit_date) >= DATE(NOW()) and n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId and n.ex_int1=11 order by n.newsblogs_id DESC\r\n" + 
 			"",nativeQuery=true)
 	List<NewsDetails> getAllUpcomingEvents(int langId);
 }

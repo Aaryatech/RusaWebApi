@@ -20,6 +20,8 @@ import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
+import com.ats.rusawebapi.model.EventDetails;
+import com.ats.rusawebapi.model.EventRegistration;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.HomeData;
 import com.ats.rusawebapi.model.LoginResponse;
@@ -35,6 +37,8 @@ import com.ats.rusawebapi.repo.AppTokenRepository;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
+import com.ats.rusawebapi.repo.EventDetailRepository;
+import com.ats.rusawebapi.repo.EventRegisterRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.RegistrationRepo;
@@ -75,8 +79,12 @@ public class FrontController {
 	@Autowired
 	AppTokenRepository appTokenListRepo;
 	
+	@Autowired
+	EventRegisterRepository eventRegRepo;	
 	
-
+	@Autowired
+	EventDetailRepository eventDetailRegRepo;
+ 
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -200,6 +208,20 @@ public class FrontController {
 
 		try {
 			secSaveResponse = testImonialListRepo.getLastFiveTestImonials();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getLastFiveTestImonialsVideo" }, method = RequestMethod.GET)
+	public @ResponseBody List<TestImonial> getLastFiveTestImonialsVideo() {
+		List<TestImonial> secSaveResponse = new ArrayList<TestImonial>();
+
+		try {
+			secSaveResponse = testImonialListRepo.getLastFiveTestImonialsVideo();
 
 		} catch (Exception e) {
 
@@ -763,6 +785,86 @@ public class FrontController {
 
 		try {
 			secSaveResponse = newsDetailRepo.getAllUpcomingEvents(langId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/saveEventRegister" }, method = RequestMethod.POST)
+	public @ResponseBody EventRegistration saveEventRegister(@RequestBody EventRegistration getEventList) {
+
+		Info errorMessage = new Info();
+		EventRegistration eventRegList = null;
+		try {
+
+			eventRegList = eventRegRepo.save(getEventList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return eventRegList;
+	}
+	
+
+	@RequestMapping(value = { "/getAllRegisteredEvents" }, method = RequestMethod.GET)
+	public @ResponseBody List<EventRegistration> getAllRegisteredEvents() {
+		List<EventRegistration> secSaveResponse = new ArrayList<EventRegistration>();
+
+		try {
+			secSaveResponse = eventRegRepo.findAll();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/approveUserByEventId" }, method = RequestMethod.POST)
+	public @ResponseBody Info approveUserByEventId(@RequestParam("eventId") int eventId) {
+
+		int isApprove = eventRegRepo.updateApproveStatus(eventId);
+		Info infoRes = new Info();
+
+		if (isApprove >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("User Approve Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg(" Failed to update Status");
+		}
+		return infoRes;
+	}
+	
+	
+	
+	@RequestMapping(value = { "/getUserInfoByUserId" }, method = RequestMethod.GET)
+	public @ResponseBody List<EventDetails> getUserInfoByUserId() {
+		List<EventDetails> secSaveResponse = new ArrayList<EventDetails>();
+
+		try {
+			secSaveResponse = eventDetailRegRepo.getAllEventRegisteredUser();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getUserEventByEventRegId" }, method = RequestMethod.POST)
+	public @ResponseBody EventRegistration getUserEventByEventRegId(@RequestParam("eventRegId") int eventRegId) {
+		EventRegistration secSaveResponse = new EventRegistration();
+
+		try {
+			secSaveResponse = eventRegRepo.findByEventRegIdAndDelStatus(eventRegId, 1);
 
 		} catch (Exception e) {
 
