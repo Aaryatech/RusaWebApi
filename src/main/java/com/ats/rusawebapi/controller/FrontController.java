@@ -22,9 +22,12 @@ import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.EventDetails;
 import com.ats.rusawebapi.model.EventRegistration;
+import com.ats.rusawebapi.model.EventView;
 import com.ats.rusawebapi.model.GallaryDetail;
+import com.ats.rusawebapi.model.GetPagesModule;
 import com.ats.rusawebapi.model.HomeData;
 import com.ats.rusawebapi.model.LoginResponse;
+import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.OtpResponse;
 import com.ats.rusawebapi.model.Registration;
@@ -39,7 +42,9 @@ import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
 import com.ats.rusawebapi.repo.EventDetailRepository;
 import com.ats.rusawebapi.repo.EventRegisterRepository;
+import com.ats.rusawebapi.repo.EventViewRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
+import com.ats.rusawebapi.repo.NewsBlogRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.RegistrationRepo;
 import com.ats.rusawebapi.repo.SettingRepo;
@@ -84,7 +89,9 @@ public class FrontController {
 	
 	@Autowired
 	EventDetailRepository eventDetailRegRepo;
- 
+	
+	@Autowired
+	EventViewRepository eventRepo;
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -871,5 +878,21 @@ public class FrontController {
 			e.printStackTrace();
 		}
 		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getAllEventList" }, method = RequestMethod.GET)
+	public @ResponseBody List<EventView> getAllEventList() {
+
+		List<EventView> list = new ArrayList<>();
+
+		try {
+ 				list = eventRepo.getAllEvents();
+			 } catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
 	}
 }

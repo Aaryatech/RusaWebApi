@@ -37,7 +37,7 @@ public class NewsBlog {
 	@Column(name="event_contact_person")
 	private String eventContactPerson;
 	
-	@Column(name="eventContactNumber")
+	@Column(name="event_contact_number")
 	private String eventContactNumber;
 	
 	@Column(name="page_order")

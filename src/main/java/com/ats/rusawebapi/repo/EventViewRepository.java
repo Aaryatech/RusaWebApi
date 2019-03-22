@@ -1,0 +1,21 @@
+package com.ats.rusawebapi.repo;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.ats.rusawebapi.model.EventView;
+
+
+public interface EventViewRepository extends JpaRepository<EventView, Integer>{
+
+	
+	@Query(value="select t.newsblogs_id, pm.module_id,nd.heading,nd.descriptions,t.add_date,t.edit_date,t.event_location,t.event_date_from,t.event_contact_person,t.event_contact_number,t.ex_int2\r\n" + 
+			"	from t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd 	"
+			+ "where p.page_id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=11 and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1  group by t.newsblogs_id\r\n" + 
+			"	",nativeQuery=true) 
+
+	List<EventView> getAllEvents();
+
+}
