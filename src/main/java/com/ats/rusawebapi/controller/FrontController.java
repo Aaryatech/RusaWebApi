@@ -771,7 +771,20 @@ public class FrontController {
 		return conList;
 	}
 	
+	
+	@RequestMapping(value = { "/getAllEventsL" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getAllEventsL(@RequestParam("langId") int langId) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
 
+		try {
+			secSaveResponse = newsDetailRepo.getAllEvents(langId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 	@RequestMapping(value = { "/getAllPreviousEvents" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsDetails> getAllPreviousEvents(@RequestParam("langId") int langId) {
 		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
@@ -893,6 +906,7 @@ public class FrontController {
 		}
 
 		return list;
-
 	}
+	
+	 
 }

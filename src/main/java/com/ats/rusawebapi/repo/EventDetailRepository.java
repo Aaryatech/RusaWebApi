@@ -15,5 +15,7 @@ public interface EventDetailRepository extends JpaRepository<EventDetails, Integ
 			+ "where n.del_status=1 and n.reg_id=nd.user_id",nativeQuery=true)
 	List<EventDetails> getAllEventRegisteredUser();
 	
+	
+	
 
 }

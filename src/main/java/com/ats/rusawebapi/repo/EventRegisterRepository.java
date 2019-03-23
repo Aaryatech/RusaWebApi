@@ -20,6 +20,18 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 	int updateApproveStatus(@Param("eventId") int eventId);
 
 	EventRegistration findByEventRegIdAndDelStatus(int eventRegId, int i);
-
-
+	/*
+	 * @Query(
+	 * value="select count(*) as totalApplied from event_registration ,t_newsblogs "
+	 * + "where event_registration.del_status=1 and " +
+	 * "event_registration.newsblogs_id = t_newsblogs.newsblogs_id  ",nativeQuery=
+	 * true) Integer getAllEventAppliedCount();
+	 * 
+	 * @Query(
+	 * value="select count(*) as totalApproved from event_registration ,t_newsblogs "
+	 * + "where event_registration.del_status=1 and " +
+	 * "event_registration.newsblogs_id = t_newsblogs.newsblogs_id  ",nativeQuery=
+	 * true) Integer getAllEventApprovedCount();
+	 * 
+	 */
 }

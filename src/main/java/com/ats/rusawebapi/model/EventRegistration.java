@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "event_registration")
@@ -56,6 +57,8 @@ public class EventRegistration {
 	
 	@Column(name="ex_var2")
 	private String exVar2;
+
+	
 
 	public int getEventRegId() {
 		return eventRegId;
