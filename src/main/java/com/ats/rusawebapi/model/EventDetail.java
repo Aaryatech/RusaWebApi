@@ -1,65 +1,49 @@
 package com.ats.rusawebapi.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
-@Table(name = "event_registration")
-public class EventRegistration {
+public class EventDetail {
+	
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="event_reg_id")
 	private int eventRegId;
 	
-	@Column(name="user_id")
 	private int userId;
 	
-	@Column(name="reg_date")
 	private String regDate;
 	
-	@Column(name="newsblogs_id")
 	private int newsblogsId;
 	
-	@Column(name="status_approval")
 	private int statusApproval;
 	
-	@Column(name="approval_date")
 	private String approvalDate;
 	
-	@Column(name="approve_by")
 	private int approveBy;
 	
-	@Column(name="doc1")
 	private String doc1;
 	
-	@Column(name="doc2")
 	private int doc2;	
 	
-	@Column(name="is_active")
 	private int isActive;
 	
-	@Column(name="del_status")
 	private int delStatus;
 	
-	@Column(name="ex_int1")
 	private int exInt1;
-	@Column(name="ex_int2")
+	
 	private int exInt2;
 	
-	@Column(name="ex_var1")
 	private String exVar1;
 	
-	@Column(name="ex_var2")
 	private String exVar2;
-
-
 	
+	private String name;
+	
+	private String heading;
+	
+	private String mobileNumber;
+
 	public int getEventRegId() {
 		return eventRegId;
 	}
@@ -180,13 +164,38 @@ public class EventRegistration {
 		this.exVar2 = exVar2;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getHeading() {
+		return heading;
+	}
+
+	public void setHeading(String heading) {
+		this.heading = heading;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "EventRegistration [eventRegId=" + eventRegId + ", userId=" + userId + ", regDate=" + regDate
+		return "EventDetail [eventRegId=" + eventRegId + ", userId=" + userId + ", regDate=" + regDate
 				+ ", newsblogsId=" + newsblogsId + ", statusApproval=" + statusApproval + ", approvalDate="
 				+ approvalDate + ", approveBy=" + approveBy + ", doc1=" + doc1 + ", doc2=" + doc2 + ", isActive="
 				+ isActive + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1="
-				+ exVar1 + ", exVar2=" + exVar2 + "]";
+				+ exVar1 + ", exVar2=" + exVar2 + ", name=" + name + ", heading=" + heading + ", mobileNumber="
+				+ mobileNumber + "]";
 	}
 	
 	

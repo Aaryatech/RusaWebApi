@@ -11,6 +11,30 @@ import com.ats.rusawebapi.model.EventView;
 public interface EventViewRepository extends JpaRepository<EventView, Integer>{
 
 	
+	/*
+	 * @Query(value="  select\n" + "        t.newsblogs_id,\n" +
+	 * "        pm.module_id,\n" + "        nd.heading,\n" +
+	 * "        nd.descriptions,\n" + "        t.add_date,\n" +
+	 * "        t.edit_date,\n" + "        t.event_location,\n" +
+	 * "        t.event_date_from,\n" + "        t.event_contact_person,\n" +
+	 * "        t.event_contact_number,\n" + "        t.ex_int2   ,\n" +
+	 * "        (select\n" + "            count(*) \n" + "        from\n" +
+	 * "            event_registration e \n" + "        where\n" +
+	 * "            e.del_status=1 \n" +
+	 * "            and t.newsblogs_id=e.newsblogs_id ) as totalApplied ,	  (select  count(*) from   event_registration e  where   e.del_status=1 and  e.status_approval=1  and t.newsblogs_id=e.newsblogs_id ) as totalApproved\n"
+	 * + "    from\n" + "        t_tpages_modules pm,\n" + "        t_pages p,\n" +
+	 * "        m_modules_name m,\n" + "        t_newsblogs t  ,\n" +
+	 * "        t_newsblogs_description nd  \n" + "    where\n" +
+	 * "        p.page_id=pm.module_id  \n" +
+	 * "        and t.newsblogs_id=pm.primary_key_id \n" +
+	 * "        and pm.module_id=11 \n" + "        and t.del_status=1 \n" +
+	 * "        and t.newsblogs_id=nd.newsblogs_id \n" +
+	 * "        and nd.language_id=1 \n" + "    group by\n" +
+	 * "        t.newsblogs_id   \n" + "",nativeQuery=true)
+	 * 
+	 * List<EventView> getAllEventsListCount();
+	 */
+ 
 	@Query(value="  select\n" + 
 			"        t.newsblogs_id,\n" + 
 			"        pm.module_id,\n" + 
@@ -22,15 +46,7 @@ public interface EventViewRepository extends JpaRepository<EventView, Integer>{
 			"        t.event_date_from,\n" + 
 			"        t.event_contact_person,\n" + 
 			"        t.event_contact_number,\n" + 
-			"        t.ex_int2   ,\n" + 
-			"        (select\n" + 
-			"            count(*) \n" + 
-			"        from\n" + 
-			"            event_registration e \n" + 
-			"        where\n" + 
-			"            e.del_status=1 \n" + 
-			"            and t.newsblogs_id=e.newsblogs_id ) as totalApplied ,	  (select  count(*) from   event_registration e  where   e.del_status=1 and  e.status_approval=1  and t.newsblogs_id=e.newsblogs_id ) as totalApproved\n" + 
-			"    from\n" + 
+			"        t.ex_int2 from\n" + 
 			"        t_tpages_modules pm,\n" + 
 			"        t_pages p,\n" + 
 			"        m_modules_name m,\n" + 
@@ -48,7 +64,6 @@ public interface EventViewRepository extends JpaRepository<EventView, Integer>{
 			"",nativeQuery=true) 
 
 	List<EventView> getAllEvents();
- 
 	
 	/*
 	 * @Query(

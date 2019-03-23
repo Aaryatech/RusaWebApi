@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 import com.ats.rusawebapi.model.EventDetails;
 import com.ats.rusawebapi.model.EventRegistration;
 
-public interface EventRegisterRepository extends JpaRepository<EventRegistration, Integer>{
+public interface EventRegisterRepository extends JpaRepository<EventRegistration, Integer> {
 
 	@Transactional
 	@Modifying
@@ -20,6 +20,7 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 	int updateApproveStatus(@Param("eventId") int eventId);
 
 	EventRegistration findByEventRegIdAndDelStatus(int eventRegId, int i);
+
 	/*
 	 * @Query(
 	 * value="select count(*) as totalApplied from event_registration ,t_newsblogs "
@@ -34,4 +35,5 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 	 * true) Integer getAllEventApprovedCount();
 	 * 
 	 */
+
 }

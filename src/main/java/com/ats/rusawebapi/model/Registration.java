@@ -114,8 +114,7 @@ public class Registration {
 	
 	@Transient
 	private boolean isError;
-	
-	
+
 	public int getRegId() {
 		return regId;
 	}
@@ -402,8 +401,7 @@ public class Registration {
 				+ ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + ", msg=" + msg
 				+ ", isError=" + isError + "]";
 	}
-
 	
-
-		
+	
+	 
 }

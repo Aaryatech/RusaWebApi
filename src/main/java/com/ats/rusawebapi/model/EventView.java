@@ -46,11 +46,11 @@ public class EventView {
 	@Column(name="ex_int2")
 	private int exInt2;
 	
-	@Transient
-	private int totalApplied;
-	
-	@Transient
-	private int totalApprove;
+	/*
+	 * @Transient private int totalApplied;
+	 * 
+	 * @Transient private int totalApprove;
+	 */
 	
 	public int getNewsblogsId() {
 		return newsblogsId;
@@ -144,30 +144,14 @@ public class EventView {
 		this.exInt2 = exInt2;
 	}
 
-	public int getTotalApplied() {
-		return totalApplied;
-	}
-
-	public void setTotalApplied(int totalApplied) {
-		this.totalApplied = totalApplied;
-	}
-
-	public int getTotalApprove() {
-		return totalApprove;
-	}
-
-	public void setTotalApprove(int totalApprove) {
-		this.totalApprove = totalApprove;
-	}
-
 	@Override
 	public String toString() {
 		return "EventView [newsblogsId=" + newsblogsId + ", heading=" + heading + ", moduleId=" + moduleId
 				+ ", descriptions=" + descriptions + ", addDate=" + addDate + ", eventLocation=" + eventLocation
 				+ ", eventDateFrom=" + eventDateFrom + ", eventContactPerson=" + eventContactPerson
-				+ ", eventContactNumber=" + eventContactNumber + ", editDate=" + editDate + ", exInt2=" + exInt2
-				+ ", totalApplied=" + totalApplied + ", totalApprove=" + totalApprove + "]";
+				+ ", eventContactNumber=" + eventContactNumber + ", editDate=" + editDate + ", exInt2=" + exInt2 + "]";
 	}
+
 
 	
 

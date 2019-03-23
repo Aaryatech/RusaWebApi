@@ -20,6 +20,7 @@ import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
+import com.ats.rusawebapi.model.EventDetail;
 import com.ats.rusawebapi.model.EventDetails;
 import com.ats.rusawebapi.model.EventRegistration;
 import com.ats.rusawebapi.model.EventView;
@@ -40,6 +41,7 @@ import com.ats.rusawebapi.repo.AppTokenRepository;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
+import com.ats.rusawebapi.repo.EventDetailRepo;
 import com.ats.rusawebapi.repo.EventDetailRepository;
 import com.ats.rusawebapi.repo.EventRegisterRepository;
 import com.ats.rusawebapi.repo.EventViewRepository;
@@ -92,6 +94,9 @@ public class FrontController {
 	
 	@Autowired
 	EventViewRepository eventRepo;
+	
+	@Autowired
+	EventDetailRepo eventDetailRepo;
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -906,7 +911,23 @@ public class FrontController {
 		}
 
 		return list;
+	}  
+	
+	@RequestMapping(value = { "/getEventDataByRegId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventDetail> getEventDataByRegId(@RequestParam("eventRegId") int eventRegId) {
+		List<EventDetail> secSaveResponse = new ArrayList<>();
+
+		try {
+			secSaveResponse = eventDetailRepo.getEventDetailList(eventRegId); 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
 	}
+	
+	
 	
 	 
 }
