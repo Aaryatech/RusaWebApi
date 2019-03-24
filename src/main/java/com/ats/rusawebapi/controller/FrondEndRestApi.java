@@ -1,9 +1,9 @@
 package com.ats.rusawebapi.controller;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,135 +38,139 @@ import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SubCategoryListRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.repo.frontend.CmsContentRepository;
-import com.ats.rusawebapi.repo.frontend.FaqContentRepository; 
+import com.ats.rusawebapi.repo.frontend.FaqContentRepository;
 
 @RestController
 public class FrondEndRestApi {
-	
+
 	@Autowired
 	PageRepo pageRepo;
-	
+
 	@Autowired
 	PagesModuleRepository pagesModuleRepo;
-	
+
 	@Autowired
 	CmsContentRepository cmsContentRepository;
-	
+
 	@Autowired
 	FaqContentRepository faqContentRepository;
-	
+
 	@Autowired
 	DocumentUploadRepository documentUploadRepository;
-	
+
 	@Autowired
 	TestImonialRepository testImonialListRepo;
-	
+
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
-	
+
 	@Autowired
 	NewsDetailsRepository newsBolgRepo;
-	
+
 	@Autowired
 	SectionTreeRepository sectionTreeRepository;
-	
+
 	@Autowired
 	CategoryListRepository categoryListRepository;
-	
+
 	@Autowired
 	SubCategoryListRepository subCategoryListRepository;
-	
+
 	@Autowired
 	SiteMaintenanceRepository siteMaintenanceRepo;
-	
+
 	@Autowired
 	MetaDataRepository metaDataRepo;
-	
+
 	@Autowired
 	PageMetaDataRepository pageMetaDataRepo;
-	
+
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
 			@RequestParam("langId") int langId) {
 
-		 
 		PageContent pageContent = new PageContent();
 		try {
 
 			Page page = pageRepo.findByPageSlug(slugName);
-			 List<Integer> moduleList = pagesModuleRepo.getmoduleList(page.getPageId());
-			  int sectionId = pageRepo.getSectioinId(page.getPageId());
+			List<Integer> moduleList = pagesModuleRepo.getmoduleList(page.getPageId());
+			int sectionId = pageRepo.getSectioinId(page.getPageId());
 			pageContent.setPageId(page.getPageId());
 			pageContent.setPageName(page.getPageName());
 			pageContent.setSectioinId(sectionId);
-			for(int i = 0 ;i<moduleList.size() ; i++) {
-				
-				
-				if(moduleList.get(i)==1) {
-					
-					List<CmsContent> cmsContentList = cmsContentRepository.getCmsContent(langId,page.getPageId());
+			for (int i = 0; i < moduleList.size(); i++) {
+
+				if (moduleList.get(i) == 1) {
+
+					List<CmsContent> cmsContentList = cmsContentRepository.getCmsContent(langId, page.getPageId());
 					pageContent.setCmsContentList(cmsContentList);
-					
-				}else if(moduleList.get(i)==2) {
-					
-					List<FaqContent> faqContentList = faqContentRepository.getFaqContent(langId,page.getPageId());
+
+				} else if (moduleList.get(i) == 2) {
+
+					List<FaqContent> faqContentList = faqContentRepository.getFaqContent(langId, page.getPageId());
 					pageContent.setFaqContentList(faqContentList);
-					
-				}else if(moduleList.get(i)==7){
-					
-					List<DocumentUpload> documentUploadList= documentUploadRepository.findByPageIdAndDelStatusAndIsActiveOrderBySortNo(page.getPageId(),1,1);
+
+				} else if (moduleList.get(i) == 7) {
+
+					List<DocumentUpload> documentUploadList = documentUploadRepository
+							.findByPageIdAndDelStatusAndIsActiveOrderBySortNo(page.getPageId(), 1, 1);
 					pageContent.setDocumentUploadList(documentUploadList);
-				} else if(moduleList.get(i)==6){
-					
-					List<TestImonial> testImonialList = testImonialListRepo.findByPageIdAndDelStatusAndIsActive(page.getPageId(),1,1);
+				} else if (moduleList.get(i) == 6) {
+
+					List<TestImonial> testImonialList = testImonialListRepo
+							.findByPageIdAndDelStatusAndIsActiveAndSectionId(page.getPageId(), 1, 1, 6);
 					pageContent.setTestImonialList(testImonialList);
-				}else if(moduleList.get(i)==3){
-					
-					 List<GallaryDetail> gallaryDetailList = gallaryDetailRepository.findByIsActiveAndDelStatusAndPageId(1,1,page.getPageId());
+				} else if (moduleList.get(i) == 3) {
+
+					List<GallaryDetail> gallaryDetailList = gallaryDetailRepository
+							.findByIsActiveAndDelStatusAndPageId(1, 1, page.getPageId());
 					pageContent.setGallaryDetailList(gallaryDetailList);
-				}else if(moduleList.get(i)==9){
-					
-					List<NewsDetails> newsBlogList = newsBolgRepo.getNewsContent(langId,page.getPageId());
+				} else if (moduleList.get(i) == 9) {
+
+					List<NewsDetails> newsBlogList = newsBolgRepo.getNewsContent(langId, page.getPageId());
 					pageContent.setDetailNewsList(newsBlogList);
+				} else if (moduleList.get(i) == 13) {
+
+					List<TestImonial> testImonialList = testImonialListRepo
+							.findByPageIdAndDelStatusAndIsActiveAndSectionId(page.getPageId(), 1, 1, 13);
+					pageContent.setTeamList(testImonialList);
+				} else if (moduleList.get(i) == 8) {
+
+					List<TestImonial> testImonialList = testImonialListRepo
+							.findByPageIdAndDelStatusAndIsActiveAndSectionId(page.getPageId(), 1, 1, 8);
+					pageContent.setSuccessList(testImonialList);
 				}
 
-				
-				
-				
-				
 			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			 
+
 		}
 		return pageContent;
 
 	}
-	
+
 	@RequestMapping(value = { "/getTopMenuList" }, method = RequestMethod.POST)
-	public @ResponseBody TopMenuList getTopMenuList(@RequestParam("langId") int langId,@RequestParam("type") List<Integer> type) {
+	public @ResponseBody TopMenuList getTopMenuList(@RequestParam("langId") int langId,
+			@RequestParam("type") List<Integer> type) {
 
 		TopMenuList topMenuList = new TopMenuList();
-		
-		  
 
 		try {
 
-			List<SectionTree> list = sectionTreeRepository.getSectionListByLangId(langId,type);
+			List<SectionTree> list = sectionTreeRepository.getSectionListByLangId(langId, type);
 			topMenuList.setSectionlist(list);
-			
+
 			List<CategoryList> categoryList = categoryListRepository.getCategoryListByLangId(langId);
 			topMenuList.setCategoryList(categoryList);
-			
+
 			List<SubCategoryList> subCategoryList = subCategoryListRepository.getSubCategoryListByLangId(langId);
 			topMenuList.setSubCatList(subCategoryList);
-			
-			 
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 
 		}
@@ -174,21 +178,18 @@ public class FrondEndRestApi {
 		return topMenuList;
 
 	}
-	
+
 	@RequestMapping(value = { "/checkIsMaintenance" }, method = RequestMethod.GET)
 	public @ResponseBody Maintainance checkIsMaintenance() {
 
 		Maintainance maintainance = new Maintainance();
-		
-		  
 
 		try {
 
 			maintainance = siteMaintenanceRepo.checkIsMaintenance();
-			 
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 
 		}
@@ -196,21 +197,18 @@ public class FrondEndRestApi {
 		return maintainance;
 
 	}
-	
+
 	@RequestMapping(value = { "/getPageMetaData" }, method = RequestMethod.POST)
 	public @ResponseBody PageMetaData getPageMetaData(@RequestParam("slugName") String slugName) {
 
 		PageMetaData pageMetaData = new PageMetaData();
-		
-		  
 
 		try {
 
 			pageMetaData = pageMetaDataRepo.getPageMetaData(slugName);
-			 
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 
 		}
@@ -218,19 +216,18 @@ public class FrondEndRestApi {
 		return pageMetaData;
 
 	}
-	
+
 	@RequestMapping(value = { "/getHomePageMetaDataByLangId" }, method = RequestMethod.POST)
 	public @ResponseBody MetaData getHomePageMetaDataByLangId(@RequestParam("langId") int langId) {
 
 		MetaData metaResponse = new MetaData();
-		 
+
 		try {
-			metaResponse = metaDataRepo.findByLanguageId(langId); 
-		System.out.println(metaResponse);
-			   
+			metaResponse = metaDataRepo.findByLanguageId(langId);
+			System.out.println(metaResponse);
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 		}
 		return metaResponse;

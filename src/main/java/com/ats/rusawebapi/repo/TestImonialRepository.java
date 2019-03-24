@@ -22,10 +22,9 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 
 	
 	@Query(value="select * from t_testimonials where id=:id and is_active=1 and del_status=1",nativeQuery=true) 
-	TestImonial getTestListById(@Param("id") int id);
-
-
-	List<TestImonial> findByPageIdAndDelStatusAndIsActive(int pageId, int i, int j);
+	TestImonial getTestListById(@Param("id") int id); 
+	
+	List<TestImonial> findByPageIdAndDelStatusAndIsActiveAndSectionId(int pageId, int i, int j, int k);
 	
 	@Query(value="SELECT t.* FROM t_testimonials t where t.is_active=1 and t.del_status=1 and t.section_id=6 ORDER BY t.id DESC LIMIT 5",nativeQuery=true)
 	List<TestImonial> getLastFiveTestImonials();

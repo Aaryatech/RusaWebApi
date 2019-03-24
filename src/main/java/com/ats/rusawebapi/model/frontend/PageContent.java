@@ -19,7 +19,8 @@ public class PageContent {
 	List<TestImonial> testImonialList;
 	List<GallaryDetail> gallaryDetailList;
 	List<NewsDetails> detailNewsList;
-	
+	List<TestImonial> successList;
+	List<TestImonial> teamList;
 
 	public int getPageId() {
 		return pageId;
@@ -84,12 +85,25 @@ public class PageContent {
 	public void setDetailNewsList(List<NewsDetails> detailNewsList) {
 		this.detailNewsList = detailNewsList;
 	}
+	public List<TestImonial> getSuccessList() {
+		return successList;
+	}
+	public void setSuccessList(List<TestImonial> successList) {
+		this.successList = successList;
+	}
+	public List<TestImonial> getTeamList() {
+		return teamList;
+	}
+	public void setTeamList(List<TestImonial> teamList) {
+		this.teamList = teamList;
+	}
 	@Override
 	public String toString() {
 		return "PageContent [pageId=" + pageId + ", pageName=" + pageName + ", slugName=" + slugName + ", sectioinId="
 				+ sectioinId + ", cmsContentList=" + cmsContentList + ", faqContentList=" + faqContentList
 				+ ", documentUploadList=" + documentUploadList + ", testImonialList=" + testImonialList
-				+ ", gallaryDetailList=" + gallaryDetailList + ", detailNewsList=" + detailNewsList + "]";
+				+ ", gallaryDetailList=" + gallaryDetailList + ", detailNewsList=" + detailNewsList + ", successList="
+				+ successList + ", teamList=" + teamList + "]";
 	}
 	
 
