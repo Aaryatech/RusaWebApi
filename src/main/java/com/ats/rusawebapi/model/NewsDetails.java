@@ -29,10 +29,10 @@ public class NewsDetails {
 	private String eventLocation;
 	
 	@Column(name="event_date_from")
-	private String eventDateFrom;
+	private Date eventDateFrom;
 	
 	@Column(name="event_date_to")
-	private String eventDateTo;
+	private Date eventDateTo;
 	
 	@Column(name="event_contact_person")
 	private String eventContactPerson;
@@ -132,20 +132,20 @@ public class NewsDetails {
 	public void setEventLocation(String eventLocation) {
 		this.eventLocation = eventLocation;
 	}
-
-	public String getEventDateFrom() {
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getEventDateFrom() {
 		return eventDateFrom;
 	}
 
-	public void setEventDateFrom(String eventDateFrom) {
+	public void setEventDateFrom(Date eventDateFrom) {
 		this.eventDateFrom = eventDateFrom;
 	}
-
-	public String getEventDateTo() {
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getEventDateTo() {
 		return eventDateTo;
 	}
 
-	public void setEventDateTo(String eventDateTo) {
+	public void setEventDateTo(Date eventDateTo) {
 		this.eventDateTo = eventDateTo;
 	}
 

@@ -146,7 +146,7 @@ public class FrondEndRestApi {
 	}
 	
 	@RequestMapping(value = { "/getTopMenuList" }, method = RequestMethod.POST)
-	public @ResponseBody TopMenuList getTopMenuList(@RequestParam("langId") int langId) {
+	public @ResponseBody TopMenuList getTopMenuList(@RequestParam("langId") int langId,@RequestParam("type") List<Integer> type) {
 
 		TopMenuList topMenuList = new TopMenuList();
 		
@@ -154,7 +154,7 @@ public class FrondEndRestApi {
 
 		try {
 
-			List<SectionTree> list = sectionTreeRepository.getSectionListByLangId(langId);
+			List<SectionTree> list = sectionTreeRepository.getSectionListByLangId(langId,type);
 			topMenuList.setSectionlist(list);
 			
 			List<CategoryList> categoryList = categoryListRepository.getCategoryListByLangId(langId);
