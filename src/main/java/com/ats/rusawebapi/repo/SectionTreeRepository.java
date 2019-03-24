@@ -24,7 +24,7 @@ public interface SectionTreeRepository extends JpaRepository<SectionTree, Intege
 			"        t_pages t\n" + 
 			"    where\n" + 
 			"        m_section.del_status=1  \n" + 
-			"        and t.page_slug=m_section.section_slugname\n" + 
+			"        and t.page_slug=m_section.section_slugname \n" + 
 			"    order by\n" + 
 			"        m_section.sec_sort_no",nativeQuery=true) 
 	List<SectionTree> getSectionTreeStructure();
@@ -48,7 +48,7 @@ public interface SectionTreeRepository extends JpaRepository<SectionTree, Intege
 			"        and sd.section_id=s.section_id         \n" + 
 			"        and sd.language_id=:langId       \n" + 
 			"        and s.is_active=1 \n" + 
-			"        and t.page_slug=s.section_slugname     \n" + 
+			"        and t.page_slug=s.section_slugname and s.ex_int1=1   \n" + 
 			"    order by\n" + 
 			"        s.sec_sort_no",nativeQuery=true) 
 	List<SectionTree> getSectionListByLangId(@Param("langId") int langId);
