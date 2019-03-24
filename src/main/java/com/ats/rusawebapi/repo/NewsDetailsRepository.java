@@ -78,6 +78,13 @@ public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Intege
 	  + "and nd.language_id=:langId and n.ex_int1=11 and n.newsblogs_id=:newsblogsId ",nativeQuery=true) 
 	  NewsDetails getEventListByNewblogsId(@Param("newsblogsId") int newsblogsId,@Param("langId") int langId);
 
+	  @Query(
+			  value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword "
+			  		+ "from t_newsblogs n,t_newsblogs_description nd where n.is_active=1  "
+			  		+ "and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId "
+			  		+ "and n.ex_int1=9 and n.newsblogs_id=:newsblogsId ",nativeQuery=true) 
+	NewsDetails getNewsListByNewsId(int newsblogsId, int langId);
+
 
 	//NewsDetails getEventListByNewblogsId(int langId, int pageId, int newsblogsId);
 	 

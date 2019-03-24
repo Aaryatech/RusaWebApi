@@ -977,6 +977,23 @@ public class FrontController {
 		return secSaveResponse;
 	}
 	
+
+	  @RequestMapping(value = { "/getNewsListByNewsId" }, method =
+	  RequestMethod.POST) public @ResponseBody NewsDetails
+	  getNewsListByNewsId(@RequestParam("newsblogsId") int newsblogsId,@RequestParam("langId") int langId) {
+	  
+	  NewsDetails list = new NewsDetails();
+	  
+	  try { list = newsDetailRepo.getNewsListByNewsId(newsblogsId,langId);
+	  
+	  } catch (Exception e) {
+	  
+	  e.printStackTrace(); }
+	  
+	  return list;
+	  
+	  }
+	
 	
 	
 	 
