@@ -66,7 +66,7 @@ public class MasterApiControllerNew {
 	
 	@Autowired
 	ModuleNameRepository moduleNameRepo;
-	
+	  
 	@Autowired
 	CMSPagesRepository cmsPagesRepo;
 	
@@ -895,6 +895,9 @@ public class MasterApiControllerNew {
 		return list;
 
 	}
+	
+	
+	 
 	@RequestMapping(value = { "/getEventList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetPagesModule> getEventList() {
 

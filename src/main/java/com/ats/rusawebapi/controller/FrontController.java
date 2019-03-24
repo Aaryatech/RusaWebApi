@@ -62,7 +62,7 @@ public class FrontController {
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
 
-	@Autowired
+	@Autowired  
 	CmsSearchDataRepository cmsPageDescRepository;
 
 	@Autowired
@@ -913,12 +913,62 @@ public class FrontController {
 		return list;
 	}  
 	
+
+	  @RequestMapping(value = { "/getEventListByNewsId" }, method =
+	  RequestMethod.POST) public @ResponseBody NewsDetails
+	  getEventListByNewsId(@RequestParam("newsblogsId") int newsblogsId,@RequestParam("langId") int langId) {
+	  
+	  NewsDetails list = new NewsDetails();
+	  
+	  try { list = newsDetailRepo.getEventListByNewblogsId(newsblogsId,langId);
+	  
+	  } catch (Exception e) {
+	  
+	  e.printStackTrace(); }
+	  
+	  return list;
+	  
+	  }
+	/*
+	 * @RequestMapping(value = { "/getEventListByNewsId" }, method =
+	 * RequestMethod.POST) public @ResponseBody NewsDetails
+	 * getEventListByNewsId(@RequestParam("langId") int
+	 * langId,@RequestParam("pageId") int pageId,@RequestParam("newsblogsId") int
+	 * newsblogsId) {
+	 * 
+	 * NewsDetails list = new NewsDetails();
+	 * 
+	 * try { list = newsDetailRepo.getEventListByNewblogsId(newsblogsId,langId,);
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
+	
 	@RequestMapping(value = { "/getEventDataByRegId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EventDetail> getEventDataByRegId(@RequestParam("eventRegId") int eventRegId) {
 		List<EventDetail> secSaveResponse = new ArrayList<>();
 
 		try {
 			secSaveResponse = eventDetailRepo.getEventDetailList(eventRegId); 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getCurrentMonthEvents" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getCurrentMonthEvents(@RequestParam("firstDate") String firstDate,@RequestParam("endDate") String endDate) {
+		List<NewsDetails> secSaveResponse = new ArrayList<>();
+
+		try {
+			secSaveResponse = newsDetailRepo.getCurrentMonthE(firstDate,endDate); 
 
 		} catch (Exception e) {
 

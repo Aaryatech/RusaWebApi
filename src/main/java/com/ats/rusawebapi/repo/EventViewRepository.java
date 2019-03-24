@@ -46,7 +46,8 @@ public interface EventViewRepository extends JpaRepository<EventView, Integer>{
 			"        t.event_date_from,\n" + 
 			"        t.event_contact_person,\n" + 
 			"        t.event_contact_number,\n" + 
-			"        t.ex_int2 from\n" + 
+			"        t.ex_int2 "
+			+ "from\n" + 
 			"        t_tpages_modules pm,\n" + 
 			"        t_pages p,\n" + 
 			"        m_modules_name m,\n" + 
@@ -57,7 +58,7 @@ public interface EventViewRepository extends JpaRepository<EventView, Integer>{
 			"        and t.newsblogs_id=pm.primary_key_id \n" + 
 			"        and pm.module_id=11 \n" + 
 			"        and t.del_status=1 \n" + 
-			"        and t.newsblogs_id=nd.newsblogs_id \n" + 
+			"        and t.newsblogs_id=nd.newsblogs_id and t.ex_int1=11\n" + 
 			"        and nd.language_id=1 \n" + 
 			"    group by\n" + 
 			"        t.newsblogs_id   \n" + 

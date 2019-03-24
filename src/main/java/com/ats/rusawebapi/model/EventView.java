@@ -60,7 +60,6 @@ public class EventView {
 		this.newsblogsId = newsblogsId;
 	}
 
-
 	public String getHeading() {
 		return heading;
 	}
@@ -76,8 +75,6 @@ public class EventView {
 	public void setDescriptions(String descriptions) {
 		this.descriptions = descriptions;
 	}
-
-
 	
 	public String getAddDate() {
 		return addDate;
