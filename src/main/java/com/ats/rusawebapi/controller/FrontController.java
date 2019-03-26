@@ -978,6 +978,19 @@ public class FrontController {
 	}
 	
 
+	@RequestMapping(value = { "/getAppliedEvents" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventRegistration> getAppliedEvents(@RequestParam("newsblogsId") int newsblogsId,@RequestParam("userId") int userId) {
+		List<EventRegistration> secSaveResponse = new ArrayList<EventRegistration>();
+
+		try {
+			secSaveResponse = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId,userId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	} 
 	  @RequestMapping(value = { "/getNewsListByNewsId" }, method =
 	  RequestMethod.POST) public @ResponseBody NewsDetails
 	  getNewsListByNewsId(@RequestParam("newsblogsId") int newsblogsId,@RequestParam("langId") int langId) {
@@ -994,7 +1007,14 @@ public class FrontController {
 	  
 	  }
 	
-	
-	
+	/*
+	 * select n.*, nd.heading, nd.descriptions, nd.language_id, nd.page_meta_title,
+	 * nd.page_meta_description, nd.page_meta_keyword e. from t_newsblogs n,
+	 * t_newsblogs_description nd , event_registration e where
+	 * DATE(n.event_date_from) < DATE(NOW()) and n.is_active=1 and n.del_status=1
+	 * and n.newsblogs_id=nd.newsblogs_id and nd.language_id=2 and n.ex_int1=11 and
+	 * e.user_id IN(5) and n.newsblogs_id=e.newsblogs_id order by n.newsblogs_id
+	 * DESC
+	 */
 	 
 }

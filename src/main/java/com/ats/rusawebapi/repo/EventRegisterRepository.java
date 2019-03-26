@@ -21,6 +21,11 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 
 	EventRegistration findByEventRegIdAndDelStatus(int eventRegId, int i);
 
+	List<EventRegistration> findByNewsblogsIdAndUserIdAndStatusApproval(int newsblogsId, int userId, int i);
+
+	List<EventRegistration> findByNewsblogsIdAndUserId(int newsblogsId, int userId);
+
+	
 	/*
 	 * @Query(
 	 * value="select count(*) as totalApplied from event_registration ,t_newsblogs "
