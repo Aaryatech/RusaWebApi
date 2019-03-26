@@ -62,7 +62,7 @@ public class FrontController {
 	@Autowired
 	GallaryDetailRepository gallaryDetailRepository;
 
-	@Autowired  
+	@Autowired
 	CmsSearchDataRepository cmsPageDescRepository;
 
 	@Autowired
@@ -79,22 +79,22 @@ public class FrontController {
 
 	@Autowired
 	RegistrationRepo registrationRepo;
-	
+
 	@Autowired
 	SmsCodeRepository smsCodeRepo;
 
 	@Autowired
 	AppTokenRepository appTokenListRepo;
-	
+
 	@Autowired
-	EventRegisterRepository eventRegRepo;	
-	
+	EventRegisterRepository eventRegRepo;
+
 	@Autowired
 	EventDetailRepository eventDetailRegRepo;
-	
+
 	@Autowired
 	EventViewRepository eventRepo;
-	
+
 	@Autowired
 	EventDetailRepo eventDetailRepo;
 	/*
@@ -102,9 +102,10 @@ public class FrontController {
 	 * <version>1.4</version> </dependency>
 	 */
 
-	 static String senderEmail = "atsinfosoft@gmail.com";
-	 static String senderPassword = "atsinfosoft@123";
-	 static String mailsubject = " RUSA Login Credentials ";
+	static String senderEmail = "atsinfosoft@gmail.com";
+	static String senderPassword = "atsinfosoft@123";
+	static String mailsubject = " RUSA Login Credentials ";
+
 	@RequestMapping(value = { "/saveContactUs" }, method = RequestMethod.POST)
 	public @ResponseBody ContactUs saveContactUs(@RequestBody ContactUs getContactList) {
 
@@ -227,7 +228,7 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+
 	@RequestMapping(value = { "/getLastFiveTestImonialsVideo" }, method = RequestMethod.GET)
 	public @ResponseBody List<TestImonial> getLastFiveTestImonialsVideo() {
 		List<TestImonial> secSaveResponse = new ArrayList<TestImonial>();
@@ -452,7 +453,7 @@ public class FrontController {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1,0);
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1, 0);
 
 			if (regResponse != null) {
 
@@ -517,28 +518,26 @@ public class FrontController {
 		}
 		return infoRes;
 	}
-	
+
 	@RequestMapping(value = { "/getMobileNumberByUuidId" }, method = RequestMethod.POST)
 	public @ResponseBody Registration getMobileNumberByUuidId(@RequestParam("uuid") String uuid) {
 
 		Registration secSaveResponse = new Registration();
-		 
+
 		try {
-			secSaveResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1 ,0); 
-		
-			 
+			secSaveResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1, 0);
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 		}
 		return secSaveResponse;
 	}
-	
-	@RequestMapping(value = { "/updateOtpByUuid" }, method = RequestMethod.POST)
-	public @ResponseBody Info updateOtpByUuid(@RequestParam("uuid") String uuid,@RequestParam("otp") String otp) {
 
-		int isDeleted = registrationRepo.updateOtpByUuid(uuid,otp);
+	@RequestMapping(value = { "/updateOtpByUuid" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateOtpByUuid(@RequestParam("uuid") String uuid, @RequestParam("otp") String otp) {
+
+		int isDeleted = registrationRepo.updateOtpByUuid(uuid, otp);
 		Info infoRes = new Info();
 
 		if (isDeleted >= 1) {
@@ -563,14 +562,14 @@ public class FrontController {
 			infoRes.setMsg("OTP status Failed");
 		}
 		return infoRes;
-	}	
+	}
 
 	@RequestMapping(value = { "/getRegUserbyRegId" }, method = RequestMethod.POST)
 	public @ResponseBody Registration getRegUserbyRegId(@RequestParam("regId") int regId) {
 		Registration secSaveResponse = new Registration();
 
 		try {
-			secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId,1);
+			secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId, 1);
 
 		} catch (Exception e) {
 
@@ -617,7 +616,7 @@ public class FrontController {
 					Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
 
 					int updateDate = registrationRepo.updateOtp(otp, uuid);
-					System.out.println(" update ragistration table :"+updateDate);
+					System.out.println(" update ragistration table :" + updateDate);
 					otpRespose.setError(false);
 					otpRespose.setMsg("Otp Updated ");
 					otpRespose.setReg(reg1);
@@ -643,9 +642,10 @@ public class FrontController {
 		return otpRespose;
 
 	}
-	
+
 	@RequestMapping(value = { "/loginFrontEnd" }, method = RequestMethod.POST)
-	public @ResponseBody Registration loginFrontEnd(@RequestParam("userName") String userName,@RequestParam("password") String password) {
+	public @ResponseBody Registration loginFrontEnd(@RequestParam("userName") String userName,
+			@RequestParam("password") String password) {
 
 		Registration regResponse = new Registration();
 		OtpResponse otpRespose = new OtpResponse();
@@ -653,28 +653,25 @@ public class FrontController {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByEmailsAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(userName,password, 1, 1,1);
+			regResponse = registrationRepo.findByEmailsAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(userName,
+					password, 1, 1, 1);
 
 			if (regResponse != null) {
 				regResponse.setError(false);
-				regResponse.setMsg("Successful Login");	
-				} 
-			else
-				{
-				regResponse = registrationRepo.findByMobileNumberAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(userName,password, 1,1,1);
+				regResponse.setMsg("Successful Login");
+			} else {
+				regResponse = registrationRepo.findByMobileNumberAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(
+						userName, password, 1, 1, 1);
 
-					if (regResponse != null) {
-						regResponse.setError(false);
-						regResponse.setMsg("Successful Login");				
-					}
-					else
-					{
-						regResponse.setError(true);
-						regResponse.setMsg("Invalid Credencials");
-						
-					}
+				if (regResponse != null) {
+					regResponse.setError(false);
+					regResponse.setMsg("Successful Login");
+				} else {
+					regResponse.setError(true);
+					regResponse.setMsg("Invalid Credencials");
+
 				}
-			
+			}
 
 		} catch (Exception e) {
 			otpRespose.setError(true);
@@ -686,41 +683,43 @@ public class FrontController {
 		return regResponse;
 
 	}
-	
+
 	@RequestMapping(value = { "/forgetPassword" }, method = RequestMethod.POST)
-	public @ResponseBody Registration forgetPassword(@RequestParam("email") String email,@RequestParam("mobileNumber") String mobileNumber) {
+	public @ResponseBody Registration forgetPassword(@RequestParam("email") String email,
+			@RequestParam("mobileNumber") String mobileNumber) {
 
 		// User user = new User();
 		Registration regResponse = new Registration();
 		OtpResponse otpRespose = new OtpResponse();
-		Info info1=null;
+		Info info1 = null;
 		try {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByEmailsAndMobileNumberAndDelStatusAndEmailVerifiedAndIsActive(email,mobileNumber, 1, 1,1);
+			regResponse = registrationRepo.findByEmailsAndMobileNumberAndDelStatusAndEmailVerifiedAndIsActive(email,
+					mobileNumber, 1, 1, 1);
 
 			if (regResponse != null) {
 
-					Date date = new Date(); // your date
-					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(date);
-					
-					String password=Commons.getAlphaNumericString(5);
-					
-					regResponse.setUserPassword(password);
-					regResponse.setEditDate(sf.format(date));
-					registrationRepo.saveAndFlush(regResponse);
-					System.out.println("save");
-					  info1 = EmailUtility.sendEmail(senderEmail,senderPassword,email,mailsubject,regResponse.getName(),  password);
-					  if(info1!=null) 
-					  {
-						  	int updateDate = registrationRepo.updatePassword(password,regResponse.getUserUuid());
-						  	System.out.println(" update ragistration table :"+updateDate);
-						  	regResponse.setError(false);
-						  	regResponse.setMsg("Password Updated ");
-					  }
+				Date date = new Date(); // your date
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+
+				String password = Commons.getAlphaNumericString(5);
+
+				regResponse.setUserPassword(password);
+				regResponse.setEditDate(sf.format(date));
+				registrationRepo.saveAndFlush(regResponse);
+				System.out.println("save");
+				info1 = EmailUtility.sendEmail(senderEmail, senderPassword, email, mailsubject, regResponse.getName(),
+						password);
+				if (info1 != null) {
+					int updateDate = registrationRepo.updatePassword(password, regResponse.getUserUuid());
+					System.out.println(" update ragistration table :" + updateDate);
+					regResponse.setError(false);
+					regResponse.setMsg("Password Updated ");
+				}
 			} else {
 
 				regResponse.setError(true);
@@ -737,19 +736,19 @@ public class FrontController {
 		return regResponse;
 
 	}
+
 	@RequestMapping(value = { "/changePassword" }, method = RequestMethod.POST)
-	public @ResponseBody Info changePassword(@RequestParam("regId") String regId,@RequestParam("password") String password) {
+	public @ResponseBody Info changePassword(@RequestParam("regId") String regId,
+			@RequestParam("password") String password) {
 
 		Date date = new Date(); // your date
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		String f=sf.format(date);
-		int isUpdate = registrationRepo.updatePasswordByRegId(regId,password);
+		String f = sf.format(date);
+		int isUpdate = registrationRepo.updatePasswordByRegId(regId, password);
 		Info infoRes = new Info();
 
-		if (isUpdate  >= 1) {
+		if (isUpdate >= 1) {
 
-			
-			
 			infoRes.setError(false);
 			infoRes.setMsg("Updated Password Successfully");
 		} else {
@@ -757,8 +756,8 @@ public class FrontController {
 			infoRes.setMsg("Password Failed to update");
 		}
 		return infoRes;
-	}	
-	
+	}
+
 	@RequestMapping(value = { "/getAllEventsList" }, method = RequestMethod.GET)
 	public @ResponseBody List<Registration> getAllEventsList() {
 
@@ -775,8 +774,7 @@ public class FrontController {
 		}
 		return conList;
 	}
-	
-	
+
 	@RequestMapping(value = { "/getAllEventsL" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsDetails> getAllEventsL(@RequestParam("langId") int langId) {
 		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
@@ -790,6 +788,7 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
+
 	@RequestMapping(value = { "/getAllPreviousEvents" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsDetails> getAllPreviousEvents(@RequestParam("langId") int langId) {
 		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
@@ -803,7 +802,7 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+
 	@RequestMapping(value = { "/getAllUpcomingEvents" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsDetails> getAllUpcomingEvents(@RequestParam("langId") int langId) {
 		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
@@ -817,7 +816,7 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+
 	@RequestMapping(value = { "/saveEventRegister" }, method = RequestMethod.POST)
 	public @ResponseBody EventRegistration saveEventRegister(@RequestBody EventRegistration getEventList) {
 
@@ -836,7 +835,6 @@ public class FrontController {
 		}
 		return eventRegList;
 	}
-	
 
 	@RequestMapping(value = { "/getAllRegisteredEvents" }, method = RequestMethod.GET)
 	public @ResponseBody List<EventRegistration> getAllRegisteredEvents() {
@@ -851,7 +849,7 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+
 	@RequestMapping(value = { "/approveUserByEventId" }, method = RequestMethod.POST)
 	public @ResponseBody Info approveUserByEventId(@RequestParam("eventId") int eventId) {
 
@@ -867,9 +865,7 @@ public class FrontController {
 		}
 		return infoRes;
 	}
-	
-	
-	
+
 	@RequestMapping(value = { "/getUserInfoByUserId" }, method = RequestMethod.GET)
 	public @ResponseBody List<EventDetails> getUserInfoByUserId() {
 		List<EventDetails> secSaveResponse = new ArrayList<EventDetails>();
@@ -883,7 +879,7 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+
 	@RequestMapping(value = { "/getUserEventByEventRegId" }, method = RequestMethod.POST)
 	public @ResponseBody EventRegistration getUserEventByEventRegId(@RequestParam("eventRegId") int eventRegId) {
 		EventRegistration secSaveResponse = new EventRegistration();
@@ -897,38 +893,39 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+
 	@RequestMapping(value = { "/getAllEventList" }, method = RequestMethod.GET)
 	public @ResponseBody List<EventView> getAllEventList() {
 
 		List<EventView> list = new ArrayList<>();
 
 		try {
- 				list = eventRepo.getAllEvents();
-			 } catch (Exception e) {
-		 
+			list = eventRepo.getAllEvents();
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
 
 		return list;
-	}  
-	
+	}
 
-	  @RequestMapping(value = { "/getEventListByNewsId" }, method =
-	  RequestMethod.POST) public @ResponseBody NewsDetails
-	  getEventListByNewsId(@RequestParam("newsblogsId") int newsblogsId,@RequestParam("langId") int langId) {
-	  
-	  NewsDetails list = new NewsDetails();
-	  
-	  try { list = newsDetailRepo.getEventListByNewblogsId(newsblogsId,langId);
-	  
-	  } catch (Exception e) {
-	  
-	  e.printStackTrace(); }
-	  
-	  return list;
-	  
-	  }
+	@RequestMapping(value = { "/getEventListByNewsId" }, method = RequestMethod.POST)
+	public @ResponseBody NewsDetails getEventListByNewsId(@RequestParam("newsblogsId") int newsblogsId,
+			@RequestParam("langId") int langId) {
+
+		NewsDetails list = new NewsDetails();
+
+		try {
+			list = newsDetailRepo.getEventListByNewblogsId(newsblogsId, langId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 	/*
 	 * @RequestMapping(value = { "/getEventListByNewsId" }, method =
 	 * RequestMethod.POST) public @ResponseBody NewsDetails
@@ -948,13 +945,13 @@ public class FrontController {
 	 * 
 	 * }
 	 */
-	
+
 	@RequestMapping(value = { "/getEventDataByRegId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EventDetail> getEventDataByRegId(@RequestParam("eventRegId") int eventRegId) {
 		List<EventDetail> secSaveResponse = new ArrayList<>();
 
 		try {
-			secSaveResponse = eventDetailRepo.getEventDetailList(eventRegId); 
+			secSaveResponse = eventDetailRepo.getEventDetailList(eventRegId);
 
 		} catch (Exception e) {
 
@@ -962,13 +959,14 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
+
 	@RequestMapping(value = { "/getCurrentMonthEvents" }, method = RequestMethod.POST)
-	public @ResponseBody List<NewsDetails> getCurrentMonthEvents(@RequestParam("firstDate") String firstDate,@RequestParam("endDate") String endDate) {
+	public @ResponseBody List<NewsDetails> getCurrentMonthEvents(@RequestParam("firstDate") String firstDate,
+			@RequestParam("endDate") String endDate) {
 		List<NewsDetails> secSaveResponse = new ArrayList<>();
 
 		try {
-			secSaveResponse = newsDetailRepo.getCurrentMonthE(firstDate,endDate); 
+			secSaveResponse = newsDetailRepo.getCurrentMonthE(firstDate, endDate);
 
 		} catch (Exception e) {
 
@@ -976,37 +974,65 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
-	
 
 	@RequestMapping(value = { "/getAppliedEvents" }, method = RequestMethod.POST)
-	public @ResponseBody List<EventRegistration> getAppliedEvents(@RequestParam("newsblogsId") int newsblogsId,@RequestParam("userId") int userId) {
+	public @ResponseBody List<EventRegistration> getAppliedEvents(@RequestParam("newsblogsId") int newsblogsId,
+			@RequestParam("userId") int userId) {
 		List<EventRegistration> secSaveResponse = new ArrayList<EventRegistration>();
 
 		try {
-			secSaveResponse = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId,userId);
+			secSaveResponse = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId, userId);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 		return secSaveResponse;
-	} 
-	  @RequestMapping(value = { "/getNewsListByNewsId" }, method =
-	  RequestMethod.POST) public @ResponseBody NewsDetails
-	  getNewsListByNewsId(@RequestParam("newsblogsId") int newsblogsId,@RequestParam("langId") int langId) {
-	  
-	  NewsDetails list = new NewsDetails();
-	  
-	  try { list = newsDetailRepo.getNewsListByNewsId(newsblogsId,langId);
-	  
-	  } catch (Exception e) {
-	  
-	  e.printStackTrace(); }
-	  
-	  return list;
-	  
-	  }
-	
+	}
+
+	@RequestMapping(value = { "/getNewsListByNewsId" }, method = RequestMethod.POST)
+	public @ResponseBody NewsDetails getNewsListByNewsId(@RequestParam("newsblogsId") int newsblogsId,
+			@RequestParam("langId") int langId) {
+
+		NewsDetails list = new NewsDetails();
+
+		try {
+			list = newsDetailRepo.getNewsListByNewsId(newsblogsId, langId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getLastPassword" }, method = RequestMethod.POST)
+	public @ResponseBody Info getLastPassword(@RequestParam("userId") int userId, @RequestParam("pass") String pass) {
+		Info info = new Info();
+		Registration reg = null;
+		try {
+			reg = registrationRepo.findByRegIdAndUserPassword(userId, pass);
+
+			if (reg == null) {
+				info.setError(true);
+				info.setMsg("Password Incorrect");
+			} else {
+				info.setError(false);
+				info.setMsg("Password Correct");
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return info;
+
+	}
+
 	/*
 	 * select n.*, nd.heading, nd.descriptions, nd.language_id, nd.page_meta_title,
 	 * nd.page_meta_description, nd.page_meta_keyword e. from t_newsblogs n,
@@ -1016,5 +1042,26 @@ public class FrontController {
 	 * e.user_id IN(5) and n.newsblogs_id=e.newsblogs_id order by n.newsblogs_id
 	 * DESC
 	 */
-	 
+	@RequestMapping(value = { "/uploadEventDocument" }, method = RequestMethod.POST)
+	public @ResponseBody Info uploadEventDocument(@RequestParam("regId") int regId,@RequestParam("newsblogsId") int newsblogsId,
+			@RequestParam("pdfName") String pdfName) {
+
+		Date date = new Date(); // your date
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		String f = sf.format(date);
+		int isUpdate = eventRegRepo.updateDocByRegId(regId,newsblogsId, pdfName);
+		Info infoRes = new Info();
+
+		if (isUpdate >= 1) {
+
+			infoRes.setError(false);
+			infoRes.setMsg("Upload Document Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Document Failed to update");
+		}
+		return infoRes;
+	}
+	
+
 }

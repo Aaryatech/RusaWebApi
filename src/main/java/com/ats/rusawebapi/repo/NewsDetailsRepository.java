@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.NewsDetails;
+import com.ats.rusawebapi.model.Registration;
 
 public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Integer>
 {
@@ -84,6 +85,8 @@ public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Intege
 			  		+ "and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId "
 			  		+ "and n.ex_int1=9 and n.newsblogs_id=:newsblogsId ",nativeQuery=true) 
 	NewsDetails getNewsListByNewsId(int newsblogsId, int langId);
+
+
 
 
 	//NewsDetails getEventListByNewblogsId(int langId, int pageId, int newsblogsId);

@@ -26,6 +26,13 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 	List<EventRegistration> findByNewsblogsIdAndUserId(int newsblogsId, int userId);
 
 	
+	
+	@Transactional
+	@Modifying
+	@Query("update EventRegistration set doc1=:pdfName  WHERE user_id=:regId and newsblogs_id=:newsblogsId")
+	int updateDocByRegId(@Param("regId") int regId, @Param("newsblogsId") int newsblogsId, @Param("pdfName") String pdfName);
+
+	
 	/*
 	 * @Query(
 	 * value="select count(*) as totalApplied from event_registration ,t_newsblogs "
