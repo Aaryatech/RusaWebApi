@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.model.CalenderList;
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GallaryDetail;
@@ -18,6 +19,7 @@ import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PageMetaData;
+import com.ats.rusawebapi.model.Result;
 import com.ats.rusawebapi.model.SectionTree;
 import com.ats.rusawebapi.model.SubCategoryList;
 import com.ats.rusawebapi.model.TestImonial;
@@ -33,6 +35,7 @@ import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PageMetaDataRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
+import com.ats.rusawebapi.repo.ResultRepository;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
 import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SubCategoryListRepository;
@@ -84,6 +87,9 @@ public class FrondEndRestApi {
 
 	@Autowired
 	PageMetaDataRepository pageMetaDataRepo;
+	
+	@Autowired
+	ResultRepository resultRepository;
 
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -231,6 +237,23 @@ public class FrondEndRestApi {
 			e.printStackTrace();
 		}
 		return metaResponse;
+	}
+	
+	@RequestMapping(value = { "/getEventListforCalender" }, method = RequestMethod.GET)
+	public @ResponseBody CalenderList getEventListforCalender() {
+
+		CalenderList calenderList = new CalenderList();
+
+		try {
+			List<Result> result = resultRepository.getEventListforCalender(); 
+			calenderList.setResult(result);
+			calenderList.setSuccess(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return calenderList;
 	}
 
 }
