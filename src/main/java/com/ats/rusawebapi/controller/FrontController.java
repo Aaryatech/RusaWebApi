@@ -1019,8 +1019,17 @@ public class FrontController {
 				info.setError(true);
 				info.setMsg("Password Incorrect");
 			} else {
-				info.setError(false);
-				info.setMsg("Password Correct");
+				
+				reg = registrationRepo.findByRegIdAndUserPasswordAndExInt1(userId, pass,1);
+				if (reg != null) {
+				info.setError(true);
+				info.setMsg("Password Already Updated  ");
+				}
+				else
+				{
+					info.setError(false);
+					info.setMsg("Password Correct");
+				}
 
 			}
 

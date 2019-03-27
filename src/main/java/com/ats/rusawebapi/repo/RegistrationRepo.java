@@ -67,8 +67,13 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query("update Registration set user_password=:password WHERE reg_id=:regId") 
+	@Query("update Registration set user_password=:password, ex_int1=1 WHERE reg_id=:regId ") 
 	int updatePasswordByRegId(@Param("regId") String regId, @Param("password")String password);
 
 	Registration findByRegIdAndUserPassword(int userId, String pass);
+
+	Registration findByRegIdAndUserPasswordAndExInt1(int userId, String pass, int i);
+	
 }
+
+	
