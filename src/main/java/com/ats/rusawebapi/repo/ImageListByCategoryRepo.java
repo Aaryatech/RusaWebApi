@@ -12,7 +12,7 @@ public interface ImageListByCategoryRepo extends JpaRepository<ImageListByCatego
 	
 	@Query(value="select  g.gallery_details_id,g.gallery_cat_id,count(g.gallery_details_id) as pic_count,c.cate_name , g.file_name from t_gallery_details g \n" + 
 			"	inner join  m_gallery_cat c on g.gallery_cat_id  = c.gallery_cat_id \n" + 
-			"	where g.page_id=:pageId  and g.del_status=1 group by g.gallery_cat_id",nativeQuery=true)
+			"	where g.page_id=:pageId  and g.del_status=1 group by g.gallery_cat_id order by c.sort_no ",nativeQuery=true)
 	List<ImageListByCategory> imageListByCategoryList(@Param("pageId") int pageId);
 
 }
