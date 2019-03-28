@@ -14,6 +14,7 @@ import com.ats.rusawebapi.model.CalenderList;
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.GallaryDetail;
+import com.ats.rusawebapi.model.ImageListByCategory;
 import com.ats.rusawebapi.model.Maintainance;
 import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.NewsDetails;
@@ -30,6 +31,7 @@ import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.repo.CategoryListRepository;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
+import com.ats.rusawebapi.repo.ImageListByCategoryRepo;
 import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PageMetaDataRepository;
@@ -91,6 +93,9 @@ public class FrondEndRestApi {
 	@Autowired
 	ResultRepository resultRepository;
 
+	@Autowired
+	ImageListByCategoryRepo  imageListByCategoryRepo;
+	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
 			@RequestParam("langId") int langId) {
@@ -146,6 +151,42 @@ public class FrondEndRestApi {
 							.findByPageIdAndDelStatusAndIsActiveAndSectionId(page.getPageId(), 1, 1, 8);
 					pageContent.setSuccessList(testImonialList);
 				}
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return pageContent;
+
+	}
+	
+	@RequestMapping(value = { "/getImages" }, method = RequestMethod.POST)
+	public @ResponseBody PageContent getImages(@RequestParam("slugName") String slugName) {
+
+		PageContent pageContent = new PageContent();
+		try {
+
+			Page page = pageRepo.findByPageSlug(slugName);
+			List<Integer> moduleList = pagesModuleRepo.getmoduleList(page.getPageId());
+			int sectionId = pageRepo.getSectioinId(page.getPageId());
+			pageContent.setPageId(page.getPageId());
+			pageContent.setPageName(page.getPageName());
+			pageContent.setSectioinId(sectionId);
+			for (int i = 0; i < moduleList.size(); i++) {
+
+				  if (moduleList.get(i) == 3) {
+
+					List<GallaryDetail> gallaryDetailList = gallaryDetailRepository
+							.findByIsActiveAndDelStatusAndPageId(1, 1, page.getPageId());
+					pageContent.setGallaryDetailList(gallaryDetailList);
+					
+					List<ImageListByCategory> imageListByCategoryList = imageListByCategoryRepo
+							.imageListByCategoryList(page.getPageId());
+					pageContent.setImageListByCategory(imageListByCategoryList);
+				}  
 
 			}
 
