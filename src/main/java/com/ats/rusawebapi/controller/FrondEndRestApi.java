@@ -103,7 +103,7 @@ public class FrondEndRestApi {
 		PageContent pageContent = new PageContent();
 		try {
 
-			Page page = pageRepo.findByPageSlug(slugName);
+			Page page = pageRepo.findByPageSlug(slugName,langId);
 			List<Integer> moduleList = pagesModuleRepo.getmoduleList(page.getPageId());
 			int sectionId = pageRepo.getSectioinId(page.getPageId());
 			pageContent.setPageId(page.getPageId());
@@ -164,12 +164,12 @@ public class FrondEndRestApi {
 	}
 	
 	@RequestMapping(value = { "/getImages" }, method = RequestMethod.POST)
-	public @ResponseBody PageContent getImages(@RequestParam("slugName") String slugName) {
+	public @ResponseBody PageContent getImages(@RequestParam("slugName") String slugName,@RequestParam("langId") int langId) {
 
 		PageContent pageContent = new PageContent();
 		try {
 
-			Page page = pageRepo.findByPageSlug(slugName);
+			Page page = pageRepo.findByPageSlug(slugName,langId);
 			List<Integer> moduleList = pagesModuleRepo.getmoduleList(page.getPageId());
 			int sectionId = pageRepo.getSectioinId(page.getPageId());
 			pageContent.setPageId(page.getPageId());
@@ -180,13 +180,24 @@ public class FrondEndRestApi {
 				  if (moduleList.get(i) == 3) {
 
 					List<GallaryDetail> gallaryDetailList = gallaryDetailRepository
-							.findByIsActiveAndDelStatusAndPageId(1, 1, page.getPageId());
+							.findByIsActiveAndDelStatusAndPageIdAndTypeVideoImage(1, 1, page.getPageId(),"3");
 					pageContent.setGallaryDetailList(gallaryDetailList);
 					
 					List<ImageListByCategory> imageListByCategoryList = imageListByCategoryRepo
-							.imageListByCategoryList(page.getPageId());
+							.imageListByCategoryList(page.getPageId(),langId);
 					pageContent.setImageListByCategory(imageListByCategoryList);
 				}  
+				  
+				  if (moduleList.get(i) == 4) {
+
+						List<GallaryDetail> gallaryDetailList = gallaryDetailRepository
+								.findByIsActiveAndDelStatusAndPageIdAndTypeVideoImage(1, 1, page.getPageId(),"4");
+						pageContent.setVideoList(gallaryDetailList);
+						
+						List<ImageListByCategory> imageListByCategoryList = imageListByCategoryRepo
+								.imageListByCategoryList(page.getPageId(),langId);
+						pageContent.setImageListByCategory(imageListByCategoryList);
+					}
 
 			}
 

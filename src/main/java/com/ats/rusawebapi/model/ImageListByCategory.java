@@ -17,8 +17,14 @@ public class ImageListByCategory {
 	@Column(name="gallery_cat_id")
 	private int galleryCatId;
 	
+	@Column(name="total_count")
+	private int totalCount;
+	
 	@Column(name="pic_count")
 	private int picCount;
+	
+	@Column(name="video_count")
+	private int videoCount;
 	
 	@Column(name="cate_name")
 	private String cateName;
@@ -66,13 +72,30 @@ public class ImageListByCategory {
 		this.fileName = fileName;
 	}
 
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public int getVideoCount() {
+		return videoCount;
+	}
+
+	public void setVideoCount(int videoCount) {
+		this.videoCount = videoCount;
+	}
+
 	@Override
 	public String toString() {
 		return "ImageListByCategory [galleryDetailsId=" + galleryDetailsId + ", galleryCatId=" + galleryCatId
-				+ ", picCount=" + picCount + ", cateName=" + cateName + ", fileName=" + fileName + "]";
+				+ ", totalCount=" + totalCount + ", picCount=" + picCount + ", videoCount=" + videoCount + ", cateName="
+				+ cateName + ", fileName=" + fileName + "]";
 	}
+
 	 
-	
 	
 
 }
