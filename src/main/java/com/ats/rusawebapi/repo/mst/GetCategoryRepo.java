@@ -60,6 +60,10 @@ public interface GetCategoryRepo extends JpaRepository<GetCategory, Integer> {
 	@Query(value="SELECT m_category.*, m_section.section_name,coalesce(0) as category_name from m_category,m_section WHERE  m_category.section_id=m_section.section_id "
 			+ "and m_category.section_id=:sectionId and m_category.del_status=1 and m_category.parent_id=0",nativeQuery=true)
 	List<GetCategory> getAllCatIdBySectionId(@Param("sectionId")int sectionId);
+	
+	@Query(value="SELECT m_category.*, m_section.section_name,coalesce(0) as category_name from m_category,m_section WHERE  m_category.section_id=m_section.section_id "
+			+ "and m_category.section_id=:sectionId and m_category.del_status=1 and m_category.parent_id=0 order by m_category.cat_id desc",nativeQuery=true)
+	List<GetCategory> getAllCatIdBySectionIdOrderByDesc(@Param("sectionId")int sectionId);
 
 	@Query(value=" SELECT\n" + 
 			"        m_category.cat_id,\n" + 
