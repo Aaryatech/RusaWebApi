@@ -364,7 +364,7 @@ public class FrontController {
 
 		try {
 
-			if (reg.getRegId() == 0) {
+			if (reg.getRegId() != 0) {
 				int randomPin = (int) (Math.random() * 9000) + 1000;
 				String otp = String.valueOf(randomPin);
 				System.out.println("You OTP is " + otp);
@@ -388,6 +388,51 @@ public class FrontController {
 				smsCodeRepo.saveAndFlush(sms);
 
 				Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
+
+				System.err.println("Info email sent response   " + info1.toString());
+
+			}
+		} catch (Exception e) {
+			System.err.println("Exce in saving Librarian " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return reg;
+
+	}
+
+
+	@RequestMapping(value = { "/saveEditReg" }, method = RequestMethod.POST)
+	public @ResponseBody Registration saveEditReg(@RequestBody Registration reg) {
+
+		Registration studResp = null;
+
+		try {
+
+			if (reg.getRegId() != 0) {
+				int randomPin = (int) (Math.random() * 9000) + 1000;
+				String otp = String.valueOf(randomPin);
+				System.out.println("You OTP is " + otp);
+
+				reg.setSmsCode(otp);
+				reg.setSmsVerified(0);
+				studResp = registrationRepo.saveAndFlush(reg);
+
+				Date date = new Date(); // your date
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+
+				SmsCode sms = new SmsCode();
+
+				sms.setSmsCode(otp);
+				sms.setUserUuid(studResp.getUserUuid());
+				sms.setSmsType(1);
+				sms.setDateSent(sf.format(date));
+
+				smsCodeRepo.saveAndFlush(sms);
+
+				Info info1 = EmailUtility.sendMsg(otp, studResp.getExVar2());
 
 				System.err.println("Info email sent response   " + info1.toString());
 
@@ -713,7 +758,7 @@ public class FrontController {
 				registrationRepo.saveAndFlush(regResponse);
 				System.out.println("save");
 				info1 = EmailUtility.sendEmail(senderEmail, senderPassword, email, mailsubject, regResponse.getName(),
-						password);
+						regResponse.getUserPassword());
 				if (info1 != null) {
 					int updateDate = registrationRepo.updatePassword(password, regResponse.getUserUuid());
 					System.out.println(" update ragistration table :" + updateDate);
