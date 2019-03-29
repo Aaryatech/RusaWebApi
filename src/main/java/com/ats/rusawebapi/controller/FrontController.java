@@ -76,7 +76,7 @@ public class FrontController {
 
 	@Autowired
 	SettingRepo settingRepository;
-
+  
 	@Autowired
 	RegistrationRepo registrationRepo;
 
