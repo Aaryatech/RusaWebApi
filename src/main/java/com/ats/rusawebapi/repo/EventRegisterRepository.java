@@ -23,7 +23,7 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 
 	List<EventRegistration> findByNewsblogsIdAndUserIdAndStatusApproval(int newsblogsId, int userId, int i);
 
-	List<EventRegistration> findByNewsblogsIdAndUserId(int newsblogsId, int userId);
+	EventRegistration findByNewsblogsIdAndUserId(int newsblogsId, int userId);
 
 	
 	

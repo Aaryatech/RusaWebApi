@@ -76,7 +76,7 @@ public class FrontController {
 
 	@Autowired
 	SettingRepo settingRepository;
-  
+
 	@Autowired
 	RegistrationRepo registrationRepo;
 
@@ -400,7 +400,6 @@ public class FrontController {
 		return reg;
 
 	}
-
 
 	@RequestMapping(value = { "/saveEditReg" }, method = RequestMethod.POST)
 	public @ResponseBody Registration saveEditReg(@RequestBody Registration reg) {
@@ -752,12 +751,13 @@ public class FrontController {
 		return otpRespose;
 
 	}
+
 	@RequestMapping(value = { "/loginFrontEnd" }, method = RequestMethod.POST)
 	public @ResponseBody Registration loginFrontEnd(@RequestParam("userName") String userName,
 			@RequestParam("password") String password) {
 
 		Registration regResponse = new Registration();
-		 
+
 		try {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
@@ -769,25 +769,25 @@ public class FrontController {
 				regResponse.setError(false);
 				regResponse.setMsg("Successful Login");
 			} else {
-				 
+
 				regResponse = registrationRepo.findByMobileNumberAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(
 						userName, password, 1, 1, 1);
 
 				if (regResponse != null) {
 					regResponse.setError(false);
 					regResponse.setMsg("Successful Login");
-				} 
-				 
+				}
+
 			}
-			
-			if(regResponse==null) {
+
+			if (regResponse == null) {
 				regResponse = new Registration();
 				regResponse.setError(true);
 				regResponse.setMsg("Invalid Credencials");
 			}
 
 		} catch (Exception e) {
-			 
+
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
 			regResponse = new Registration();
@@ -804,7 +804,7 @@ public class FrontController {
 
 		// User user = new User();
 		Registration regResponse = new Registration();
-		
+
 		Info info1 = null;
 		try {
 
@@ -834,23 +834,22 @@ public class FrontController {
 					regResponse.setError(false);
 					regResponse.setMsg("Password Updated ");
 				}
-			} 
-			
-			if(regResponse==null) {
+			}
+
+			if (regResponse == null) {
 				regResponse = new Registration();
 				regResponse.setError(true);
 				regResponse.setMsg("Invalid Credencials");
 			}
 
 		} catch (Exception e) {
-			
 
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
-				regResponse = new Registration();
-				regResponse.setError(true);
-				regResponse.setMsg("Invalid Credencials");
-			
+			regResponse = new Registration();
+			regResponse.setError(true);
+			regResponse.setMsg("Invalid Credencials");
+
 			e.printStackTrace();
 		}
 		return regResponse;
@@ -861,7 +860,6 @@ public class FrontController {
 	public @ResponseBody Info changePassword(@RequestParam("regId") String regId,
 			@RequestParam("password") String password) {
 
-	
 		int isUpdate = registrationRepo.updatePasswordByRegId(regId, password);
 		Info infoRes = new Info();
 
@@ -1112,7 +1110,7 @@ public class FrontController {
 	public @ResponseBody Info getAppliedEvents(@RequestParam("newsblogsId") int newsblogsId,
 			@RequestParam("userId") int userId) {
 		Info info = new Info();
-		List<EventRegistration> reg = new ArrayList<EventRegistration>();
+		EventRegistration reg = new EventRegistration();
 		try {
 			reg = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId, userId);
 
@@ -1120,10 +1118,10 @@ public class FrontController {
 				info.setError(true);
 				info.setMsg("Record Found");
 				System.out.print("asdcbvn");
-			} else {			
-					info.setError(false);
-					info.setMsg("Record not found");
-					System.out.print("asdcbdfghjkvn");
+			} else {
+				info.setError(false);
+				info.setMsg("Record not found");
+				System.out.print("asdcbdfghjkvn");
 			}
 
 		} catch (Exception e) {
@@ -1164,17 +1162,14 @@ public class FrontController {
 				info.setError(true);
 				info.setMsg("Password Incorrect");
 			} else {
-				
-				reg = registrationRepo.findByRegIdAndUserPasswordAndExInt1(userId, pass,1);
-				if (reg != null) {
-				info.setError(true);
-				info.setMsg("Password Already Updated  ");
-				}
-				else
-				{
-					info.setError(false);
-					info.setMsg("Password Correct");
-				}
+
+				/*
+				 * reg = registrationRepo.findByRegIdAndUserPassword(userId, pass); if (reg !=
+				 * null) { info.setError(true); info.setMsg("Password Already Updated  "); }
+				 */
+
+				info.setError(false);
+				info.setMsg("Password Correct");
 
 			}
 
@@ -1197,13 +1192,13 @@ public class FrontController {
 	 * DESC
 	 */
 	@RequestMapping(value = { "/uploadEventDocument" }, method = RequestMethod.POST)
-	public @ResponseBody Info uploadEventDocument(@RequestParam("regId") int regId,@RequestParam("newsblogsId") int newsblogsId,
-			@RequestParam("pdfName") String pdfName) {
+	public @ResponseBody Info uploadEventDocument(@RequestParam("regId") int regId,
+			@RequestParam("newsblogsId") int newsblogsId, @RequestParam("pdfName") String pdfName) {
 
 		Date date = new Date(); // your date
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		String f = sf.format(date);
-		int isUpdate = eventRegRepo.updateDocByRegId(regId,newsblogsId, pdfName);
+		int isUpdate = eventRegRepo.updateDocByRegId(regId, newsblogsId, pdfName);
 		Info infoRes = new Info();
 
 		if (isUpdate >= 1) {
@@ -1216,6 +1211,5 @@ public class FrontController {
 		}
 		return infoRes;
 	}
-	
 
 }
