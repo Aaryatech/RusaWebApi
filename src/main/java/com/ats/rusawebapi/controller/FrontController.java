@@ -757,7 +757,7 @@ public class FrontController {
 			@RequestParam("password") String password) {
 
 		Registration regResponse = new Registration();
-		OtpResponse otpRespose = new OtpResponse();
+		 
 		try {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
@@ -769,25 +769,30 @@ public class FrontController {
 				regResponse.setError(false);
 				regResponse.setMsg("Successful Login");
 			} else {
+				 
 				regResponse = registrationRepo.findByMobileNumberAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(
 						userName, password, 1, 1, 1);
 
 				if (regResponse != null) {
 					regResponse.setError(false);
 					regResponse.setMsg("Successful Login");
-				} else {
-					regResponse.setError(true);
-					regResponse.setMsg("Invalid Credencials");
-
-				}
+				} 
+				 
+			}
+			
+			if(regResponse==null) {
+				regResponse = new Registration();
+				regResponse.setError(true);
+				regResponse.setMsg("Invalid Credencials");
 			}
 
 		} catch (Exception e) {
-			otpRespose.setError(true);
-			otpRespose.setMsg("exception");
-
+			 
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
+			regResponse = new Registration();
+			regResponse.setError(true);
+			regResponse.setMsg("Invalid Credencials");
 		}
 		return regResponse;
 
@@ -799,7 +804,7 @@ public class FrontController {
 
 		// User user = new User();
 		Registration regResponse = new Registration();
-		OtpResponse otpRespose = new OtpResponse();
+		
 		Info info1 = null;
 		try {
 
@@ -829,17 +834,23 @@ public class FrontController {
 					regResponse.setError(false);
 					regResponse.setMsg("Password Updated ");
 				}
-			} else {
-
+			} 
+			
+			if(regResponse==null) {
+				regResponse = new Registration();
 				regResponse.setError(true);
 				regResponse.setMsg("Invalid Credencials");
 			}
 
 		} catch (Exception e) {
-			regResponse.setError(true);
-			regResponse.setMsg("exception");
+			
 
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+				regResponse = new Registration();
+				regResponse.setError(true);
+				regResponse.setMsg("Invalid Credencials");
+			
 			e.printStackTrace();
 		}
 		return regResponse;
@@ -850,9 +861,7 @@ public class FrontController {
 	public @ResponseBody Info changePassword(@RequestParam("regId") String regId,
 			@RequestParam("password") String password) {
 
-		Date date = new Date(); // your date
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		String f = sf.format(date);
+	
 		int isUpdate = registrationRepo.updatePasswordByRegId(regId, password);
 		Info infoRes = new Info();
 
@@ -1084,19 +1093,46 @@ public class FrontController {
 		return secSaveResponse;
 	}
 
+	/*
+	 * @RequestMapping(value = { "/getAppliedEvents" }, method = RequestMethod.POST)
+	 * public @ResponseBody List<EventRegistration>
+	 * getAppliedEvents(@RequestParam("newsblogsId") int newsblogsId,
+	 * 
+	 * @RequestParam("userId") int userId) { List<EventRegistration> secSaveResponse
+	 * = new ArrayList<EventRegistration>();
+	 * 
+	 * try { secSaveResponse = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId,
+	 * userId);
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); } return secSaveResponse; }
+	 */
 	@RequestMapping(value = { "/getAppliedEvents" }, method = RequestMethod.POST)
-	public @ResponseBody List<EventRegistration> getAppliedEvents(@RequestParam("newsblogsId") int newsblogsId,
+	public @ResponseBody Info getAppliedEvents(@RequestParam("newsblogsId") int newsblogsId,
 			@RequestParam("userId") int userId) {
-		List<EventRegistration> secSaveResponse = new ArrayList<EventRegistration>();
-
+		Info info = new Info();
+		List<EventRegistration> reg = new ArrayList<EventRegistration>();
 		try {
-			secSaveResponse = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId, userId);
+			reg = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId, userId);
+
+			if (reg == null) {
+				info.setError(true);
+				info.setMsg("Record Found");
+				System.out.print("asdcbvn");
+			} else {			
+					info.setError(false);
+					info.setMsg("Record not found");
+					System.out.print("asdcbdfghjkvn");
+			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		return secSaveResponse;
+
+		return info;
+
 	}
 
 	@RequestMapping(value = { "/getNewsListByNewsId" }, method = RequestMethod.POST)

@@ -377,8 +377,8 @@ public class Registration {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
-	}
-
+	}	
+	
 	public boolean isError() {
 		return isError;
 	}
