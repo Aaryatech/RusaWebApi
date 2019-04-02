@@ -50,7 +50,7 @@ public interface CmsSearchDataRepository extends JpaRepository<CmsSearchData, In
 			"        t_cms_pages_description cd,\n" + 
 			"        t_cms_pages ch,\n" + 
 			"        t_pages t\n" + 
-			"    WHERE  cd.language_id=:langId and ch.cms_page_id = cd.cms_page_id and cd.ex_int1=1 and ch.del_status=1 and ch.is_active=1 and t.page_id=ch.page_id ORDER BY ch.cms_page_id ASC LIMIT 4",nativeQuery=true) 
+			"    WHERE  cd.language_id=:langId and ch.cms_page_id = cd.cms_page_id and cd.ex_int1=1 and ch.del_status=1 and ch.is_active=1 and t.page_id=ch.page_id ORDER BY ch.page_order ASC LIMIT 4",nativeQuery=true) 
 	List<CmsSearchData> getCMSDescByExInt1(@Param("langId") int langId);
 
 }
