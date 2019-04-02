@@ -7,12 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.ats.rusawebapi.Commons;
 import com.ats.rusawebapi.EmailUtility;
@@ -22,6 +25,7 @@ import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
 import com.ats.rusawebapi.model.EventDetail;
 import com.ats.rusawebapi.model.EventDetails;
+import com.ats.rusawebapi.model.EventReg;
 import com.ats.rusawebapi.model.EventRegistration;
 import com.ats.rusawebapi.model.EventView;
 import com.ats.rusawebapi.model.GallaryDetail;
@@ -43,6 +47,7 @@ import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
 import com.ats.rusawebapi.repo.EventDetailRepo;
 import com.ats.rusawebapi.repo.EventDetailRepository;
+import com.ats.rusawebapi.repo.EventRegRepo;
 import com.ats.rusawebapi.repo.EventRegisterRepository;
 import com.ats.rusawebapi.repo.EventViewRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
@@ -67,7 +72,7 @@ public class FrontController {
 
 	@Autowired
 	TestImonialRepository testImonialListRepo;
-
+ 
 	@Autowired
 	NewsDetailsRepository newsDetailRepo;
 
@@ -97,6 +102,9 @@ public class FrontController {
 
 	@Autowired
 	EventDetailRepo eventDetailRepo;
+	
+	@Autowired
+	EventRegRepo eventRegRepository;
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -359,15 +367,15 @@ public class FrontController {
 
 	@RequestMapping(value = { "/saveReg" }, method = RequestMethod.POST)
 	public @ResponseBody Registration saveReg(@RequestBody Registration reg) {
-
-		Registration studResp = null;
-
+System.err.println("reg  "+reg.toString());
+		Registration studResp =new Registration();
+		   RestTemplate restTemplate = new RestTemplate();
 		try {
 
-			if (reg.getRegId() != 0) {
 				int randomPin = (int) (Math.random() * 9000) + 1000;
 				String otp = String.valueOf(randomPin);
 				System.out.println("You OTP is " + otp);
+				String msg=" Your verification OTP for Registration is " +otp+ ". Do not share OTP with anyone. RUSA Maharashtra";
 
 				reg.setSmsCode(otp);
 				reg.setSmsVerified(0);
@@ -386,12 +394,25 @@ public class FrontController {
 				sms.setDateSent(sf.format(date));
 
 				smsCodeRepo.saveAndFlush(sms);
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();		           
+		           
+	            map.add("senderID", "RUSAMH");
+	            map.add("user", "spdrusamah@gmail.com:Cyber@mva");
+	            map.add("receipientno", studResp.getMobileNumber());
+	            map.add("dcs", "0");
+	            map.add("msgtxt",msg);
+	            map.add("state", "4");
+	           
+	            String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
+	                    String.class); 
+	            studResp.setError(false);
+	            studResp.setMsg("Otp Updated ");
+				//Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
 
-				Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
+				//System.err.println("Info email sent response   " + info1.toString());
 
-				System.err.println("Info email sent response   " + info1.toString());
-
-			}
+		
 		} catch (Exception e) {
 			System.err.println("Exce in saving Librarian " + e.getMessage());
 			e.printStackTrace();
@@ -405,13 +426,14 @@ public class FrontController {
 	public @ResponseBody Registration saveEditReg(@RequestBody Registration reg) {
 
 		Registration studResp = null;
-
+		RestTemplate restTemplate = new RestTemplate();
 		try {
 
 			if (reg.getRegId() != 0) {
 				int randomPin = (int) (Math.random() * 9000) + 1000;
 				String otp = String.valueOf(randomPin);
 				System.out.println("You OTP is " + otp);
+				String msg="Your verification OTP for Registration is " +otp+ ". Do not share OTP with anyone. RUSA Maharashtra";
 
 				reg.setSmsCode(otp);
 				reg.setSmsVerified(0);
@@ -430,10 +452,22 @@ public class FrontController {
 				sms.setDateSent(sf.format(date));
 
 				smsCodeRepo.saveAndFlush(sms);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();		           
+		           
+	            map.add("senderID", "RUSAMH");
+	            map.add("user", "spdrusamah@gmail.com:Cyber@mva");
+	            map.add("receipientno", studResp.getMobileNumber());
+	            map.add("dcs", "0");
+	            map.add("msgtxt",msg);
+	            map.add("state", "4");
+	           
+	            String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
+	                    String.class); 
+	            studResp.setError(false);
+	            studResp.setMsg("Otp Updated ");
+				//Info info1 = EmailUtility.sendMsg(otp, studResp.getExVar2());
 
-				Info info1 = EmailUtility.sendMsg(otp, studResp.getExVar2());
-
-				System.err.println("Info email sent response   " + info1.toString());
+				//System.err.println("Info email sent response   " + info1.toString());
 
 			}
 		} catch (Exception e) {
@@ -628,6 +662,7 @@ public class FrontController {
 		// User user = new User();
 		Registration regResponse = new Registration();
 		OtpResponse otpRespose = new OtpResponse();
+	    RestTemplate restTemplate = new RestTemplate();
 		try {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
@@ -642,7 +677,7 @@ public class FrontController {
 					int randomPin = (int) (Math.random() * 9000) + 1000;
 					String otp = String.valueOf(randomPin);
 					System.out.println("You OTP is " + otp);
-
+					String msg=" Your verification OTP for Registration is " +otp+ ". Do not share OTP with anyone. RUSA Maharashtra";
 					Date date = new Date(); // your date
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					Calendar cal = Calendar.getInstance();
@@ -656,8 +691,19 @@ public class FrontController {
 					sms.setDateSent(sf.format(date));
 
 					smsCodeRepo.saveAndFlush(sms);
-
-					Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();		           
+			           
+		            map.add("senderID", "RUSAMH");
+		            map.add("user", "spdrusamah@gmail.com:Cyber@mva");
+		            map.add("receipientno", reg1.getMobileNumber());
+		            map.add("dcs", "0");
+		            map.add("msgtxt",msg);
+		            map.add("state", "4");
+		           
+		            String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
+		                    String.class);   
+		            
+					//Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
 
 					int updateDate = registrationRepo.updateOtp(otp, uuid);
 					System.out.println(" update ragistration table :" + updateDate);
@@ -693,6 +739,7 @@ public class FrontController {
 		// User user = new User();
 		Registration regResponse = new Registration();
 		OtpResponse otpRespose = new OtpResponse();
+		   RestTemplate restTemplate = new RestTemplate();
 		try {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
@@ -707,7 +754,7 @@ public class FrontController {
 					int randomPin = (int) (Math.random() * 9000) + 1000;
 					String otp = String.valueOf(randomPin);
 					System.out.println("You OTP is " + otp);
-
+					String msg=" Your verification OTP for Registration is " +otp+ ". Do not share OTP with anyone. RUSA Maharashtra";
 					Date date = new Date(); // your date
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					Calendar cal = Calendar.getInstance();
@@ -722,7 +769,19 @@ public class FrontController {
 
 					smsCodeRepo.saveAndFlush(sms);
 
-					Info info1 = EmailUtility.sendMsg(otp, reg1.getExVar2());
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();		           
+			           
+		            map.add("senderID", "RUSAMH");
+		            map.add("user", "spdrusamah@gmail.com:Cyber@mva");
+		            map.add("receipientno", reg1.getMobileNumber());
+		            map.add("dcs", "0");
+		            map.add("msgtxt",msg);
+		            map.add("state", "4");
+		           
+		            String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
+		                    String.class);   
+		            
+					//Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
 
 					int updateDate = registrationRepo.updateOtp(otp, uuid);
 					System.out.println(" update ragistration table :" + updateDate);
@@ -918,6 +977,20 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
+	
+	@RequestMapping(value = { "/getAllPreviousE" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventReg> getAllPreviousE(@RequestParam("langId") int langId) {
+		List<EventReg> secSaveResponse = new ArrayList<EventReg>();
+
+		try {
+			secSaveResponse = eventRegRepository.getAllPreviousEvents(langId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 
 	@RequestMapping(value = { "/getAllUpcomingEvents" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsDetails> getAllUpcomingEvents(@RequestParam("langId") int langId) {
@@ -937,9 +1010,8 @@ public class FrontController {
 	public @ResponseBody EventRegistration saveEventRegister(@RequestBody EventRegistration getEventList) {
 
 		Info errorMessage = new Info();
-		EventRegistration eventRegList = null;
+		EventRegistration eventRegList = new EventRegistration();
 		try {
-
 			eventRegList = eventRegRepo.save(getEventList);
 
 		} catch (Exception e) {

@@ -41,8 +41,7 @@ public class NewsDetails {
 	private String eventContactNumber;
 	
 	@Column(name="page_order")
-	private int pageOrder;
-	
+	private int pageOrder;	
 	
 	@Column(name="featured_image")
 	private String featuredImage;
