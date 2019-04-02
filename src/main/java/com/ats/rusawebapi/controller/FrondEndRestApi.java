@@ -129,12 +129,12 @@ public class FrondEndRestApi {
 				} else if (moduleList.get(i) == 6) {
 
 					List<TestImonial> testImonialList = testImonialListRepo
-							.findByPageIdAndDelStatusAndIsActiveAndSectionId(page.getPageId(), 1, 1, 6);
+							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 6);
 					pageContent.setTestImonialList(testImonialList);
 				} else if (moduleList.get(i) == 3) {
 
 					List<GallaryDetail> gallaryDetailList = gallaryDetailRepository
-							.findByIsActiveAndDelStatusAndPageId(1, 1, page.getPageId());
+							.findByIsActiveAndDelStatusAndPageIdAndTypeVideoImage(1, 1, page.getPageId(),"3");
 					pageContent.setGallaryDetailList(gallaryDetailList);
 				} else if (moduleList.get(i) == 9) {
 
@@ -143,12 +143,12 @@ public class FrondEndRestApi {
 				} else if (moduleList.get(i) == 13) {
 
 					List<TestImonial> testImonialList = testImonialListRepo
-							.findByPageIdAndDelStatusAndIsActiveAndSectionId(page.getPageId(), 1, 1, 13);
+							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 13);
 					pageContent.setTeamList(testImonialList);
 				} else if (moduleList.get(i) == 8) {
 
 					List<TestImonial> testImonialList = testImonialListRepo
-							.findByPageIdAndDelStatusAndIsActiveAndSectionId(page.getPageId(), 1, 1, 8);
+							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 8);
 					pageContent.setSuccessList(testImonialList);
 				}
 
