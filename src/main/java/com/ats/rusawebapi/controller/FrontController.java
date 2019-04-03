@@ -80,7 +80,7 @@ public class FrontController {
 	BannerImagesRepository bannerImagesRepo;
 
 	@Autowired
-	SettingRepo settingRepository;
+	SettingRepo settingRepository; 
 
 	@Autowired
 	RegistrationRepo registrationRepo;
