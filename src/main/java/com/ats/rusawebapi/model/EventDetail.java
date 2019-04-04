@@ -1,5 +1,7 @@
 package com.ats.rusawebapi.model;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -18,7 +20,7 @@ public class EventDetail {
 	
 	private int statusApproval;
 	
-	private String approvalDate;
+	private Date approvalDate;
 	
 	private int approveBy;
 	
@@ -84,11 +86,11 @@ public class EventDetail {
 		this.statusApproval = statusApproval;
 	}
 
-	public String getApprovalDate() {
+	public Date getApprovalDate() {
 		return approvalDate;
 	}
 
-	public void setApprovalDate(String approvalDate) {
+	public void setApprovalDate(Date approvalDate) {
 		this.approvalDate = approvalDate;
 	}
 
@@ -197,6 +199,8 @@ public class EventDetail {
 				+ exVar1 + ", exVar2=" + exVar2 + ", name=" + name + ", heading=" + heading + ", mobileNumber="
 				+ mobileNumber + "]";
 	}
+
+	
 	
 	
 	

@@ -1083,14 +1083,14 @@ System.err.println("reg  "+reg.toString());
 	}
 
 	@RequestMapping(value = { "/getAllEventList" }, method = RequestMethod.GET)
-	public @ResponseBody List<EventView> getAllEventList() {
+	public @ResponseBody List<NewsDetails> getAllEventList() {
 
-		List<EventView> list = new ArrayList<>();
+		List<NewsDetails> list = new ArrayList<>();
 
 		try {
-			list = eventRepo.getAllEvents();
+			list = newsDetailRepo.getAllEvents();
 		} catch (Exception e) {
-
+ 
 			e.printStackTrace();
 		}
 
@@ -1133,7 +1133,20 @@ System.err.println("reg  "+reg.toString());
 	 * 
 	 * }
 	 */
+	
+	@RequestMapping(value = { "/getUserInfoByNewsblogsId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventDetail> getUserInfoByNewsblogsId(@RequestParam("newsblogsId") int newsblogsId) {
+		List<EventDetail> secSaveResponse = new ArrayList<>();
 
+		try {
+			secSaveResponse = eventDetailRepo.getUserDetailList(newsblogsId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 	@RequestMapping(value = { "/getEventDataByRegId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EventDetail> getEventDataByRegId(@RequestParam("eventRegId") int eventRegId) {
 		List<EventDetail> secSaveResponse = new ArrayList<>();
@@ -1284,4 +1297,35 @@ System.err.println("reg  "+reg.toString());
 		return infoRes;
 	}
 
+	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
+	    public @ResponseBody Info checkUniqueField(@RequestParam String inputValue, @RequestParam int valueType,
+	          @RequestParam int primaryKey) {
+
+	        Info info = new Info();
+	        // tableId 1 for Institute tableId 2 for Hod for Sachin table id 5 for acc
+	        // Officer
+
+	       
+	            List<Registration> instList = new ArrayList<>();
+
+	            if (valueType == 1) {
+	                System.err.println("Its Contact No check");
+	             
+	                    System.err.println("Its New Record Insert ");
+	                    instList = registrationRepo.findByMobileNumberAndDelStatusAndIsActive(inputValue.trim(), 1, 0);
+	                
+
+	            } else if (valueType == 2) {
+	                System.err.println("Its Email check");
+	              
+	                    System.err.println("Its New Record Insert ");
+	                    instList = registrationRepo.findByEmailsAndDelStatusAndIsActive(inputValue.trim(), 1, 0);
+	              
+	              
+
+	            }
+
+	        return info;
+	}
+	
 }

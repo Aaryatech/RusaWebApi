@@ -1,5 +1,9 @@
 package com.ats.rusawebapi.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.Languages;
@@ -591,6 +596,52 @@ public class MasterApiController {
 		return list;
 
 	}
+	//==========================================Android=======================================================//
+	  public static String path="http://tomcat.aaryatechindia.in:6435/media/pdf/";
+	    
+
+	    @RequestMapping(value = { "/docUpload" }, method = RequestMethod.POST)
+	    public @ResponseBody Info docUpload(@RequestParam("file") MultipartFile uploadfile,
+	            @RequestParam("docName") String docName) {
+
+	        //System.err.println(" no  of files to push " + uploadfile.length);
+	        Info info = new Info();
+
+	        try {
+
+	            saveUploadedFiles(uploadfile, path, docName);
+
+	            info.setError(false);
+	            info.setMsg("File uploaded successfully");
+
+	        } catch (IOException e) {
+
+	            e.printStackTrace();
+	            info.setError(true);
+	            info.setMsg("File upload failed");
+	        }
+
+	        return info;
+	    }
+	    
+
+	    public void saveUploadedFiles(MultipartFile file, String filePath, String imageName) throws IOException {
+
+	        Path path = Paths.get(filePath + imageName);
+
+	        byte[] bytes = file.getBytes();
+
+	         
+	            System.out.println("Inside Image Type =1");
+
+	            path = Paths.get(filePath + imageName);
+
+	            System.out.println("Path= " + path.toString());
+
+
+	        Files.write(path, bytes);
+
+	    }
 	
 	/*@RequestMapping(value = { "/getSectionListByLangId" }, method = RequestMethod.POST)
 	public @ResponseBody List<SectionTree> getSectionListByLangId(@RequestParam("langId") int langId) {

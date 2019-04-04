@@ -73,6 +73,10 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	Registration findByRegIdAndUserPassword(int userId, String pass);
 
 	Registration findByRegIdAndUserPasswordAndExInt1(int userId, String pass, int i);
+
+	List<Registration> findByMobileNumberAndDelStatusAndIsActive(String trim, int i, int j);
+
+	List<Registration> findByEmailsAndDelStatusAndIsActive(String trim, int i, int j);
 	
 }
 
