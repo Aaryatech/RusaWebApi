@@ -18,7 +18,10 @@ import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.ImageListByCategory;
 import com.ats.rusawebapi.model.Maintainance;
 import com.ats.rusawebapi.model.MetaData;
+import com.ats.rusawebapi.model.NewsBlog;
+import com.ats.rusawebapi.model.NewsBlogDescription;
 import com.ats.rusawebapi.model.NewsDetails;
+import com.ats.rusawebapi.model.NewsSectionList;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PageMetaData;
 import com.ats.rusawebapi.model.Result;
@@ -36,6 +39,7 @@ import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.ImageListByCategoryRepo;
 import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
+import com.ats.rusawebapi.repo.NewsSectionListRepo;
 import com.ats.rusawebapi.repo.PageMetaDataRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
@@ -101,6 +105,8 @@ public class FrondEndRestApi {
 	@Autowired
 	EventRecordRepo eventRecordRepo;
 	
+	@Autowired
+	NewsSectionListRepo newsSectionListRepo;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -326,6 +332,26 @@ public class FrondEndRestApi {
 			e.printStackTrace();
 		}
 		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getNewsSectionBySectionId" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsSectionList> getNewsSectionBySectionId(@RequestParam("sectionId") int sectionId,
+			@RequestParam("langId") int langId) {
+
+		List<NewsSectionList> newsSectionList = new ArrayList<>();
+		 
+		try {  
+			 
+			newsSectionList = newsSectionListRepo.getNewsSectionBySectionId(sectionId,langId);
+		 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return newsSectionList;
+
 	}
 
 }
