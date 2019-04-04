@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusawebapi.model.CalenderList;
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.DocumentUpload;
+import com.ats.rusawebapi.model.EventRecord;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.ImageListByCategory;
 import com.ats.rusawebapi.model.Maintainance;
@@ -30,6 +31,7 @@ import com.ats.rusawebapi.model.frontend.FaqContent;
 import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.repo.CategoryListRepository;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
+import com.ats.rusawebapi.repo.EventRecordRepo;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.ImageListByCategoryRepo;
 import com.ats.rusawebapi.repo.MetaDataRepository;
@@ -95,6 +97,10 @@ public class FrondEndRestApi {
 
 	@Autowired
 	ImageListByCategoryRepo  imageListByCategoryRepo;
+	
+	@Autowired
+	EventRecordRepo eventRecordRepo;
+	
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -306,6 +312,20 @@ public class FrondEndRestApi {
 			e.printStackTrace();
 		}
 		return calenderList;
+	}
+	
+	@RequestMapping(value = { "/allPreviousEventWithApllied" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventRecord> allPreviousEventWithApllied(@RequestParam("langId") int langId,@RequestParam("userId") int userId) {
+		List<EventRecord> secSaveResponse = new ArrayList<EventRecord>();
+
+		try {
+			secSaveResponse = eventRecordRepo.getAllPreviousEvents(langId,userId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
 	}
 
 }
