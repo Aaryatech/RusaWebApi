@@ -23,6 +23,7 @@ import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CmsSearchData;
 import com.ats.rusawebapi.model.ContactUs;
+import com.ats.rusawebapi.model.EventCountDetails;
 import com.ats.rusawebapi.model.EventDetail;
 import com.ats.rusawebapi.model.EventDetails;
 import com.ats.rusawebapi.model.EventReg;
@@ -45,6 +46,7 @@ import com.ats.rusawebapi.repo.AppTokenRepository;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CmsSearchDataRepository;
 import com.ats.rusawebapi.repo.ContactUsRepo;
+import com.ats.rusawebapi.repo.EventCount;
 import com.ats.rusawebapi.repo.EventDetailRepo;
 import com.ats.rusawebapi.repo.EventDetailRepository;
 import com.ats.rusawebapi.repo.EventRegRepo;
@@ -105,6 +107,9 @@ public class FrontController {
 	
 	@Autowired
 	EventRegRepo eventRegRepository;
+	
+	@Autowired
+	EventCount eventCount;
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -1082,20 +1087,7 @@ System.err.println("reg  "+reg.toString());
 		return secSaveResponse;
 	}
 
-	@RequestMapping(value = { "/getAllEventList" }, method = RequestMethod.GET)
-	public @ResponseBody List<NewsDetails> getAllEventList() {
 
-		List<NewsDetails> list = new ArrayList<>();
-
-		try {
-			list = newsDetailRepo.getAllEvents();
-		} catch (Exception e) {
- 
-			e.printStackTrace();
-		}
-
-		return list;
-	}
 
 	@RequestMapping(value = { "/getEventListByNewsId" }, method = RequestMethod.POST)
 	public @ResponseBody NewsDetails getEventListByNewsId(@RequestParam("newsblogsId") int newsblogsId,
@@ -1134,19 +1126,18 @@ System.err.println("reg  "+reg.toString());
 	 * }
 	 */
 	
-	@RequestMapping(value = { "/getUserInfoByNewsblogsId" }, method = RequestMethod.POST)
-	public @ResponseBody List<EventDetail> getUserInfoByNewsblogsId(@RequestParam("newsblogsId") int newsblogsId) {
-		List<EventDetail> secSaveResponse = new ArrayList<>();
-
-		try {
-			secSaveResponse = eventDetailRepo.getUserDetailList(newsblogsId);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		return secSaveResponse;
-	}
+	/*
+	 * @RequestMapping(value = { "/getUserInfoByNewsblogsId" }, method =
+	 * RequestMethod.POST) public @ResponseBody List<EventDetail>
+	 * getUserInfoByNewsblogsId(@RequestParam("newsblogsId") int newsblogsId) {
+	 * List<EventDetail> secSaveResponse = new ArrayList<>();
+	 * 
+	 * try { secSaveResponse = eventDetailRepo.getUserDetailList(newsblogsId);
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); } return secSaveResponse; }
+	 */
 	@RequestMapping(value = { "/getEventDataByRegId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EventDetail> getEventDataByRegId(@RequestParam("eventRegId") int eventRegId) {
 		List<EventDetail> secSaveResponse = new ArrayList<>();
@@ -1217,7 +1208,34 @@ System.err.println("reg  "+reg.toString());
 		return info;
 
 	}
+	@RequestMapping(value = { "/getUserInfoByNewsblogsId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventDetail> getUserInfoByNewsblogsId(@RequestParam("newsblogsId") int newsblogsId) {
+		List<EventDetail> secSaveResponse = new ArrayList<>();
 
+		try {
+			secSaveResponse = eventDetailRepo.getUserDetailList(newsblogsId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getAllEventList" }, method = RequestMethod.GET)
+	public @ResponseBody List<EventCountDetails> getAllEventList() {
+
+		List<EventCountDetails> list = new ArrayList<>();
+
+		try {
+			list = eventCount.getAllEvents();
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+
+		return list;
+	}
 	@RequestMapping(value = { "/getNewsListByNewsId" }, method = RequestMethod.POST)
 	public @ResponseBody NewsDetails getNewsListByNewsId(@RequestParam("newsblogsId") int newsblogsId,
 			@RequestParam("langId") int langId) {

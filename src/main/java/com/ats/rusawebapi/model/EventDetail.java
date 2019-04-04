@@ -5,6 +5,8 @@ import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class EventDetail {
 	
@@ -14,7 +16,7 @@ public class EventDetail {
 	
 	private int userId;
 	
-	private String regDate;
+	private Date regDate;
 	
 	private int newsblogsId;
 	
@@ -62,11 +64,12 @@ public class EventDetail {
 		this.userId = userId;
 	}
 
-	public String getRegDate() {
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(String regDate) {
+	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
 
@@ -85,7 +88,7 @@ public class EventDetail {
 	public void setStatusApproval(int statusApproval) {
 		this.statusApproval = statusApproval;
 	}
-
+	@JsonFormat(locale = "ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getApprovalDate() {
 		return approvalDate;
 	}

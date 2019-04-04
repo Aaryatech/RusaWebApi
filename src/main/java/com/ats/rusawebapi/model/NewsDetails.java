@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class NewsDetails {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	@Column(name="newsblogs_id")
 	private int newsblogsId;
 	
@@ -100,15 +100,13 @@ public class NewsDetails {
 	@Column(name="language_id")
 	private int languageId;
 	
-	@Column(name="applied")
-	private int applied;
-	
-	@Column(name="approved")
-	private int approved;
-	
-	@Column(name="not_approved")
-	private int notApproved;
-	
+	/*
+	 * @Column(name="applied") private int applied;
+	 * 
+	 * @Column(name="approved") private int approved;
+	 * 
+	 * @Column(name="not_approved") private int notApproved;
+	 */
 	public int getNewsblogsId() {
 		return newsblogsId;
 	}
@@ -333,31 +331,6 @@ public class NewsDetails {
 		this.languageId = languageId;
 	}
 
-	
-	public int getApplied() {
-		return applied;
-	}
-
-	public void setApplied(int applied) {
-		this.applied = applied;
-	}
-
-	public int getApproved() {
-		return approved;
-	}
-
-	public void setApproved(int approved) {
-		this.approved = approved;
-	}
-
-	public int getNotApproved() {
-		return notApproved;
-	}
-
-	public void setNotApproved(int notApproved) {
-		this.notApproved = notApproved;
-	}
-
 	@Override
 	public String toString() {
 		return "NewsDetails [newsblogsId=" + newsblogsId + ", pageId=" + pageId + ", newsSourceUrlName="
@@ -369,9 +342,11 @@ public class NewsDetails {
 				+ editDate + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", heading=" + heading
 				+ ", descriptions=" + descriptions + ", pageMetaTitle=" + pageMetaTitle + ", pageMetaDescription="
-				+ pageMetaDescription + ", pageMetaKeyword=" + pageMetaKeyword + ", languageId=" + languageId
-				+ ", applied=" + applied + ", approved=" + approved + ", notApproved=" + notApproved + "]";
+				+ pageMetaDescription + ", pageMetaKeyword=" + pageMetaKeyword + ", languageId=" + languageId + "]";
 	}
+
+	
+	
 
 
 	
