@@ -32,6 +32,12 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 	@Query("update EventRegistration set doc1=:pdfName  WHERE user_id=:regId and newsblogs_id=:newsblogsId")
 	int updateDocByRegId(@Param("regId") int regId, @Param("newsblogsId") int newsblogsId, @Param("pdfName") String pdfName);
 
+	@Transactional
+	@Modifying
+	@Query("update EventRegistration set ex_int1=1,ex_int2=:value,ex_var1=:messge  WHERE newsblogs_id=:eventId and user_id=:userId")
+	int updateEventFeedback(@Param("eventId")int eventId,@Param("userId") int userId,@Param("messge") String messge,
+			@Param("value")int value);
+
 	
 	/*
 	 * @Query(

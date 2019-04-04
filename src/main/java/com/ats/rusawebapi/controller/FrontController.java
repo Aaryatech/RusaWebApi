@@ -1328,4 +1328,31 @@ System.err.println("reg  "+reg.toString());
 	        return info;
 	}
 	
+	@RequestMapping(value = { "/updateEventFeedback" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateEventFeedback(@RequestParam("eventId") int eventId,
+	@RequestParam("userId") int userId,@RequestParam("messge") String messge,@RequestParam("value") int value) {
+
+		Info errorMessage = new Info();
+		 
+		try {
+			int update = eventRegRepo.updateEventFeedback(eventId,userId,messge,value);
+			
+			if(update>0) {
+				errorMessage.setError(false);
+				errorMessage.setMsg("updated");
+			}else {
+				errorMessage.setError(true);
+				errorMessage.setMsg("updated failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("updated failed");
+
+		}
+		return errorMessage;
+	}
+	
 }
