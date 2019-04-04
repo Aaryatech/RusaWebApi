@@ -36,6 +36,9 @@ public class EventRecord {
 	@Column(name="apply")
 	private int apply;
 	 
+	@Column(name="is_feedback")
+	private int isFeedback;
+	
 	@Column(name="date")
 	private Date date;
 
@@ -103,11 +106,19 @@ public class EventRecord {
 		this.date = date;
 	}
 
+	public int getIsFeedback() {
+		return isFeedback;
+	}
+
+	public void setIsFeedback(int isFeedback) {
+		this.isFeedback = isFeedback;
+	}
+
 	@Override
 	public String toString() {
 		return "EventRecord [newsblogsId=" + newsblogsId + ", heading=" + heading + ", descriptions=" + descriptions
 				+ ", languageId=" + languageId + ", featuredImage=" + featuredImage + ", downloadPdf=" + downloadPdf
-				+ ", apply=" + apply + ", date=" + date + "]";
+				+ ", apply=" + apply + ", isFeedback=" + isFeedback + ", date=" + date + "]";
 	}
 	
 	

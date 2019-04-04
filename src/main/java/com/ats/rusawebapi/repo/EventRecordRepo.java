@@ -19,7 +19,14 @@ public interface EventRecordRepo extends JpaRepository<EventRecord, Integer>{
 			"        n.featured_image,\n" + 
 			"        n.download_pdf,\n" + 
 			"        DATE(n.event_date_from) as date,\n" + 
-			"        coalesce((select 1 from event_registration where user_id=:userId and newsblogs_id=n.newsblogs_id),0) as apply\n" + 
+			"        coalesce((select 1 from event_registration where user_id=:userId and newsblogs_id=n.newsblogs_id),0) as apply ,coalesce((select\n" + 
+			"            ex_int1 \n" + 
+			"        from\n" + 
+			"            event_registration \n" + 
+			"        where\n" + 
+			"            user_id=:userId \n" + 
+			"            and newsblogs_id=n.newsblogs_id),\n" + 
+			"        0) as is_feedback \n" + 
 			"    from\n" + 
 			"        t_newsblogs n,\n" + 
 			"        t_newsblogs_description nd \n" + 
