@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.common.Firebase;
+import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CMSPages;
@@ -34,6 +36,7 @@ import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.model.mst.GetCategory;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
+import com.ats.rusawebapi.repo.AppTokenRepository;
 import com.ats.rusawebapi.repo.BannerImagesRepository;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CMSPagesRepository;
@@ -111,6 +114,9 @@ public class MasterApiControllerNew {
 	
 	@Autowired 
 	CategoryRepo catRepo;
+	
+	@Autowired 
+	AppTokenRepository appTokenRepo;
 	
 	@RequestMapping(value = { "/saveBannerImages" }, method = RequestMethod.POST)
 	public @ResponseBody BannerImages saveBannerImages(@RequestBody BannerImages galDetailList) {
@@ -764,6 +770,7 @@ public class MasterApiControllerNew {
 
 		Info errorMessage = new Info();
 		NewsBlog newsBolg = new NewsBlog();
+		List<AppToken> appToken=new ArrayList<AppToken>();
 		try {
 
 			newsBolg = newsBolgRepo.save(newsBlogDesc);
@@ -780,6 +787,24 @@ public class MasterApiControllerNew {
 
 			errorMessage.setError(false);
 			errorMessage.setMsg("successfully Saved ");
+			System.out.println("App Token 1");
+		
+			try {
+				appToken = appTokenRepo.findAllByDeviceName("android");
+				if(appToken!=null)
+				{
+					for(int i=0;i<appToken.size();i++)
+					{
+						System.out.println("App Token 2");
+						Firebase.sendPushNotification(appToken.get(i).getToken(), gDetailsList.get(0).getHeading(), gDetailsList.get(0).getDescriptions(), 1);
+					}
+					System.out.println("App Token 3");
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 
 		} catch (Exception e) {
 
