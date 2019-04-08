@@ -1320,29 +1320,43 @@ System.err.println("reg  "+reg.toString());
 	          @RequestParam int primaryKey) {
 
 	        Info info = new Info();
-	        // tableId 1 for Institute tableId 2 for Hod for Sachin table id 5 for acc
-	        // Officer
+	        
 
 	       
-	            List<Registration> instList = new ArrayList<>();
+	            List<Registration> instList = new ArrayList<Registration>();
 
 	            if (valueType == 1) {
 	                System.err.println("Its Contact No check");
 	             
 	                    System.err.println("Its New Record Insert ");
-	                    instList = registrationRepo.findByMobileNumberAndDelStatusAndIsActive(inputValue.trim(), 1, 0);
-	                
+	                    instList = registrationRepo.findByMobileNumberAndDelStatus(inputValue.trim(), 1);
+	                System.err.println("instList for mob"+instList.toString());
+	               
 
 	            } else if (valueType == 2) {
 	                System.err.println("Its Email check");
 	              
 	                    System.err.println("Its New Record Insert ");
-	                    instList = registrationRepo.findByEmailsAndDelStatusAndIsActive(inputValue.trim(), 1, 0);
+	                    instList = registrationRepo.findByEmailsAndDelStatus(inputValue.trim(), 1);
 	              
-	              
+	                    System.err.println("instList for email"+instList.toString());
+	                   
 
 	            }
-
+	            if (instList.size() > 0) {
+	                info.setError(true);
+	                info.setMsg("duplicate");
+	            } else {
+	                info.setError(false);
+	                info.setMsg("unique");
+	            }
+	            
+	            
+	            
+	            
+	            
+	           
+	            System.err.println("info is "+info.toString());
 	        return info;
 	}
 	

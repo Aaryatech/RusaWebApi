@@ -787,7 +787,7 @@ public class MasterApiControllerNew {
 
 			errorMessage.setError(false);
 			errorMessage.setMsg("successfully Saved ");
-			System.out.println("App Token 1");
+			
 		
 			try {
 				appToken = appTokenRepo.findAllByDeviceName("android");
@@ -795,10 +795,10 @@ public class MasterApiControllerNew {
 				{
 					for(int i=0;i<appToken.size();i++)
 					{
-						System.out.println("App Token 2");
+					
 						Firebase.sendPushNotification(appToken.get(i).getToken(), gDetailsList.get(0).getHeading(), gDetailsList.get(0).getDescriptions(), 1);
 					}
-					System.out.println("App Token 3");
+					
 				}
 			}
 			catch (Exception e) {
