@@ -1191,11 +1191,11 @@ System.err.println("reg  "+reg.toString());
 			reg = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId, userId);
 
 			if (reg == null) {
-				info.setError(true);
+				info.setError(false);
 				info.setMsg("Record Found");
 				System.out.print("asdcbvn");
 			} else {
-				info.setError(false);
+				info.setError(true);
 				info.setMsg("Record not found");
 				System.out.print("asdcbdfghjkvn");
 			}
