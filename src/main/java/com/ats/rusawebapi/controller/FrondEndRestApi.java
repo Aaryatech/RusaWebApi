@@ -1,14 +1,21 @@
 package com.ats.rusawebapi.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.ats.rusawebapi.model.CalenderList;
 import com.ats.rusawebapi.model.CategoryList;
@@ -24,14 +31,18 @@ import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.NewsSectionList;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PageMetaData;
+import com.ats.rusawebapi.model.PreviousRegRecord;
+import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.Result;
 import com.ats.rusawebapi.model.SectionTree;
+import com.ats.rusawebapi.model.SmsCode;
 import com.ats.rusawebapi.model.SubCategoryList;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.TopMenuList;
 import com.ats.rusawebapi.model.frontend.CmsContent;
 import com.ats.rusawebapi.model.frontend.FaqContent;
 import com.ats.rusawebapi.model.frontend.PageContent;
+import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.repo.CategoryListRepository;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.EventRecordRepo;
@@ -43,9 +54,11 @@ import com.ats.rusawebapi.repo.NewsSectionListRepo;
 import com.ats.rusawebapi.repo.PageMetaDataRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
+import com.ats.rusawebapi.repo.PreviousRegRecordRepo;
 import com.ats.rusawebapi.repo.ResultRepository;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
 import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
+import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.SubCategoryListRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 import com.ats.rusawebapi.repo.frontend.CmsContentRepository;
@@ -107,6 +120,12 @@ public class FrondEndRestApi {
 	
 	@Autowired
 	NewsSectionListRepo newsSectionListRepo;
+	
+	@Autowired
+	PreviousRegRecordRepo previousRegRecordRepo;
+	
+	@Autowired
+	SmsCodeRepository smsCodeRepo;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -351,6 +370,116 @@ public class FrondEndRestApi {
 
 		}
 		return newsSectionList;
+
+	}
+	
+	@RequestMapping(value = { "/savePreviousRecord" }, method = RequestMethod.POST)
+	public @ResponseBody PreviousRegRecord savePreviousRecord(@RequestBody PreviousRegRecord previousRegRecord) {
+
+		PreviousRegRecord save = new PreviousRegRecord();
+		 
+		try {  
+			 
+			save = previousRegRecordRepo.save(previousRegRecord);
+		 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return save;
+
+	}
+	
+	@RequestMapping(value = { "/getPrevRecordByRegId" }, method = RequestMethod.POST)
+	public @ResponseBody PreviousRegRecord getPrevRecordByRegId(@RequestParam("regId") int regId) {
+
+		PreviousRegRecord getPrevRecordByRegId = new PreviousRegRecord();
+		 
+		try {  
+			 
+			getPrevRecordByRegId = previousRegRecordRepo.findByRegId(regId);
+			
+			if(getPrevRecordByRegId==null) {
+				
+				getPrevRecordByRegId = new PreviousRegRecord();
+				getPrevRecordByRegId.setError(true);
+				getPrevRecordByRegId.setMessage("Not Found");
+			}else {
+				
+				getPrevRecordByRegId.setError(false);
+				getPrevRecordByRegId.setMessage("Found");
+			}
+		 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			getPrevRecordByRegId = new PreviousRegRecord();
+			getPrevRecordByRegId.setError(true);
+			getPrevRecordByRegId.setMessage("Not Found");
+
+		}
+		return getPrevRecordByRegId;
+
+	}
+	
+	@RequestMapping(value = { "/sendOtp" }, method = RequestMethod.POST)
+	public @ResponseBody Info sendOtp(@RequestParam("uuid") String uuid,@RequestParam("mobileNo") String mobileNo) {
+ 
+		  
+		Info info = new Info();
+		
+		try {
+			
+			
+			RestTemplate restTemplate = new RestTemplate();
+				int randomPin = (int) (Math.random() * 9000) + 1000;
+				String otp = String.valueOf(randomPin);
+				System.out.println("You OTP is " + otp);
+				String msg=" Your verification OTP for Registration is " +otp+ ". Do not share OTP with anyone. RUSA Maharashtra";
+ 
+				Date date = new Date(); // your date
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+
+				SmsCode sms = new SmsCode();
+
+				sms.setSmsCode(otp);
+				sms.setUserUuid(uuid);
+				sms.setSmsType(1);
+				sms.setDateSent(sf.format(date));
+
+				smsCodeRepo.saveAndFlush(sms);
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();		           
+		           
+	            map.add("senderID", "RUSAMH");
+	            map.add("user", "spdrusamah@gmail.com:Cyber@mva");
+	            map.add("receipientno", mobileNo);
+	            map.add("dcs", "0");
+	            map.add("msgtxt",msg);
+	            map.add("state", "4");
+	           
+	            String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
+	                    String.class); 
+	            info.setError(false);
+	            info.setMsg(otp);
+				//Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
+
+				//System.err.println("Info email sent response   " + info1.toString());
+
+		
+		} catch (Exception e) {
+			System.err.println("Exce in saving Librarian " + e.getMessage());
+			e.printStackTrace();
+			
+			 info.setError(true);
+	            info.setMsg("failed");
+		}
+
+		return info;
 
 	}
 
