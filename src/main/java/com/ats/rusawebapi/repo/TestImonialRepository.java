@@ -38,4 +38,6 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 	@Query(value="SELECT t.* FROM t_testimonials t where t.is_active=1 and t.del_status=1 and t.section_id=6 ORDER BY t.id DESC LIMIT 5",nativeQuery=true)
 	List<TestImonial> getLastFiveTestImonialsVideo();
 	
+	@Query(value="SELECT t.* FROM t_testimonials t where t.ex_int1=:valueType and t.is_active=1 and t.del_status=1 and t.section_id=6 ORDER BY t.id DESC ",nativeQuery=true)
+	List<TestImonial> getAllTestImonials(@Param("valueType") int valueType);
 }

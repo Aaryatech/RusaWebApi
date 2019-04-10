@@ -241,7 +241,19 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
+	@RequestMapping(value = { "/getAllTestImonialsList" }, method = RequestMethod.POST)
+	public @ResponseBody List<TestImonial> getAllTestImonialsList(@RequestParam("valueType") int valueType) {
+		List<TestImonial> secSaveResponse = new ArrayList<TestImonial>();
 
+		try {
+			secSaveResponse = testImonialListRepo.getAllTestImonials(valueType);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 	@RequestMapping(value = { "/getLastFiveTestImonialsVideo" }, method = RequestMethod.GET)
 	public @ResponseBody List<TestImonial> getLastFiveTestImonialsVideo() {
 		List<TestImonial> secSaveResponse = new ArrayList<TestImonial>();
