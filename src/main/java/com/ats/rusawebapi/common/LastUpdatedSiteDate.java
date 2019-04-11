@@ -10,7 +10,7 @@ public class LastUpdatedSiteDate {
 	
 	public static String updateDate() throws IOException {
 	
-		String pattern = "dd-MM-yyyy";
+		String pattern = "dd-MM-yyyy HH:mm:ss";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
 		String date = simpleDateFormat.format(new Date());
