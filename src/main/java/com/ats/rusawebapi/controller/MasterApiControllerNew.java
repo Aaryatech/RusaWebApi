@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusawebapi.common.Firebase;
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.AppToken;
 import com.ats.rusawebapi.model.BannerImages;
 import com.ats.rusawebapi.model.CMSPageDescription;
@@ -52,6 +53,7 @@ import com.ats.rusawebapi.repo.NewsBlogDescRepository;
 import com.ats.rusawebapi.repo.NewsBlogRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
+import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SocialChannelRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
@@ -70,6 +72,9 @@ public class MasterApiControllerNew {
 	@Autowired
 	ModuleNameRepository moduleNameRepo;
 	  
+	@Autowired
+	SettingRepo settingRepository; 
+	
 	@Autowired
 	CMSPagesRepository cmsPagesRepo;
 	
@@ -125,7 +130,8 @@ public class MasterApiControllerNew {
 		System.out.println("Save Slider Images");
 		BannerImages BannerImagesList=null;
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			BannerImagesList = bannerImagesRepo.save(galDetailList);
 
 		} catch (Exception e) {
@@ -168,7 +174,6 @@ public class MasterApiControllerNew {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-
 		}
 		return conList;
 
@@ -178,12 +183,19 @@ public class MasterApiControllerNew {
 
 		int isDeleted = bannerImagesRepo.deleteBannerImages(id);
 		Info infoRes = new Info();
+		try {
+		String lastdate=LastUpdatedSiteDate.updateDate();			
+		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		if (isDeleted >= 1) {
 			infoRes.setError(false);
 			infoRes.setMsg("Banner Deleted Successfully");
 		} else {
 			infoRes.setError(true);
 			infoRes.setMsg("Banner Deletion Failed");
+		}
+		} catch (Exception e) {
+
+			e.printStackTrace();
 		}
 		return infoRes;
 	}
@@ -195,7 +207,8 @@ public class MasterApiControllerNew {
 	
 		Logo logoImagesList=null;
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			logoImagesList = LogoRepo.save(logoList);
 
 		} catch (Exception e) {
@@ -237,7 +250,8 @@ public class MasterApiControllerNew {
 		try {
 
 			moduleList = moduleNameRepo.save(getmodulesList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -303,6 +317,8 @@ public class MasterApiControllerNew {
 			List<CMSPageDescription> gDetailsList = cmsPagesDescRepo.saveAll(cmsPageDesc.getDetailList());
 			gHeader.setDetailList(gDetailsList);
 
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			errorMessage.setError(false);
 			errorMessage.setMsg("successfully Saved ");
 
@@ -327,7 +343,8 @@ public class MasterApiControllerNew {
 		try {
 
 			cmsPagesList = cmsPagesRepo.save(getCmsPagesList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -347,7 +364,8 @@ public class MasterApiControllerNew {
 		try {
 
 			modulesPagesList = pagesModuleRepo.save(getModulesPagesList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -367,7 +385,8 @@ public class MasterApiControllerNew {
 		try {
 
 			MetaDataList = metaDataRepo.saveAll(getMataDataList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -495,7 +514,8 @@ public class MasterApiControllerNew {
 		try {
 
 			imagesList = imageLinkRepo.save(galDetailList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -547,12 +567,20 @@ public class MasterApiControllerNew {
 
 		int isDeleted = imageLinkRepo.deleteImageLinks(id);
 		Info infoRes = new Info();
+		try {
+		String lastdate=LastUpdatedSiteDate.updateDate();			
+		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		if (isDeleted >= 1) {
 			infoRes.setError(false);
 			infoRes.setMsg("Banner Deleted Successfully");
 		} else {
 			infoRes.setError(true);
 			infoRes.setMsg("Banner Deletion Failed");
+		}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
 		}
 		return infoRes;
 	}
@@ -566,7 +594,8 @@ public class MasterApiControllerNew {
 		try {
 
 			TestImonialList = testImonialListRepo.save(getCmsPagesList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -658,7 +687,8 @@ public class MasterApiControllerNew {
 		Info errorMessage = new Info();
 		 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = testImonialListRepo.delete(id);
 			
 			if(delete==0) {
@@ -687,7 +717,8 @@ public class MasterApiControllerNew {
 		System.out.println("Save Slider Images");
 		DocumentUpload documentUploadList=null;
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			documentUploadList = uploadDocRepo.save(galDetailList);
 
 		} catch (Exception e) {
@@ -742,7 +773,8 @@ public class MasterApiControllerNew {
 		Info errorMessage = new Info();
 		 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = uploadDocRepo.delete(id);
 			
 			if(delete==0) {
@@ -800,6 +832,9 @@ public class MasterApiControllerNew {
 					}
 					
 				}
+				
+				String lastdate=LastUpdatedSiteDate.updateDate();			
+				int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -944,7 +979,8 @@ public class MasterApiControllerNew {
 		Info errorMessage = new Info();
 		 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = newsBolgRepo.deleteNewsBlog(newsblogsId);
 			
 			if(delete==0) {
@@ -997,7 +1033,8 @@ public class MasterApiControllerNew {
 		System.out.println("Save Slider Images");
 		SocialChannels socialChannelsList=null;
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			socialChannelsList = socialDetailRepo.save(galDetailList);
 
 		} catch (Exception e) {
@@ -1050,12 +1087,20 @@ public class MasterApiControllerNew {
 
 		int isDeleted = socialDetailRepo.deleteChannel(id);
 		Info infoRes = new Info();
+		try {
+		String lastdate=LastUpdatedSiteDate.updateDate();			
+		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		if (isDeleted >= 1) {
 			infoRes.setError(false);
 			infoRes.setMsg("Social Channel Deleted Successfully");
 		} else {
 			infoRes.setError(true);
 			infoRes.setMsg("Social Channel Deletion Failed");
+		}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
 		}
 		return infoRes;
 	}
@@ -1068,7 +1113,8 @@ public class MasterApiControllerNew {
 		try {
 
 			siteList = siteMaintenanceRepo.save(galDetailList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();

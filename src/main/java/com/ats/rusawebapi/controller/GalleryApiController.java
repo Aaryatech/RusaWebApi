@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.mst.GetGalleryHeaderRepo;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
 import com.ats.rusawebapi.tx.model.Galleryheader;
@@ -32,6 +34,10 @@ public class GalleryApiController {
 	
 	@Autowired
 	GetGalleryHeaderRepo  getgRepo;   
+	
+	@Autowired
+	SettingRepo settingRepository; 
+
 
 	@RequestMapping(value = { "/saveGalleryHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody Galleryheader saveGalleryHeaderAndDetail(@RequestBody Galleryheader gallery) {
@@ -50,7 +56,8 @@ public class GalleryApiController {
 
 			List<GalleryDetail> gDetailsList = galleryDetailRepo.saveAll(gallery.getDetailList());
 			gHeader.setDetailList(gDetailsList);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			errorMessage.setError(false);
 			errorMessage.setMsg("successfully Saved ");
 
@@ -74,7 +81,8 @@ public class GalleryApiController {
 		try {
 
 			gHeader = galleryHeaderRepo.save(gallery);
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 
 		} catch (Exception e) {
 
@@ -95,7 +103,8 @@ public class GalleryApiController {
 		try {
 
 		 gDetailsList = galleryDetailRepo.saveAll(galDetailList);
-
+		 String lastdate=LastUpdatedSiteDate.updateDate();			
+		 int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -183,6 +192,8 @@ public class GalleryApiController {
 		Info info = new Info();
 
 		try {
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = galleryHeaderRepo.deleteGalleryHeader(galleryHeadId);
 
 			if (delete == 1) {
@@ -210,6 +221,8 @@ public class GalleryApiController {
 		Info info = new Info();
 
 		try {
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = galleryHeaderRepo.deleteMultiGalleryHeader(galleryHeadIds);
 
 			if (delete >= 1) {
@@ -239,7 +252,8 @@ public class GalleryApiController {
 		Info info = new Info();
 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = galleryHeaderRepo.activeInactiveGalleryHeaders(galleryHeadIds, isActive);
 
 			if (deleteRes > 0) {
@@ -272,6 +286,8 @@ public class GalleryApiController {
 		Info info = new Info();
 
 		try {
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = galleryDetailRepo.deleteGalleryDetail(galleryDetailId);
 
 			if (delete == 1) {

@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.CMSPageDescription;
 import com.ats.rusawebapi.model.CMSPages;
 import com.ats.rusawebapi.model.GetPagesModule; 
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.repo.CMSPageDescRepository;
 import com.ats.rusawebapi.repo.CMSPagesRepository;
-import com.ats.rusawebapi.repo.GetPagesModuleRepository; 
+import com.ats.rusawebapi.repo.GetPagesModuleRepository;
+import com.ats.rusawebapi.repo.SettingRepo; 
 
 @RestController
 public class PagesModuleApiController {
@@ -28,6 +30,9 @@ public class PagesModuleApiController {
 	@Autowired
 	CMSPagesRepository cmsPagesRepo;
 	 
+	@Autowired
+	SettingRepo settingRepository; 
+	
 	@Autowired
 	CMSPageDescRepository cmsPagesDescRepo;
 	
@@ -123,6 +128,9 @@ public class PagesModuleApiController {
 				errorMessage.setError(false);
 				errorMessage.setMsg(" deleted");
 			}
+			
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 
 		} catch (Exception e) {
 

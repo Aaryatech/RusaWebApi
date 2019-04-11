@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.CalenderList;
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.DocumentUpload;
@@ -57,6 +58,7 @@ import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.PreviousRegRecordRepo;
 import com.ats.rusawebapi.repo.ResultRepository;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
+import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.SubCategoryListRepository;
@@ -102,6 +104,9 @@ public class FrondEndRestApi {
 
 	@Autowired
 	SiteMaintenanceRepository siteMaintenanceRepo;
+
+	@Autowired
+	SettingRepo settingRepository; 
 
 	@Autowired
 	MetaDataRepository metaDataRepo;
@@ -381,6 +386,7 @@ public class FrondEndRestApi {
 		try {  
 			 
 			save = previousRegRecordRepo.save(previousRegRecord);
+		
 		 
 		} catch (Exception e) {
 
@@ -464,6 +470,8 @@ public class FrondEndRestApi {
 	           
 	            String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
 	                    String.class); 
+	            
+	        
 	            info.setError(false);
 	            info.setMsg(otp);
 				//Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());

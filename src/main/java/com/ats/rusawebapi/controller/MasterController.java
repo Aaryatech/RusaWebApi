@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.mst.Category;
 import com.ats.rusawebapi.model.mst.CategoryDescription;
@@ -24,6 +25,7 @@ import com.ats.rusawebapi.model.mst.SubCategory;
 import com.ats.rusawebapi.repo.CatDescRepo;
 import com.ats.rusawebapi.repo.FreqAskQueDescriptionRepo;
 import com.ats.rusawebapi.repo.PageRepo;
+import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.repo.mst.FreqAskQueRepo;
 import com.ats.rusawebapi.repo.mst.GetCategoryRepo;
@@ -44,6 +46,8 @@ public class MasterController {
 	@Autowired GetCategoryRepo getGetCategoryRepo;
 	@Autowired GetFreqAskQueRepo getGetFreqAskQueRepo;	
 	@Autowired GetSubCategoryRepo getGetSubCategoryRepo;
+	@Autowired
+	SettingRepo settingRepository; 
 	
 	@Autowired
 	PageRepo pageRepo;
@@ -97,7 +101,8 @@ public class MasterController {
 		Info info = new Info();
 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = freqAskQueRepo.deleteFaqs(faqIdList, delStatus);
 			if (deleteRes > 0) {
 
@@ -285,7 +290,8 @@ public class MasterController {
 		Category catSaveResponse = new Category();
 	 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			catSaveResponse = catRepo.saveAndFlush(category); 
 			
 			for(int i=0 ; i<category.getCategoryDescriptionList().size() ; i++) {
@@ -430,7 +436,8 @@ public class MasterController {
 			SubCategory subCatSaveResponse = null;
 			Info info = new Info();
 			try {
-
+				String lastdate=LastUpdatedSiteDate.updateDate();			
+				int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 				subCatSaveResponse = subCatRepo.saveAndFlush(subCategory);
 
 				if (subCatSaveResponse != null) {
@@ -513,7 +520,8 @@ public class MasterController {
 		Info info = new Info();
 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = subCatRepo.deleteSubCategory(subCatIdList, delStatus);
 
 			if (deleteRes > 0) {
@@ -546,7 +554,8 @@ public class MasterController {
 		Info info = new Info();
 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = subCatRepo.activeInactiveSubCategory(subCatIdList, isActive);
 
 			if (deleteRes > 0) {
@@ -593,7 +602,8 @@ public class MasterController {
 			List<FreqAskQueDescription> list = freqAskQueDescriptionRepo.saveAll(faq.getDescriptionList());
 			faqSaveResponse.setDescriptionList(list);
 			
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		} catch (Exception e) {
 
 			 

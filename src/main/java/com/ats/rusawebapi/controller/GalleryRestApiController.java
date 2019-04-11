@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
- 
+
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.GallaryCategory;
 import com.ats.rusawebapi.model.GallaryCategoryDescriptioin;
 import com.ats.rusawebapi.model.GallaryDetail;
@@ -24,6 +25,7 @@ import com.ats.rusawebapi.repo.GallaryCategoryRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
+import com.ats.rusawebapi.repo.SettingRepo;
 
 @RestController
 public class GalleryRestApiController {
@@ -39,6 +41,9 @@ public class GalleryRestApiController {
 	
 	@Autowired
 	PagesModuleRepository pagesModuleRepository;
+	
+	@Autowired
+	SettingRepo settingRepository; 
 	
 	@RequestMapping(value = { "/saveGalleryCategory" }, method = RequestMethod.POST)
 	public @ResponseBody GallaryCategory saveGalleryCategory(@RequestBody GallaryCategory gallaryCategory) {
@@ -60,6 +65,9 @@ public class GalleryRestApiController {
 			List<GallaryCategoryDescriptioin> list = gallaryCategoryDescriptioinRepo.saveAll(gallaryCategory.getGallaryCategoryDescriptioinList());
 
 			save.setGallaryCategoryDescriptioinList(list);
+			
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			
 		} catch (Exception e) {
 
@@ -96,7 +104,8 @@ public class GalleryRestApiController {
 		try {
 
 			save = gallaryDetailRepository.save(gallaryDetail);
-			 
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 
 		} catch (Exception e) {
 
@@ -142,21 +151,30 @@ public class GalleryRestApiController {
 				e.printStackTrace();
 				 
 			}
+			
 			return list;
 
 		} 
 	 
 	 @RequestMapping(value = { "/deleteGalleryDetails" }, method = RequestMethod.POST)
 		public @ResponseBody Info deleteGalleryDetails(@RequestParam("galleryDetailsId") int galleryDetailsId) {
-
-			int isDeleted = gallaryDetailRepository.deleteGalleryDetail(galleryDetailsId);
 			Info infoRes = new Info();
+		 try {
+		 	String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
+			int isDeleted = gallaryDetailRepository.deleteGalleryDetail(galleryDetailsId);
+		
 			if (isDeleted >= 1) {
 				infoRes.setError(false);
 				infoRes.setMsg("Section Deleted Successfully");
 			} else {
 				infoRes.setError(true);
 				infoRes.setMsg("Section Deletion Failed");
+			}
+		 } catch (Exception e) {
+
+				e.printStackTrace();
+				 
 			}
 			return infoRes;
 		}
@@ -164,9 +182,13 @@ public class GalleryRestApiController {
 	 @RequestMapping(value = { "/updateTitleName" }, method = RequestMethod.POST)
 		public @ResponseBody Info updateTitleName(@RequestParam("galleryDetailsId") int galleryDetailsId,
 				@RequestParam("title") String title) {
-
+		 Info infoRes = new Info();
+	 
+		 try {
+		 String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int update = gallaryDetailRepository.updateTitleName(galleryDetailsId,title);
-			Info infoRes = new Info();
+			
 			if (update >= 1) {
 				infoRes.setError(false);
 				infoRes.setMsg("Section Deleted Successfully");
@@ -174,20 +196,34 @@ public class GalleryRestApiController {
 				infoRes.setError(true);
 				infoRes.setMsg("Section Deletion Failed");
 			}
+		 } catch (Exception e) {
+
+				e.printStackTrace();
+				 
+			}
 			return infoRes;
 		}
 	 
 	 @RequestMapping(value = { "/deleteGalleryCategory" }, method = RequestMethod.POST)
 		public @ResponseBody Info deleteGalleryCategory(@RequestParam("galleryCatId") int galleryCatId) {
 
-			int isDeleted = gallaryCategoryRepository.deleteGalleryCategory(galleryCatId);
 			Info infoRes = new Info();
+		 try {
+		 String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
+			int isDeleted = gallaryCategoryRepository.deleteGalleryCategory(galleryCatId);
+		
 			if (isDeleted >= 1) {
 				infoRes.setError(false);
 				infoRes.setMsg("Section Deleted Successfully");
 			} else {
 				infoRes.setError(true);
 				infoRes.setMsg("Section Deletion Failed");
+			}
+		 } catch (Exception e) {
+
+				e.printStackTrace();
+				 
 			}
 			return infoRes;
 		}
@@ -204,7 +240,8 @@ public class GalleryRestApiController {
 				
 				secSaveResponse.setGallaryCategoryDescriptioinList(list);
 				 
-
+				String lastdate=LastUpdatedSiteDate.updateDate();			
+				int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			} catch (Exception e) {
 				 
 				e.printStackTrace();

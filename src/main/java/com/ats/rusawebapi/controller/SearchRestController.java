@@ -24,6 +24,7 @@ import com.ats.rusawebapi.repo.DocumentSearchDataRepository;
 import com.ats.rusawebapi.repo.FaqSearchDataRepository;
 import com.ats.rusawebapi.repo.GallerySearchDataRepository;
 import com.ats.rusawebapi.repo.NewsSearchDataRepository;
+import com.ats.rusawebapi.repo.SettingRepo;
 
 @RestController
 public class SearchRestController {
@@ -40,6 +41,9 @@ public class SearchRestController {
 	@Autowired
 	GallerySearchDataRepository gallerySearchDataRepository;
 
+	@Autowired
+	SettingRepo settingRepository; 
+	
 	@Autowired
 	DocumentSearchDataRepository documentSearchDataRepository;
 

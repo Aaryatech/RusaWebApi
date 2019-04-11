@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.mst.Category;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.tx.model.TextPages;
 import com.ats.rusawebapi.tx.repo.TextPagesRepo;
 
@@ -21,6 +23,9 @@ public class TextPageApiController {
 	
 	@Autowired TextPagesRepo textPagesRepo;
 	
+	@Autowired
+	SettingRepo settingRepository; 
+	
 	@RequestMapping(value = { "/saveUpdateTextPage" }, method = RequestMethod.POST)
 	public @ResponseBody TextPages saveUpdateTextPage(@RequestBody TextPages textPage) {
 
@@ -29,7 +34,8 @@ public class TextPageApiController {
 		Info info = new Info();
 		
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			textPageRes = textPagesRepo.saveAndFlush(textPage);
 
 			if (textPageRes != null) {
@@ -89,7 +95,8 @@ public class TextPageApiController {
 		Info info = new Info();
 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = textPagesRepo.deleteTextPages(textPageIdList,delStatus);
 
 			if (deleteRes > 0) {

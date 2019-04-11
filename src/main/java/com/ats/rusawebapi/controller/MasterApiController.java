@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.Languages;
 import com.ats.rusawebapi.model.LoginLogs;
@@ -35,6 +36,7 @@ import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.SecDescRepo;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
+import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SubCategoryListRepository;
 import com.ats.rusawebapi.repo.mst.SectionRepo;
 import com.ats.rusawebapi.repo.mst.UserRepo;
@@ -50,6 +52,9 @@ public class MasterApiController {
 	
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	SettingRepo settingRepository; 
 	
 	@Autowired
 	LoginLogsRepo loginLogsRepo;
@@ -198,6 +203,9 @@ public class MasterApiController {
 			int count = secRepo.updateSlugName(secSaveResponse.getSectionId(),str,pageByPageId.getPageId());
 			pageByPageId.setPageSlug(str);
 			Page save = pageRepo.saveAndFlush(pageByPageId);
+			
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 
 		} catch (Exception e) {
 
@@ -232,6 +240,8 @@ public class MasterApiController {
 		Page save = new Page();
 		 
 		try {
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			save = pageRepo.save(page);
 			  
 
@@ -323,9 +333,12 @@ public class MasterApiController {
 
 	@RequestMapping(value = { "/deleteSection" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteSection(@RequestParam("sectionId") int sectionId) {
-
-		int isDeleted = secRepo.deleteSection(sectionId);
 		Info infoRes = new Info();
+		try {
+		String lastdate=LastUpdatedSiteDate.updateDate();			
+		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
+		int isDeleted = secRepo.deleteSection(sectionId);
+	
 		if (isDeleted >= 1) {
 			infoRes.setError(false);
 			infoRes.setMsg("Section Deleted Successfully");
@@ -333,6 +346,12 @@ public class MasterApiController {
 			infoRes.setError(true);
 			infoRes.setMsg("Section Deletion Failed");
 		}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		
 		return infoRes;
 	}
 
@@ -342,6 +361,8 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = secRepo.deleteMultiContDetail(sectionIds);
 
 			if (delete >= 1) {
@@ -370,7 +391,8 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = secRepo.activeInactiveSection(sectionIdList, isActive);
 
 			if (deleteRes > 0) {
@@ -407,6 +429,8 @@ public class MasterApiController {
 		Info info = new Info();
 		try {
 
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			secSaveResponse = userRepo.saveAndFlush(usr);
 
 			if (secSaveResponse != null) {
@@ -442,6 +466,7 @@ public class MasterApiController {
 		User secSaveResponse = new User();
 		Info info = new Info();
 		try {
+		
 			secSaveResponse = userRepo.findByUserIdAndDelStatus(userId, 1);
 
 			if (secSaveResponse != null) {
@@ -494,12 +519,20 @@ public class MasterApiController {
 
 		int isDeleted = userRepo.deleteUser(userId);
 		Info infoRes = new Info();
+		try {
+		String lastdate=LastUpdatedSiteDate.updateDate();			
+		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 		if (isDeleted >= 1) {
 			infoRes.setError(false);
 			infoRes.setMsg("User Deleted Successfully");
 		} else {
 			infoRes.setError(true);
 			infoRes.setMsg("User Deletion Failed");
+		}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
 		}
 		return infoRes;
 	}
@@ -510,6 +543,8 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = userRepo.deleteMultiUser(userIds);
 
 			if (delete >= 1) {
@@ -538,7 +573,8 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
-
+			String lastdate=LastUpdatedSiteDate.updateDate();			
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = userRepo.activeInactiveUser(userIdList, isActive);
 
 			if (deleteRes > 0) {
@@ -608,7 +644,8 @@ public class MasterApiController {
 	        Info info = new Info();
 
 	        try {
-
+	        	String lastdate=LastUpdatedSiteDate.updateDate();			
+	    		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 	            saveUploadedFiles(uploadfile, path, docName);
 
 	            info.setError(false);
