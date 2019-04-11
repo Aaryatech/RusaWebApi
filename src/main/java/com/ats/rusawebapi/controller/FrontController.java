@@ -588,7 +588,7 @@ System.err.println("reg  "+reg.toString());
 
 		try {
 
-			conList = registrationRepo.findByDelStatusOrderByRegId(1);
+			conList = registrationRepo.findByDelStatusAndSmsVerifiedOrderByRegIdDesc(1,1);
 
 		} catch (Exception e) {
 
@@ -1203,12 +1203,12 @@ System.err.println("reg  "+reg.toString());
 			reg = eventRegRepo.findByNewsblogsIdAndUserId(newsblogsId, userId);
 
 			if (reg == null) {
-				info.setError(false);
-				info.setMsg("Record Found");
+				info.setError(true);
+				info.setMsg("Record Not Found");
 				System.out.print("asdcbvn");
 			} else {
-				info.setError(true);
-				info.setMsg("Record not found");
+				info.setError(false);
+				info.setMsg("Record Found");
 				System.out.print("asdcbdfghjkvn");
 			}
 

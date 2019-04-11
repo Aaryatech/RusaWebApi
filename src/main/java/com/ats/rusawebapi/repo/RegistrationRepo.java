@@ -81,6 +81,8 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	List<Registration> findByMobileNumberAndDelStatus(String trim, int i);
 
 	List<Registration> findByEmailsAndDelStatus(String trim, int i);
+
+	List<Registration> findByDelStatusAndSmsVerifiedOrderByRegIdDesc(int i, int j);
 	
 }
 
