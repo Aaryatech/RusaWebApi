@@ -18,7 +18,7 @@ public interface EventDetailRepo extends JpaRepository<EventDetail, Integer> {
 
 	
 	@Query(value = " select e.* ,r.name,nd.heading,r.mobile_number from t_registration r,event_registration e, t_newsblogs_description nd,t_newsblogs n \n" + 
-			"where e.newsblogs_id=:newsblogsId and n.is_active=1 and  n.newsblogs_id=nd.newsblogs_id and n.ex_int1=11  and r.reg_id=e.user_id group by event_reg_id", nativeQuery = true)	
+			"where e.newsblogs_id=:newsblogsId and n.is_active=1 and e.newsblogs_id= n.newsblogs_id  and  n.newsblogs_id=nd.newsblogs_id and n.ex_int1=11  and r.reg_id=e.user_id group by event_reg_id", nativeQuery = true)	
 	List<EventDetail> getUserDetailList(@Param("newsblogsId") int newsblogsId);
 }
 
