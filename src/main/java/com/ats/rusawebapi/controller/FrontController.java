@@ -1357,49 +1357,49 @@ System.err.println("reg  "+reg.toString());
 	}
 
 	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
-	    public @ResponseBody Info checkUniqueField(@RequestParam String inputValue, @RequestParam int valueType,
-	          @RequestParam int primaryKey) {
+    public @ResponseBody Info checkUniqueField(@RequestParam String inputValue, @RequestParam int valueType,
+          @RequestParam int primaryKey) {
 
-	        Info info = new Info();
-	        
+        Info info = new Info();
+        
 
-	       
-	            List<Registration> instList = new ArrayList<Registration>();
+       
+            List<Registration> instList = new ArrayList<Registration>();
 
-	            if (valueType == 1) {
-	                System.err.println("Its Contact No check");
-	             
-	                    System.err.println("Its New Record Insert ");
-	                    instList = registrationRepo.findByMobileNumberAndDelStatus(inputValue.trim(), 1);
-	                System.err.println("instList for mob"+instList.toString());
-	               
+            if (valueType == 1) {
+                System.err.println("Its Contact No check");
+             
+                    System.err.println("Its New Record Insert ");
+                    instList = registrationRepo.findByMobileNumberAndDelStatusAndSmsVerified(inputValue.trim(), 1, 1);
+                System.err.println("instList for mob"+instList.toString());
+               
 
-	            } else if (valueType == 2) {
-	                System.err.println("Its Email check");
-	              
-	                    System.err.println("Its New Record Insert ");
-	                    instList = registrationRepo.findByEmailsAndDelStatus(inputValue.trim(), 1);
-	              
-	                    System.err.println("instList for email"+instList.toString());
-	                   
+            } else if (valueType == 2) {
+                System.err.println("Its Email check");
+              
+                    System.err.println("Its New Record Insert ");
+                    instList = registrationRepo.findByEmailsAndDelStatusAndSmsVerified(inputValue.trim(), 1, 1);
+              
+                    System.err.println("instList for email"+instList.toString());
+                   
 
-	            }
-	            if (instList.size() > 0) {
-	                info.setError(true);
-	                info.setMsg("duplicate");
-	            } else {
-	                info.setError(false);
-	                info.setMsg("unique");
-	            }
-	            
-	            
-	            
-	            
-	            
-	           
-	            System.err.println("info is "+info.toString());
-	        return info;
-	}
+            }
+            if (instList.size() > 0) {
+                info.setError(true);
+                info.setMsg("duplicate");
+            } else {
+                info.setError(false);
+                info.setMsg("unique");
+            }
+            
+            
+            
+            
+            
+           
+            System.err.println("info is "+info.toString());
+        return info;
+}
 	
 	@RequestMapping(value = { "/updateEventFeedback" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateEventFeedback(@RequestParam("eventId") int eventId,

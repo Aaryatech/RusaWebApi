@@ -133,7 +133,7 @@ public class MasterApiController {
 			loginLogs.setCreatedDate(date);
 			save = loginLogsRepo.saveAndFlush(loginLogs);
  
-			int updateDate = userRepo.updateLastLoginDate(sf.format(date),loginLogs.getUserId());
+			//int updateDate = userRepo.updateLastLoginDate(sf.format(date),loginLogs.getUserId());
 
 		} catch (Exception e) {
  

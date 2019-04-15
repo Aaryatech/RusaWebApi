@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.CalenderList;
 import com.ats.rusawebapi.model.CategoryList;
+import com.ats.rusawebapi.model.CategoryListWithContentCount;
 import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.EventRecord;
 import com.ats.rusawebapi.model.GallaryDetail;
@@ -45,6 +46,7 @@ import com.ats.rusawebapi.model.frontend.FaqContent;
 import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.repo.CategoryListRepository;
+import com.ats.rusawebapi.repo.CategoryListWithContentCountRepo;
 import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.EventRecordRepo;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
@@ -131,6 +133,9 @@ public class FrondEndRestApi {
 	
 	@Autowired
 	SmsCodeRepository smsCodeRepo;
+	
+	@Autowired
+	CategoryListWithContentCountRepo categoryListWithContentCountRepo;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -488,6 +493,27 @@ public class FrondEndRestApi {
 		}
 
 		return info;
+
+	}
+	
+	
+	@RequestMapping(value = { "/getCategoryListWithImageCount" }, method = RequestMethod.POST)
+	public @ResponseBody List<CategoryListWithContentCount> getCategoryListWithImageCount(@RequestParam("sectionId") int sectionId,@RequestParam("langId") int langId) {
+
+		List<CategoryListWithContentCount> list = new ArrayList<>();
+		
+		try {
+
+			 
+			list = categoryListWithContentCountRepo.getCategoryListWithImageCount(sectionId,langId);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
 
 	}
 
