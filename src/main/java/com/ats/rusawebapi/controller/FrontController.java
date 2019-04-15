@@ -1114,10 +1114,23 @@ System.err.println("reg  "+reg.toString());
 		}
 		return secSaveResponse;
 	}
+	
+	@RequestMapping(value = { "/getFeedbackByUserIdAndNewsblogsId" }, method = RequestMethod.POST)
+	public @ResponseBody EventRegistration getFeedbackByUserIdAndNewsblogsId(@RequestParam("userId") int userId,@RequestParam("newsblogsId") int newsblogsId) {
+		EventRegistration secSaveResponse = new EventRegistration();
+
+		try {
+			secSaveResponse = eventRegRepo.findByUserIdAndNewsblogsIdAndDelStatus(userId,newsblogsId,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 
 
-
-	@RequestMapping(value = { "/getEventListByNewsId" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/getEventListByNewsId"}, method = RequestMethod.POST)
 	public @ResponseBody NewsDetails getEventListByNewsId(@RequestParam("newsblogsId") int newsblogsId,
 			@RequestParam("langId") int langId) {
 

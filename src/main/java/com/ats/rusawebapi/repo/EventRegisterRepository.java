@@ -38,6 +38,10 @@ public interface EventRegisterRepository extends JpaRepository<EventRegistration
 	int updateEventFeedback(@Param("eventId")int eventId,@Param("userId") int userId,@Param("messge") String messge,
 			@Param("value")int value);
 
+	EventRegistration findByUserIdAndNewsblogsIdAndDelStatus(int userId, int newsblogsId, int i);
+
+//	EventRegistration findByUserIdAndNewsblogsIdAndDelStatus(int userId, int newsblogsId);
+
 	
 	/*
 	 * @Query(
