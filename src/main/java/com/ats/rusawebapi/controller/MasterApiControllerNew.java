@@ -938,6 +938,38 @@ public class MasterApiControllerNew {
 		return list;
 
 	}
+	@RequestMapping(value = { "/getAllNewsByLangId" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getAllNewsByLangId(@RequestParam("langId") int langId) {
+
+		List<NewsDetails> list = new ArrayList<>();
+
+		try {
+ 				list = newsDetailRepo.getAllNewsBlogList(langId); 
+			  			 
+		} catch (Exception e) {
+		 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	 
+	@RequestMapping(value = { "/getAllNewsByLimit" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getAllNewsByLimit(@RequestParam("langId") int langId, @RequestParam("pageid") int pageid, @RequestParam("total") int total) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
+
+		try {  
+			pageid=pageid-1;
+			secSaveResponse = newsDetailRepo.getAllNewsByLimit(langId,pageid,total);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+
 	
 	@RequestMapping(value = { "/getEventListByNewsblogsId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetPagesModule> getEventListByNewsblogsId(@RequestParam("pageId") int pageId) {

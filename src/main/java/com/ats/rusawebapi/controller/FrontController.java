@@ -980,6 +980,22 @@ System.err.println("reg  "+reg.toString());
 		}
 		return secSaveResponse;
 	}
+	
+	@RequestMapping(value = { "/getAllEventsByLimit" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getAllEventsByLimit(@RequestParam("langId") int langId, @RequestParam("pageid") int pageid, @RequestParam("total") int total) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
+
+		try {  
+			pageid=pageid-1;
+			secSaveResponse = newsDetailRepo.getAllEventsByLimit(langId,pageid,total);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+
 
 	@RequestMapping(value = { "/getAllPreviousEvents" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsDetails> getAllPreviousEvents(@RequestParam("langId") int langId) {

@@ -31,8 +31,8 @@ public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Intege
 	
 	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword "
 			+ "from t_newsblogs n,t_newsblogs_description nd "
-			+ "where n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=1 and n.ex_int1=9",nativeQuery=true)
-	List<NewsDetails> getAllNewsBlogList();
+			+ "where n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId and n.ex_int1=9",nativeQuery=true)
+	List<NewsDetails> getAllNewsBlogList(@Param("langId") int langId);
 
 	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword "
 			+ "from t_newsblogs n,t_newsblogs_description nd "
@@ -84,9 +84,17 @@ public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Intege
 			  		+ "from t_newsblogs n,t_newsblogs_description nd where n.is_active=1  "
 			  		+ "and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId "
 			  		+ "and n.ex_int1=9 and n.newsblogs_id=:newsblogsId ",nativeQuery=true) 
-	NewsDetails getNewsListByNewsId(int newsblogsId, int langId);
+	NewsDetails getNewsListByNewsId(@Param("newsblogsId") int newsblogsId,@Param("langId") int langId);
 
+	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword "
+			+ "from t_newsblogs n,t_newsblogs_description nd "
+			+ "where n.is_active=1  and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId and n.ex_int1=11 order by n.newsblogs_id limit :pageid,:total ",nativeQuery=true)
+	List<NewsDetails> getAllEventsByLimit(@Param("langId") int langId,@Param("pageid") int pageid,@Param("total") int total);
 
+	@Query(value="select n.*,nd.heading,nd.descriptions,nd.language_id,nd.page_meta_title,nd.page_meta_description,nd.page_meta_keyword "
+			+ "from t_newsblogs n,t_newsblogs_description nd "
+			+ "where n.is_active=1 and n.del_status=1 and n.newsblogs_id=nd.newsblogs_id and nd.language_id=:langId and n.ex_int1=9 order by n.newsblogs_id limit :pageid,:total",nativeQuery=true)
+	List<NewsDetails> getAllNewsByLimit(int langId, int pageid, int total);
 
 
 
