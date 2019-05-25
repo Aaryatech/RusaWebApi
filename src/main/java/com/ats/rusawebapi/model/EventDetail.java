@@ -47,7 +47,9 @@ public class EventDetail {
 	private String heading;
 	
 	private String mobileNumber;
-
+	
+	private int userType;
+	
 	public int getEventRegId() {
 		return eventRegId;
 	}
@@ -193,6 +195,14 @@ public class EventDetail {
 		this.mobileNumber = mobileNumber;
 	}
 
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
+
 	@Override
 	public String toString() {
 		return "EventDetail [eventRegId=" + eventRegId + ", userId=" + userId + ", regDate=" + regDate
@@ -200,7 +210,7 @@ public class EventDetail {
 				+ approvalDate + ", approveBy=" + approveBy + ", doc1=" + doc1 + ", doc2=" + doc2 + ", isActive="
 				+ isActive + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1="
 				+ exVar1 + ", exVar2=" + exVar2 + ", name=" + name + ", heading=" + heading + ", mobileNumber="
-				+ mobileNumber + "]";
+				+ mobileNumber + ", userType=" + userType + "]";
 	}
 
 	
