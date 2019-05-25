@@ -185,6 +185,21 @@ public class FrontController {
 		}
 		return infoRes;
 	}
+	
+	@RequestMapping(value = { "/deleteMultipleContact" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteMultipleContact(@RequestParam("id") List<Integer> id) {
+
+		int isDeleted = contactUsRepo.deleteMultipleContact(id);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Contact Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Contact Deletion Failed");
+		}
+		return infoRes;
+	}
 
 	@RequestMapping(value = { "/getLastTenVideos" }, method = RequestMethod.GET)
 	public @ResponseBody List<GallaryDetail> getLastTenVideos() {

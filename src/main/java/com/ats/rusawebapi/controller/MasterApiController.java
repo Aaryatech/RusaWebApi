@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.CategoryList;
+import com.ats.rusawebapi.model.DashboardCount;
 import com.ats.rusawebapi.model.Languages;
 import com.ats.rusawebapi.model.LoginLogs;
 import com.ats.rusawebapi.model.LoginResponse;
@@ -31,6 +32,7 @@ import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.model.mst.User;
 import com.ats.rusawebapi.repo.CategoryListRepository;
+import com.ats.rusawebapi.repo.DashboardCountRepository;
 import com.ats.rusawebapi.repo.LanguagesRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.PageRepo;
@@ -73,6 +75,10 @@ public class MasterApiController {
 	
 	@Autowired
 	SubCategoryListRepository subCategoryListRepository;
+	
+	@Autowired
+	DashboardCountRepository dashboardCountRepository;
+	
 	// --------------------------------------Section-------------------------
 
 	@RequestMapping(value = { "/loginResponse" }, method = RequestMethod.POST)
@@ -748,6 +754,26 @@ public class MasterApiController {
 	
 	
 	*/
+	    
+	    @RequestMapping(value = { "/dashboardCount" }, method = RequestMethod.GET)
+	    public @ResponseBody DashboardCount dashboardCount() {
+
+	        //System.err.println(" no  of files to push " + uploadfile.length);
+	    	DashboardCount dashboardCount = new DashboardCount();
+
+	        try {
+	         		
+	    		 dashboardCount = dashboardCountRepository.dashboardCount();
+	            
+
+	        } catch (Exception e) {
+
+	            e.printStackTrace();
+	            
+	        }
+
+	        return dashboardCount;
+	    }
 
 
 }
