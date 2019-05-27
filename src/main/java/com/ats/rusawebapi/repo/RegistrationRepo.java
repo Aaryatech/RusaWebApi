@@ -87,6 +87,32 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	List<Registration> findByMobileNumberAndDelStatusAndSmsVerified(String trim, int i, int j);
 
 	List<Registration> findByEmailsAndDelStatusAndSmsVerified(String trim, int i, int j);
+
+	@Query( value="select\r\n" + 
+			"        *\r\n" + 
+			"    from\r\n" + 
+			"        t_registration registrati0_ \r\n" + 
+			"    where\r\n" + 
+			"        emails=:userName\r\n" + 
+			"        and binary user_password=:password \r\n" + 
+			"        and del_status=1 \r\n" + 
+			"        and email_verified=1 \r\n" + 
+			"        and is_active=1",nativeQuery=true)
+	Registration loginProcess(@Param("userName")String userName,@Param("password") String password);
+
+	
+	@Query( value="select\r\n" + 
+			"        *\r\n" + 
+			"    from\r\n" + 
+			"        t_registration registrati0_ \r\n" + 
+			"    where\r\n" + 
+			"        (emails=:userName or mobile_number=:password) and del_status=1 \r\n" + 
+			"        and email_verified=1 \r\n" + 
+			"        and is_active=1",nativeQuery=true)
+	Registration forgetPassword(@Param("userName")String userName,@Param("password") String password);
+
+	@Query( value="select * from t_registration where reg_id=:regId and BINARY user_password=:password",nativeQuery=true)
+	Registration checkPasswordByUserId(@Param("regId" )int regId,@Param("password") String password);
 	
 }
 

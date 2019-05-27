@@ -41,7 +41,11 @@ public class EventRecord {
 	
 	@Column(name="date")
 	private Date date;
-
+	
+	@Column(name="feedback")
+	private String feedback;
+	
+	
 	public int getNewsblogsId() {
 		return newsblogsId;
 	}
@@ -114,11 +118,19 @@ public class EventRecord {
 		this.isFeedback = isFeedback;
 	}
 
+	public String getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
+	}
+
 	@Override
 	public String toString() {
 		return "EventRecord [newsblogsId=" + newsblogsId + ", heading=" + heading + ", descriptions=" + descriptions
 				+ ", languageId=" + languageId + ", featuredImage=" + featuredImage + ", downloadPdf=" + downloadPdf
-				+ ", apply=" + apply + ", isFeedback=" + isFeedback + ", date=" + date + "]";
+				+ ", apply=" + apply + ", isFeedback=" + isFeedback + ", date=" + date + ", feedback=" + feedback + "]";
 	}
 	
 	

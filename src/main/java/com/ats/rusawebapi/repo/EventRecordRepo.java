@@ -26,7 +26,14 @@ public interface EventRecordRepo extends JpaRepository<EventRecord, Integer>{
 			"        where\n" + 
 			"            user_id=:userId \n" + 
 			"            and newsblogs_id=n.newsblogs_id),\n" + 
-			"        0) as is_feedback \n" + 
+			"        0) as is_feedback, coalesce((select\n" + 
+			"            ex_var1          \n" + 
+			"        from\n" + 
+			"            event_registration          \n" + 
+			"        where\n" + 
+			"            user_id=:userId              \n" + 
+			"            and newsblogs_id=n.newsblogs_id),\n" + 
+			"        '-') as feedback \n" + 
 			"    from\n" + 
 			"        t_newsblogs n,\n" + 
 			"        t_newsblogs_description nd \n" + 

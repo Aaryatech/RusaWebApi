@@ -59,7 +59,7 @@ public class EmailUtility {
 			mimeMessage.setFrom(new InternetAddress(username));
 			mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
 			mimeMessage.setSubject(subject);
-			mimeMessage.setText(" User Name " + defUsrName + "\n Password " + defPass);
+			mimeMessage.setText("Your Username " + defUsrName + "\n Password " + defPass +"\n don't share with any one.");
 			
 		
 			Transport.send(mimeMessage);

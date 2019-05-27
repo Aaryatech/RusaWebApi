@@ -853,7 +853,7 @@ System.err.println("reg  "+reg.toString());
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByEmailsAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(userName,
+			/*regResponse = registrationRepo.findByEmailsAndUserPasswordAndDelStatusAndEmailVerifiedAndIsActive(userName,
 					password, 1, 1, 1);
 
 			if (regResponse != null) {
@@ -872,6 +872,18 @@ System.err.println("reg  "+reg.toString());
 			}
 
 			if (regResponse == null) {
+				regResponse = new Registration();
+				regResponse.setError(true);
+				regResponse.setMsg("Invalid Credencials");
+			}*/
+			
+			regResponse = registrationRepo.loginProcess(userName,
+					password);
+
+			if (regResponse != null) {
+				regResponse.setError(false);
+				regResponse.setMsg("Successful Login");
+			} else  {
 				regResponse = new Registration();
 				regResponse.setError(true);
 				regResponse.setMsg("Invalid Credencials");
@@ -901,7 +913,7 @@ System.err.println("reg  "+reg.toString());
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByEmailsAndMobileNumberAndDelStatusAndEmailVerifiedAndIsActive(email,
+			/*regResponse = registrationRepo.findByEmailsAndMobileNumberAndDelStatusAndEmailVerifiedAndIsActive(email,
 					mobileNumber, 1, 1, 1);
 
 			if (regResponse != null) {
@@ -928,6 +940,53 @@ System.err.println("reg  "+reg.toString());
 			}
 
 			if (regResponse == null) {
+				regResponse = new Registration();
+				regResponse.setError(true);
+				regResponse.setMsg("Invalid Credencials");
+			}*/
+			
+			regResponse = registrationRepo.forgetPassword(email,
+					mobileNumber );
+
+			if (regResponse != null) {
+
+				Date date = new Date(); // your date
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+
+				String password = Commons.getAlphaNumericString(5);
+
+				regResponse.setUserPassword(password);
+				regResponse.setEditDate(sf.format(date));
+				registrationRepo.saveAndFlush(regResponse);
+				System.out.println("save");
+				info1 = EmailUtility.sendEmail(senderEmail, senderPassword, regResponse.getEmails(), mailsubject, regResponse.getEmails(),
+						regResponse.getUserPassword());
+				
+				RestTemplate restTemplate = new RestTemplate();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				 
+				map.add("senderID", "RUSAMH");
+				map.add("user", "spdrusamah@gmail.com:Cyber@mva");
+				map.add("receipientno", regResponse.getMobileNumber());
+				map.add("dcs", "0");
+				map.add("msgtxt","Your Username " + regResponse.getEmails() + "\n Password " + regResponse.getUserPassword() +"\n don't share with any one.");
+				map.add("state", "4");
+
+
+				//String response = restTemplate.postForObject("http://control.bestsms.co.in/api/sendhttp.php", map, String.class);
+
+				String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
+				String.class);	
+				
+				if (info1 != null) {
+					int updateDate = registrationRepo.updatePassword(password, regResponse.getUserUuid());
+					System.out.println(" update ragistration table :" + updateDate);
+					regResponse.setError(false);
+					regResponse.setMsg("Password Updated ");
+				}
+			}else{
 				regResponse = new Registration();
 				regResponse.setError(true);
 				regResponse.setMsg("Invalid Credencials");
@@ -1316,6 +1375,37 @@ System.err.println("reg  "+reg.toString());
 		Registration reg = null;
 		try {
 			reg = registrationRepo.findByRegIdAndUserPassword(userId, pass);
+
+			if (reg == null) {
+				info.setError(true);
+				info.setMsg("Password Incorrect");
+			} else {
+
+				/*
+				 * reg = registrationRepo.findByRegIdAndUserPassword(userId, pass); if (reg !=
+				 * null) { info.setError(true); info.setMsg("Password Already Updated  "); }
+				 */
+
+				info.setError(false);
+				info.setMsg("Password Correct");
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return info;
+
+	}
+	
+	@RequestMapping(value = { "/checkPasswordByUserId" }, method = RequestMethod.POST)
+	public @ResponseBody Info checkPasswordByUserId(@RequestParam("userId") int userId, @RequestParam("pass") String pass) {
+		Info info = new Info();
+		Registration reg = null;
+		try {
+			reg = registrationRepo.checkPasswordByUserId(userId, pass);
 
 			if (reg == null) {
 				info.setError(true);
