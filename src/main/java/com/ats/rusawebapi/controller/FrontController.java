@@ -333,7 +333,7 @@ public class FrontController {
 
 		try {
 
-			conList = settingRepository.findAll();
+			conList = settingRepository.findAllOrderByAsc();
 
 		} catch (Exception e) {
 
@@ -341,6 +341,24 @@ public class FrontController {
 
 		}
 		return conList;
+
+	}
+	
+	@RequestMapping(value = { "/getSettingRecordByKey" }, method = RequestMethod.POST)
+	public @ResponseBody  Setting getSettingRecordByKey(@RequestParam("key") String key) {
+
+		 Setting setting = new  Setting ();
+
+		try {
+
+			setting = settingRepository.findByKeyName(key);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return setting;
 
 	}
 

@@ -29,4 +29,9 @@ public interface SettingRepo extends JpaRepository<Setting, Integer>
 	@Modifying
 	@Query(value="update m_settingsall set key_values =:lastdate where setting_id=6",nativeQuery=true) 
 	int updateWebSiteDate(@Param("lastdate") String lastdate);
+
+	Setting findByKeyName(String key);
+
+	@Query(value="select * from m_settingsall order by setting_id asc",nativeQuery=true) 
+	List<Setting> findAllOrderByAsc();
 }
