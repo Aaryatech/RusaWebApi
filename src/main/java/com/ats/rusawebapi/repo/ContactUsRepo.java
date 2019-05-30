@@ -28,4 +28,9 @@ public interface ContactUsRepo extends JpaRepository<ContactUs, Integer>{
 	@Query("update ContactUs set del_status=0  WHERE id in (:id)")
 	int deleteMultipleContact(@Param("id") List<Integer> id);
 
+	@Transactional
+	@Modifying
+	@Query("update ContactUs set del_status=1  WHERE id=:id")
+	int retriveContact(@Param("id")int id);
+
 }

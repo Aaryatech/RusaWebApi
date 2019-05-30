@@ -170,11 +170,44 @@ public class FrontController {
 		return conList;
 
 	}
+	
+	@RequestMapping(value = { "/getAllContactListDeleted" }, method = RequestMethod.GET)
+	public @ResponseBody List<ContactUs> getAllContactListDeleted() {
+
+		List<ContactUs> conList = new ArrayList<ContactUs>();
+
+		try {
+
+			conList = contactUsRepo.findByDelStatusOrderById(0);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return conList;
+
+	}
 
 	@RequestMapping(value = { "/deleteContact" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteContact(@RequestParam("id") int id) {
 
 		int isDeleted = contactUsRepo.deleteContactId(id);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("Contact Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("Contact Deletion Failed");
+		}
+		return infoRes;
+	}
+	
+	@RequestMapping(value = { "/retriveContact" }, method = RequestMethod.POST)
+	public @ResponseBody Info retriveContact(@RequestParam("id") int id) {
+
+		int isDeleted = contactUsRepo.retriveContact(id);
 		Info infoRes = new Info();
 		if (isDeleted >= 1) {
 			infoRes.setError(false);
