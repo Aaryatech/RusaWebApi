@@ -98,24 +98,52 @@ public interface NewsDetailsRepository extends JpaRepository<NewsDetails, Intege
 
 
 
-	//NewsDetails getEventListByNewblogsId(int langId, int pageId, int newsblogsId);
+	@Query(value="select\r\n" + 
+			"        n.*,\r\n" + 
+			"        nd.heading,\r\n" + 
+			"        nd.descriptions,\r\n" + 
+			"        nd.language_id,\r\n" + 
+			"        nd.page_meta_title,\r\n" + 
+			"        nd.page_meta_description,\r\n" + 
+			"        nd.page_meta_keyword   \r\n" + 
+			"    from\r\n" + 
+			"        t_newsblogs n,\r\n" + 
+			"        t_newsblogs_description nd \r\n" + 
+			"    where\r\n" + 
+			"        n.event_date_from >= :date\r\n" + 
+			"        and n.is_active=1 \r\n" + 
+			"        and n.del_status=1 \r\n" + 
+			"        and n.newsblogs_id=nd.newsblogs_id \r\n" + 
+			"        and nd.language_id=:langId \r\n" + 
+			"        and n.ex_int1=11 \r\n" + 
+			"    order by\r\n" + 
+			"        n.event_date_from DESC ",nativeQuery=true)
+	List<NewsDetails> newsListForHomePage(@Param("langId")int langId, @Param("date")String date);
+
+
+	@Query(value="select\r\n" + 
+			"        n.*,\r\n" + 
+			"        nd.heading,\r\n" + 
+			"        nd.descriptions,\r\n" + 
+			"        nd.language_id,\r\n" + 
+			"        nd.page_meta_title,\r\n" + 
+			"        nd.page_meta_description,\r\n" + 
+			"        nd.page_meta_keyword   \r\n" + 
+			"    from\r\n" + 
+			"        t_newsblogs n,\r\n" + 
+			"        t_newsblogs_description nd \r\n" + 
+			"    where\r\n" + 
+			"        n.event_date_from < :date\r\n" + 
+			"        and n.is_active=1 \r\n" + 
+			"        and n.del_status=1 \r\n" + 
+			"        and n.newsblogs_id=nd.newsblogs_id \r\n" + 
+			"        and nd.language_id=:langId \r\n" + 
+			"        and n.ex_int1=11 \r\n" + 
+			"    order by\r\n" + 
+			"        n.event_date_from DESC \r\n" + 
+			"    limit 10",nativeQuery=true)
+	List<NewsDetails> newsExpiredListForHomePage(@Param("langId") int langId,@Param("date")  String date);
 	 
 
 }
-/*
- * select nh.*,nh.newsblogs_id,nd.heading,nd.descriptions,nd.language_id,nd.
- * page_meta_title,nd.page_meta_description,nd.page_meta_keyword,
- * coalesce((select count(event_reg_id) from event_registration where
- * nh.newsblogs_id=event_registration.newsblogs_id and
- * event_registration.status_approval=0),0) as applied, coalesce((select
- * count(event_reg_id) from event_registration where
- * nh.newsblogs_id=event_registration.newsblogs_id and
- * event_registration.status_approval=1),0) as approved ,coalesce((select
- * count(event_reg_id) from event_registration where
- * nh.newsblogs_id=event_registration.newsblogs_id and
- * event_registration.status_approval=2),0) as notApprove from t_newsblogs
- * nh,t_newsblogs_description nd where nd.newsblogs_id=nh.newsblogs_id and
- * nd.language_id=1 and nh.del_status=1 and nh.is_active=1 and nh.ex_int1=11
- * 
- * 
- */
+ 

@@ -1163,6 +1163,39 @@ System.err.println("reg  "+reg.toString());
 		}
 		return secSaveResponse;
 	}
+	
+	@RequestMapping(value = { "/newsListForHomePage" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> newsListForHomePage(@RequestParam("langId") int langId) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
+
+		try {
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Date today = new Date();
+			Date newDate = new Date(today.getTime() - 604800000L);
+			
+			secSaveResponse = newsDetailRepo.newsListForHomePage(langId,sf.format(newDate));
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/newsExpiredListForHomePage" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> newsExpiredListForHomePage(@RequestParam("langId") int langId) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
+
+		try {
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Date today = new Date();
+			Date newDate = new Date(today.getTime() - 604800000L);
+			secSaveResponse = newsDetailRepo.newsExpiredListForHomePage(langId,sf.format(newDate));
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 
 	@RequestMapping(value = { "/saveEventRegister" }, method = RequestMethod.POST)
 	public @ResponseBody EventRegistration saveEventRegister(@RequestBody EventRegistration getEventList) {
