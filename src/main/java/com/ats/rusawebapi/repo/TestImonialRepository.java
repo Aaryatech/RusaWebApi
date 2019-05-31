@@ -21,7 +21,7 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 	int delete(@Param("id") int id);
 
 	
-	@Query(value="select * from t_testimonials where id=:id and is_active=1 and del_status=1",nativeQuery=true) 
+	@Query(value="select * from t_testimonials where id=:id  and del_status=1",nativeQuery=true) 
 	TestImonial getTestListById(@Param("id") int id); 
 	
 	List<TestImonial> findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(int pageId, int i, int j, int k);

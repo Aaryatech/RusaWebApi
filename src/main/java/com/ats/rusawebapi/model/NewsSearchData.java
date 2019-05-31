@@ -36,7 +36,10 @@ public class NewsSearchData {
 	
 	@Column(name = "page_slug")
 	private String pageSlug;
-
+	
+	@Column(name = "featured_image")
+	private String featuredImage;
+	
 	public int getNewsblogsId() {
 		return newsblogsId;
 	}
@@ -101,11 +104,19 @@ public class NewsSearchData {
 		this.pageSlug = pageSlug;
 	}
 
+	public String getFeaturedImage() {
+		return featuredImage;
+	}
+
+	public void setFeaturedImage(String featuredImage) {
+		this.featuredImage = featuredImage;
+	}
+
 	@Override
 	public String toString() {
 		return "NewsSearchData [newsblogsId=" + newsblogsId + ", moduleId=" + moduleId + ", heading=" + heading
 				+ ", descriptions=" + descriptions + ", addDate=" + addDate + ", editDate=" + editDate + ", pageName="
-				+ pageName + ", pageSlug=" + pageSlug + "]";
+				+ pageName + ", pageSlug=" + pageSlug + ", featuredImage=" + featuredImage + "]";
 	}
 	
 	

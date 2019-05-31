@@ -121,8 +121,8 @@ public class SearchRestController {
 			   String faqBaseQuery = " and cd.language_id="+langId+" and cd.faq_id=ch.faq_id and ch.del_status=1 and ch.is_active=1 and t.page_id=ch.page_id";
 			   
 			   String newsUpperQuery = "SELECT cd.newsblogs_id  , 9 as module_id, cd.heading , cd.descriptions  , ch.add_date, ch.edit_date, t.page_name, "
-			   		+ "t.page_slug from t_newsblogs_description cd, t_newsblogs ch, t_pages t WHERE ";
-			   String newsBaseQuery = " and cd.language_id="+langId+" and cd.newsblogs_id=ch.newsblogs_id and ch.del_status=1 and ch.is_active=1 and t.page_id=ch.page_id";
+			   		+ "t.page_slug, ch.featured_image from t_newsblogs_description cd, t_newsblogs ch, t_pages t WHERE ";
+			   String newsBaseQuery = " and cd.language_id="+langId+" and cd.newsblogs_id=ch.newsblogs_id and ch.del_status=1 and ch.is_active=1 and t.page_id=ch.page_id and ch.is_active=1 and ch.ex_int1=9";
 			   
 			   String documentUpperQuery = "SELECT cd.doc_id , 7 as module_id, cd.file_name , cd.add_date, cd.edit_date, t.page_name, t.page_slug from"
 			   		+ " t_documentupload cd, t_pages t WHERE ";
