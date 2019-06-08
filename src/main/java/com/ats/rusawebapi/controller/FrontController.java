@@ -160,7 +160,7 @@ public class FrontController {
 
 		try {
 
-			conList = contactUsRepo.findByDelStatusOrderById(1);
+			conList = contactUsRepo.findByDelStatusOrderByIdDesc(1);
 
 		} catch (Exception e) {
 
@@ -178,7 +178,7 @@ public class FrontController {
 
 		try {
 
-			conList = contactUsRepo.findByDelStatusOrderById(0);
+			conList = contactUsRepo.findByDelStatusOrderByIdDesc(0);
 
 		} catch (Exception e) {
 
@@ -392,6 +392,32 @@ public class FrontController {
 
 		}
 		return setting;
+
+	}
+	
+	@RequestMapping(value = { "/updateCouunt" }, method = RequestMethod.POST)
+	public @ResponseBody  Info updateSettingKeyValue(@RequestParam("key") String key) {
+
+		Info info = new  Info ();
+
+		try {
+
+			Setting setting = settingRepository.findByKeyName(key);
+			
+			String value = String.valueOf(Integer.parseInt(setting.getKeyValues())+1);
+			int update = settingRepository.updateSetting(value,key);
+			 
+			info.setMsg(value);
+			info.setError(false);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed to update ");
+
+		}
+		return info;
 
 	}
 

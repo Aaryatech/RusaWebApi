@@ -34,4 +34,10 @@ public interface SettingRepo extends JpaRepository<Setting, Integer>
 
 	@Query(value="select * from m_settingsall order by setting_id asc",nativeQuery=true) 
 	List<Setting> findAllOrderByAsc();
+	
+	
+	@Transactional
+	@Modifying
+	@Query(value="update m_settingsall set key_values =:value where key_name=:keyName",nativeQuery=true) 
+	int updateSetting(@Param("value") String value,@Param("keyName") String keyName);
 }

@@ -19,7 +19,7 @@ public interface ContactUsRepo extends JpaRepository<ContactUs, Integer>{
 	@Query("update ContactUs set del_status=0  WHERE id=:id")
 	int deleteContactId(@Param("id")int id);
 
-	List<ContactUs> findByDelStatusOrderById(int i);
+	List<ContactUs> findByDelStatusOrderByIdDesc(int i);
 
 	ContactUs findByIdAndDelStatus(int id, int i);
 
