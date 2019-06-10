@@ -25,6 +25,7 @@ import com.ats.rusawebapi.model.DocumentUpload;
 import com.ats.rusawebapi.model.EventRecord;
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.ImageListByCategory;
+import com.ats.rusawebapi.model.InstituteInfo;
 import com.ats.rusawebapi.model.Maintainance;
 import com.ats.rusawebapi.model.MetaData;
 import com.ats.rusawebapi.model.NewsBlog;
@@ -41,6 +42,7 @@ import com.ats.rusawebapi.model.SmsCode;
 import com.ats.rusawebapi.model.SubCategoryList;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.TopMenuList;
+import com.ats.rusawebapi.model.University;
 import com.ats.rusawebapi.model.frontend.CmsContent;
 import com.ats.rusawebapi.model.frontend.FaqContent;
 import com.ats.rusawebapi.model.frontend.PageContent;
@@ -51,6 +53,7 @@ import com.ats.rusawebapi.repo.DocumentUploadRepository;
 import com.ats.rusawebapi.repo.EventRecordRepo;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.ImageListByCategoryRepo;
+import com.ats.rusawebapi.repo.InstituteInfoRepo;
 import com.ats.rusawebapi.repo.MetaDataRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.NewsSectionListRepo;
@@ -65,6 +68,7 @@ import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.SubCategoryListRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
+import com.ats.rusawebapi.repo.UniversityRepo;
 import com.ats.rusawebapi.repo.frontend.CmsContentRepository;
 import com.ats.rusawebapi.repo.frontend.FaqContentRepository;
 
@@ -136,6 +140,12 @@ public class FrondEndRestApi {
 	
 	@Autowired
 	CategoryListWithContentCountRepo categoryListWithContentCountRepo;
+	
+	@Autowired
+	InstituteInfoRepo instituteInfoRepo;
+	
+	@Autowired
+	UniversityRepo universityRepo;
 	
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -506,6 +516,86 @@ public class FrondEndRestApi {
 
 			 
 			list = categoryListWithContentCountRepo.getCategoryListWithImageCount(sectionId,langId);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getInstituteInfoByAsheCode" }, method = RequestMethod.POST)
+	public @ResponseBody  InstituteInfo getInstituteInfoByAsheCode(@RequestParam("asheCode") String asheCode) {
+
+		InstituteInfo instituteInfo = new InstituteInfo();
+		
+		try {
+
+			 
+			instituteInfo = instituteInfoRepo.getInstituteInfoByAsheCode(asheCode);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return instituteInfo;
+
+	}
+	
+	@RequestMapping(value = { "/getInstituteInfoById" }, method = RequestMethod.POST)
+	public @ResponseBody  InstituteInfo getInstituteInfoById(@RequestParam("instiId") int instiId) {
+
+		InstituteInfo instituteInfo = new InstituteInfo();
+		
+		try {
+
+			 
+			instituteInfo = instituteInfoRepo.getInstituteInfoById(instiId);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return instituteInfo;
+
+	}
+	
+	@RequestMapping(value = { "/getUniversityList" }, method = RequestMethod.GET)
+	public @ResponseBody List<University> getUniversityList() {
+
+		List<University> list = new ArrayList<>();
+		
+		try {
+
+			 
+			list = universityRepo.findByDelStatus(1);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getInstituteListByUniversityId" }, method = RequestMethod.POST)
+	public @ResponseBody List<InstituteInfo> getInstituteListByUniversityId(@RequestParam("uniId") int uniId) {
+
+		List<InstituteInfo> list = new ArrayList<>();
+		
+		try {
+
+			 
+			list = instituteInfoRepo.getInstituteListByUniversityId(uniId);
 			 
 
 		} catch (Exception e) {
