@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class InstituteInfo {
@@ -34,6 +35,9 @@ public class InstituteInfo {
 	
 	@Column(name="uni_name")
 	private String uniName;
+	
+	@Transient
+	private int yesNo;
 
 	public int getMhInstId() {
 		return mhInstId;
@@ -99,11 +103,19 @@ public class InstituteInfo {
 		this.uniName = uniName;
 	}
 
+	public int getYesNo() {
+		return yesNo;
+	}
+
+	public void setYesNo(int yesNo) {
+		this.yesNo = yesNo;
+	}
+
 	@Override
 	public String toString() {
 		return "InstituteInfo [mhInstId=" + mhInstId + ", aisheCode=" + aisheCode + ", insName=" + insName
 				+ ", district=" + district + ", taluka=" + taluka + ", affUniversity=" + affUniversity + ", est_year="
-				+ est_year + ", uniName=" + uniName + "]";
+				+ est_year + ", uniName=" + uniName + ", yesNo=" + yesNo + "]";
 	}
 	
 	

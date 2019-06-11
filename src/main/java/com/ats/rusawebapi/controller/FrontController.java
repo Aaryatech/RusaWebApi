@@ -37,6 +37,7 @@ import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.OtpResponse;
 import com.ats.rusawebapi.model.Registration;
+import com.ats.rusawebapi.model.RegistrationUserDetail;
 import com.ats.rusawebapi.model.Setting;
 import com.ats.rusawebapi.model.SmsCode;
 import com.ats.rusawebapi.model.TestImonial;
@@ -56,6 +57,7 @@ import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.NewsBlogRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.RegistrationRepo;
+import com.ats.rusawebapi.repo.RegistrationUserDetailRepo;
 import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
@@ -110,6 +112,9 @@ public class FrontController {
 	
 	@Autowired
 	EventCount eventCount;
+	
+	@Autowired
+	RegistrationUserDetailRepo registrationUserDetailRepo;
 	/*
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
@@ -757,6 +762,21 @@ System.err.println("reg  "+reg.toString());
 
 		try {
 			secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getRegUserDetailbyRegId" }, method = RequestMethod.POST)
+	public @ResponseBody RegistrationUserDetail getRegUserDetailbyRegId(@RequestParam("regId") int regId) {
+		
+		RegistrationUserDetail secSaveResponse = new RegistrationUserDetail();
+
+		try {
+			secSaveResponse = registrationUserDetailRepo.getRegUserDetailbyRegId(regId);
 
 		} catch (Exception e) {
 

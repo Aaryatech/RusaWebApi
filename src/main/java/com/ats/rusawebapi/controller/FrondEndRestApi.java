@@ -536,6 +536,16 @@ public class FrondEndRestApi {
 
 			 
 			instituteInfo = instituteInfoRepo.getInstituteInfoByAsheCode(asheCode);
+			
+			if(instituteInfo==null) {
+				instituteInfo = new InstituteInfo();
+			}else {
+				int yesNo = instituteInfoRepo.registerOrnot(asheCode);
+				
+				if(yesNo>0) {
+					instituteInfo.setYesNo(1);
+				}
+			}
 			 
 
 		} catch (Exception e) {
@@ -556,7 +566,10 @@ public class FrondEndRestApi {
 
 			 
 			instituteInfo = instituteInfoRepo.getInstituteInfoById(instiId);
-			 
+			
+			if(instituteInfo==null) {
+				instituteInfo = new InstituteInfo();
+			}
 
 		} catch (Exception e) {
 
