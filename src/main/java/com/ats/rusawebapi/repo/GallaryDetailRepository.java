@@ -33,7 +33,19 @@ public interface GallaryDetailRepository extends JpaRepository<GallaryDetail, In
 	@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image=4 and is_active=1 and del_status=1 ORDER BY v.gallery_details_id DESC LIMIT 10",nativeQuery=true)
 	List<GallaryDetail> getLastTenVedios();
 
-	@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image=3 and is_active=1 and del_status=1 ORDER BY v.gallery_details_id DESC LIMIT 10",nativeQuery=true)
+	
+	/*@Query(value="SELECT v.* FROM t_gallery_details v where v.type_video_image=3 and is_active=1 and del_status=1 ORDER BY v.gallery_details_id DESC LIMIT 10",nativeQuery=true)*/
+	@Query(value="SELECT\n" + 
+			"    v.*\n" + 
+			"FROM\n" + 
+			"    t_gallery_details v\n" + 
+			"where\n" + 
+			"    v.type_video_image=3\n" + 
+			"    and is_active=1\n" + 
+			"    and del_status=1\n" + 
+			"    and v.page_id in (select page_id from t_pages where type_sec_cate=\"cat\" and sec_cate_id in (select cat_id from m_category where section_id=(select key_values from m_settingsall where key_name=\"gallarySectionId\" )) )\n" + 
+			"ORDER BY\n" + 
+			"    v.gallery_details_id DESC LIMIT 10",nativeQuery=true)
 	List<GallaryDetail> getLastTenPhotos();
 
 	List<GallaryDetail> findByIsActiveAndDelStatusAndPageIdAndTypeVideoImage(int i, int j, int pageId, String string);
