@@ -639,52 +639,52 @@ public class MasterApiController {
 
 	}
 	//==========================================Android=======================================================//
-	  public static String path="http://tomcat.aaryatechindia.in:6435/media/pdf/";
-	    
+	public static String path1 = "C:/Users/MAXADMIN/Desktop/uploads/";
+	public static String path2 = "C:/Users/MAXADMIN/Desktop/uploads/";
 
-	    @RequestMapping(value = { "/docUpload" }, method = RequestMethod.POST)
-	    public @ResponseBody Info docUpload(@RequestParam("file") MultipartFile uploadfile,
-	            @RequestParam("docName") String docName) {
+	@RequestMapping(value = { "/docUpload" }, method = RequestMethod.POST)
+	public @ResponseBody Info docUpload(@RequestParam("file") MultipartFile uploadfile,
+			@RequestParam("docName") String docName, @RequestParam("type") String type) {
 
-	        //System.err.println(" no  of files to push " + uploadfile.length);
-	        Info info = new Info();
+		// System.err.println(" no of files to push " + uploadfile.length);
+		Info info = new Info();
 
-	        try {
-	        	String lastdate=LastUpdatedSiteDate.updateDate();			
-	    		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
-	            saveUploadedFiles(uploadfile, path, docName);
+		try {
 
-	            info.setError(false);
-	            info.setMsg("File uploaded successfully");
+			saveUploadedFiles(uploadfile, docName, type);
 
-	        } catch (IOException e) {
+			info.setError(false);
+			info.setMsg("File uploaded successfully");
 
-	            e.printStackTrace();
-	            info.setError(true);
-	            info.setMsg("File upload failed");
-	        }
+		} catch (IOException e) {
 
-	        return info;
-	    }
-	    
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("File upload failed");
+		}
 
-	    public void saveUploadedFiles(MultipartFile file, String filePath, String imageName) throws IOException {
+		return info;
+	}
 
-	        Path path = Paths.get(filePath + imageName);
+	public void saveUploadedFiles(MultipartFile file, String imageName, String type) throws IOException {
 
-	        byte[] bytes = file.getBytes();
+		Path path = null;
 
-	         
-	            System.out.println("Inside Image Type =1");
+		byte[] bytes = file.getBytes();
 
-	            path = Paths.get(filePath + imageName);
+		System.out.println("Inside Image Type =1");
 
-	            System.out.println("Path= " + path.toString());
+		if (type.equalsIgnoreCase("1")) {
+			path = Paths.get(path1 + imageName);
+		} else if (type.equalsIgnoreCase("2")) {
+			path = Paths.get(path2 + imageName);
+		}
 
+		System.out.println("Path= " + path.toString());
 
-	        Files.write(path, bytes);
+		Files.write(path, bytes);
 
-	    }
+	}
 	
 	/*@RequestMapping(value = { "/getSectionListByLangId" }, method = RequestMethod.POST)
 	public @ResponseBody List<SectionTree> getSectionListByLangId(@RequestParam("langId") int langId) {
