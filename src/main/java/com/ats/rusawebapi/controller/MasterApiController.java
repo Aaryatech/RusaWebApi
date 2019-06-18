@@ -639,8 +639,8 @@ public class MasterApiController {
 
 	}
 	//==========================================Android=======================================================//
-	public static String path1 = "C:/Users/MAXADMIN/Desktop/uploads/";
-	public static String path2 = "C:/Users/MAXADMIN/Desktop/uploads/";
+	public static String path1 = "/home/tomcataaryatechi/ats.aaryatechindia.in/tomcat-8.0.18/webapps/media/pdf/";
+	public static String path2 = "/home/tomcataaryatechi/ats.aaryatechindia.in/tomcat-8.0.18/webapps/media/userdocument/";
 
 	@RequestMapping(value = { "/docUpload" }, method = RequestMethod.POST)
 	public @ResponseBody Info docUpload(@RequestParam("file") MultipartFile uploadfile,
