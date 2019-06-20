@@ -25,8 +25,8 @@ public interface GallaryDetailRepository extends JpaRepository<GallaryDetail, In
 
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE t_gallery_details SET title=:title WHERE gallery_details_id=:galleryDetailsId ",nativeQuery=true)
-	int updateTitleName(@Param("galleryDetailsId")int galleryDetailsId,@Param("title") String title);
+	@Query(value="UPDATE t_gallery_details SET title=:title, sort_no=:sortNo WHERE gallery_details_id=:galleryDetailsId ",nativeQuery=true)
+	int updateTitleName(@Param("galleryDetailsId")int galleryDetailsId,@Param("title") String title,@Param("sortNo")int sortNo);
 
 	GallaryDetail findByGalleryDetailsId(int galleryDetailsId);
 	
@@ -45,7 +45,7 @@ public interface GallaryDetailRepository extends JpaRepository<GallaryDetail, In
 			"    and del_status=1\n" + 
 			"    and v.page_id in (select page_id from t_pages where type_sec_cate=\"cat\" and sec_cate_id in (select cat_id from m_category where section_id=(select key_values from m_settingsall where key_name=\"gallarySectionId\" )) )\n" + 
 			"ORDER BY\n" + 
-			"    v.gallery_details_id DESC LIMIT 10",nativeQuery=true)
+			"    v.sort_no LIMIT 10",nativeQuery=true)
 	List<GallaryDetail> getLastTenPhotos();
 
 	List<GallaryDetail> findByIsActiveAndDelStatusAndPageIdAndTypeVideoImage(int i, int j, int pageId, String string);

@@ -181,13 +181,13 @@ public class GalleryRestApiController {
 	 
 	 @RequestMapping(value = { "/updateTitleName" }, method = RequestMethod.POST)
 		public @ResponseBody Info updateTitleName(@RequestParam("galleryDetailsId") int galleryDetailsId,
-				@RequestParam("title") String title) {
+				@RequestParam("title") String title,@RequestParam("sortNo") int sortNo) {
 		 Info infoRes = new Info();
 	 
 		 try {
 		 String lastdate=LastUpdatedSiteDate.updateDate();			
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
-			int update = gallaryDetailRepository.updateTitleName(galleryDetailsId,title);
+			int update = gallaryDetailRepository.updateTitleName(galleryDetailsId,title,sortNo);
 			
 			if (update >= 1) {
 				infoRes.setError(false);
