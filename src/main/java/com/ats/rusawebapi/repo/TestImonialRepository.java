@@ -19,6 +19,13 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 	@Modifying
 	@Query("update TestImonial set del_status=0  WHERE id=:id")
 	int delete(@Param("id") int id);
+	
+	
+
+	@Transactional
+	@Modifying
+	@Query("update TestImonial set del_status=0  WHERE id IN(:id)")
+	int deleteMultipleTestImonial(@Param("id") List<Integer> id);
 
 	
 	@Query(value="select * from t_testimonials where id=:id  and del_status=1",nativeQuery=true) 

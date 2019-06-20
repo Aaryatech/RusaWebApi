@@ -21,6 +21,11 @@ public interface NewsBlogRepository extends JpaRepository<NewsBlog, Integer>{
 	@Modifying
 	@Query("update NewsBlog set del_status=0  WHERE newsblogs_id=:newsblogsId")
 	int deleteNewsBlog(@Param("newsblogsId") int newsblogsId);
+	
+	@Transactional
+	@Modifying
+	@Query("update NewsBlog set del_status=0  WHERE newsblogs_id IN (:id)")
+	int deleteMultipleNewsBlog(@Param("id") List<Integer> id);
 
 	List<NewsBlog> findAllByIsActive(int i);
 

@@ -1,5 +1,7 @@
 package com.ats.rusawebapi.repo;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +19,12 @@ public interface CMSPagesRepository extends JpaRepository<CMSPages , Integer>{
 	int delete(@Param("cmsPageId") int cmsPageId);
 
 	CMSPages findByCmsPageId(int cmsPageId);
+	
+	
+	@Transactional
+	@Modifying
+	@Query("update CMSPages set del_status=0  WHERE cms_page_id IN(:id)")
+
+	int deleteMultipleCMSPage(@Param("id") List<Integer> id);
 
 }
