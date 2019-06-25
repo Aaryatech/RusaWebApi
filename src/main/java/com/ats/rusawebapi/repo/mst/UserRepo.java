@@ -35,16 +35,18 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	int activeInactiveUser(@Param("userIdList") List<String> userIdList, @Param("isActive") int isActive);
 
 
-	User findByUserNameAndUserPassAndDelStatus(String userName, String password, int i);
+	@Query(value="SELECT * From m_user where BINARY m_user.user_name=:userName AND BINARY m_user.user_pass=:password AND m_user.del_status=1",nativeQuery=true) 
+	User searchUser(@Param("userName") String userName,@Param("password") String password);
 
 	@Transactional
 	@Modifying
 	@Query("UPDATE User SET lastlogin_date=:date WHERE user_id=:userId ") 
 	int updateLastLoginDate(@Param("date")String date,@Param("userId") int userId);
 
+	@Query(value="SELECT * From m_user where BINARY m_user.user_name=:userName AND m_user.is_active=1 AND m_user.del_status=1",nativeQuery=true) 
+	User searchUser1(@Param("userName") String userName);
 
-	User findByUserNameAndDelStatusAndIsActive(String userName, int i,int j);
-
+ 
 	@Transactional
 	@Modifying
 	@Query("UPDATE User SET loginFailureCount=:count WHERE user_id=:userId ") 

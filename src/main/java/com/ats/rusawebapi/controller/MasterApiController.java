@@ -91,11 +91,11 @@ public class MasterApiController {
 			
 			//user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			user = userRepo.findByUserNameAndDelStatusAndIsActive(userName, 1,1);
+			user = userRepo.searchUser1(userName);
 			
 			if (user != null) {
  
-				User user1 = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+				User user1 = userRepo.searchUser(userName,password);
 				if (user1 != null) {
 					loginResponse.setError(false);
 					loginResponse.setMsg("Login Sucess ");
