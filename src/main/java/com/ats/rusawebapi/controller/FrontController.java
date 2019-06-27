@@ -1482,13 +1482,13 @@ System.err.println("reg  "+reg.toString());
 		return secSaveResponse;
 	}
 	
-	@RequestMapping(value = { "/getAllEventList" }, method = RequestMethod.GET)
-	public @ResponseBody List<EventCountDetails> getAllEventList() {
+	@RequestMapping(value = { "/getAllEventList" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventCountDetails> getAllEventList(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
 
 		List<EventCountDetails> list = new ArrayList<>();
 
 		try {
-			list = eventCount.getAllEvents();
+			list = eventCount.getAllEvents(fromDate,toDate);
 		} catch (Exception e) {
  
 			e.printStackTrace();
