@@ -20,6 +20,14 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 
 	Registration findBySmsCodeAndUserUuidAndDelStatus(String userOtp, String uuid, int i);
 	
+	
+
+	@Transactional
+	@Modifying
+	@Query("update Registration set del_status=0 WHERE reg_id IN (:id)")
+	int deleteMultipleUserReg(@Param("id") List<Integer> id);
+ 
+
 	@Transactional
 	@Modifying
 	@Query("UPDATE Registration SET sms_verified=:i WHERE reg_id=:regId ") 

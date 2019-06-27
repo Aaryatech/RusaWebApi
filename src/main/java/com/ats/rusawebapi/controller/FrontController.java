@@ -238,6 +238,21 @@ public class FrontController {
 		}
 		return infoRes;
 	}
+	
+ 	@RequestMapping(value = { "/deleteMultipleUserReg" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteMultipleUserReg(@RequestParam("id") List<Integer> id) {
+
+		int isDeleted = registrationRepo.deleteMultipleUserReg(id);
+		Info infoRes = new Info();
+		if (isDeleted >= 1) {
+			infoRes.setError(false);
+			infoRes.setMsg("User Deleted Successfully");
+		} else {
+			infoRes.setError(true);
+			infoRes.setMsg("User Deletion Failed");
+		}
+		return infoRes;
+	}
 
 	@RequestMapping(value = { "/getLastTenVideos" }, method = RequestMethod.GET)
 	public @ResponseBody List<GallaryDetail> getLastTenVideos() {

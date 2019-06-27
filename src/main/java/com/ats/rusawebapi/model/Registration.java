@@ -8,110 +8,109 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 @Entity
 @Table(name = "t_registration")
 public class Registration {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="reg_id")
+	@Column(name = "reg_id")
 	private int regId;
-	
-	@Column(name="user_uuid")
+
+	@Column(name = "user_uuid")
 	private String userUuid;
-	
-	@Column(name="user_type")
+
+	@Column(name = "user_type")
 	private int userType;
-	
-	@Column(name="emails")
+
+	@Column(name = "emails")
 	private String emails;
-	
-	@Column(name="alternate_email")
+
+	@Column(name = "alternate_email")
 	private String alternateEmail;
 
-	@Column(name="user_password")
+	@Column(name = "user_password")
 	private String userPassword;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
-	@Column(name="aishe_code")
+
+	@Column(name = "aishe_code")
 	private String aisheCode;
-	
-	@Column(name="college_name")
+
+	@Column(name = "college_name")
 	private String collegeName;
-	
-	@Column(name="unversity_name")
+
+	@Column(name = "unversity_name")
 	private String unversityName;
-	
-	@Column(name="designation_name")
+
+	@Column(name = "designation_name")
 	private String designationName;
 
-	@Column(name="department_name")
+	@Column(name = "department_name")
 	private String departmentName;
-	
-	@Column(name="mobile_number")
+
+	@Column(name = "mobile_number")
 	private String mobileNumber;
-	
-	@Column(name="authorized_person")
+
+	@Column(name = "authorized_person")
 	private String authorizedPerson;
-	
-	@Column(name="dob")
+
+	@Column(name = "dob")
 	private String dob;
-	
-	@Column(name="image_name")
+
+	@Column(name = "image_name")
 	private String imageName;
-	
-	@Column(name="token_id")
+
+	@Column(name = "token_id")
 	private String tokenId;
-	
-	@Column(name="register_via")
+
+	@Column(name = "register_via")
 	private String registerVia;
-	
-	@Column(name="is_active")
+
+	@Column(name = "is_active")
 	private int isActive;
-	
-	@Column(name="del_status")
+
+	@Column(name = "del_status")
 	private int delStatus;
-	
-	@Column(name="add_date")
+
+	@Column(name = "add_date")
 	private String addDate;
-	
-	@Column(name="edit_date")
+
+	@Column(name = "edit_date")
 	private String editDate;
-		
-	@Column(name="edit_by_user_id")
+
+	@Column(name = "edit_by_user_id")
 	private int editByUserId;
 
-	@Column(name="ex_int1")
+	@Column(name = "ex_int1")
 	private int exInt1;
-	@Column(name="ex_int2")
+	@Column(name = "ex_int2")
 	private int exInt2;
-	
-	@Column(name="ex_var1")
+
+	@Column(name = "ex_var1")
 	private String exVar1;
-	
-	@Column(name="ex_var2")
+
+	@Column(name = "ex_var2")
 	private String exVar2;
-	
-	@Column(name="email_code")
+
+	@Column(name = "email_code")
 	private String emailCode;
-	
-	@Column(name="email_verified")
+
+	@Column(name = "email_verified")
 	private int emailVerified;
-	
-	@Column(name="sms_code")
+
+	@Column(name = "sms_code")
 	private String smsCode;
-	
-	@Column(name="sms_verified")
+
+	@Column(name = "sms_verified")
 	private int smsVerified;
-	
-	@Column(name="edit_by_adminuser_id")
+
+	@Column(name = "edit_by_adminuser_id")
 	private int editByAdminuserId;
-	
+
 	@Transient
 	private String msg;
-	
+
 	@Transient
 	private boolean isError;
 
@@ -377,8 +376,8 @@ public class Registration {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
-	}	
-	
+	}
+
 	public boolean isError() {
 		return isError;
 	}
@@ -401,7 +400,5 @@ public class Registration {
 				+ ", smsVerified=" + smsVerified + ", editByAdminuserId=" + editByAdminuserId + ", msg=" + msg
 				+ ", isError=" + isError + "]";
 	}
-	
-	
-	 
+
 }
