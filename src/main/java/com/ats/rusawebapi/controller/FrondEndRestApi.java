@@ -6,6 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -683,6 +688,36 @@ public class FrondEndRestApi {
 
 		}
 		return list;
+
+	}
+	
+	@RequestMapping(value = { "/logout" }, method = RequestMethod.GET)
+	public @ResponseBody String logout(HttpSession session,HttpServletRequest request, HttpServletResponse response) {
+
+		 
+		
+		try {
+
+			 
+			Cookie[] cookies = request.getCookies();
+		    if (cookies != null)
+		        for (Cookie cookie : cookies) {
+		            cookie.setValue("");
+		            cookie.setPath("/");
+		            cookie.setMaxAge(0);
+		            response.addCookie(cookie);
+		        }
+			 
+			session.invalidate();
+			
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return "redirect:/";
 
 	}
 
