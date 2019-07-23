@@ -1,4 +1,6 @@
 package com.ats.rusawebapi.model;
+ 
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "m_banner_slider")
@@ -60,6 +63,9 @@ public class BannerImages {
 	
 	@Column(name="del_status")
 	private int delStatus;
+	
+	@Transient
+	List<BannerDetail> detillist;
 
 	public int getId() {
 		return id;
@@ -188,6 +194,15 @@ public class BannerImages {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
+ 
+
+	public List<BannerDetail> getDetillist() {
+		return detillist;
+	}
+
+	public void setDetillist(List<BannerDetail> detillist) {
+		this.detillist = detillist;
+	}
 
 	@Override
 	public String toString() {
@@ -195,7 +210,7 @@ public class BannerImages {
 				+ ", linkName=" + linkName + ", text1=" + text1 + ", text2=" + text2 + ", text3=" + text3
 				+ ", sliderImage=" + sliderImage + ", sortOrder=" + sortOrder + ", addDate=" + addDate + ", editDate="
 				+ editDate + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + "]";
+				+ isActive + ", delStatus=" + delStatus + ", detillist=" + detillist + "]";
 	}
 
 	

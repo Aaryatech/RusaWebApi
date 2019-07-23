@@ -371,13 +371,13 @@ public class FrontController {
 		return secSaveResponse;
 	}
 
-	@RequestMapping(value = { "/getLastSliderImagesByStatus" }, method = RequestMethod.GET)
-	public @ResponseBody BannerImages getLastSliderImagesByStatus() {
+	@RequestMapping(value = { "/getLastSliderImagesByStatus" }, method = RequestMethod.POST)
+	public @ResponseBody BannerImages getLastSliderImagesByStatus(@RequestParam("langId") int langId) {
 
 		BannerImages secSaveResponse = new BannerImages();
 
 		try {
-			secSaveResponse = bannerImagesRepo.getLastSliderImagesByStatus(1);
+			secSaveResponse = bannerImagesRepo.getLastSliderImagesByStatus( langId);
 
 		} catch (Exception e) {
 
@@ -647,7 +647,7 @@ public class FrontController {
 		HomeData homeData = new HomeData();
 		try {
 
-			homeData.setBaner(getLastSliderImagesByStatus());
+			homeData.setBaner(getLastSliderImagesByStatus(1));
 			homeData.setVideoList(getLastTenVideos());
 			homeData.setPhotoList(getLastTenPhotos());
 			homeData.setLogoData(new MasterApiControllerNew().getLogoListById(1));
