@@ -39,6 +39,7 @@ import com.ats.rusawebapi.model.OtpResponse;
 import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.RegistrationUserDetail;
 import com.ats.rusawebapi.model.Setting;
+import com.ats.rusawebapi.model.SettingMr;
 import com.ats.rusawebapi.model.SmsCode;
 import com.ats.rusawebapi.model.TestImonial;
 import com.ats.rusawebapi.model.mst.Info;
@@ -58,6 +59,7 @@ import com.ats.rusawebapi.repo.NewsBlogRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
 import com.ats.rusawebapi.repo.RegistrationRepo;
 import com.ats.rusawebapi.repo.RegistrationUserDetailRepo;
+import com.ats.rusawebapi.repo.SettingMrRepo;
 import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
@@ -119,6 +121,8 @@ public class FrontController {
 	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
 	 * <version>1.4</version> </dependency>
 	 */
+
+	@Autowired SettingMrRepo settingMrRepo;
 
 	static String senderEmail = "atsinfosoft@gmail.com";
 	static String senderPassword = "atsinfosoft@123";
@@ -378,15 +382,19 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
+	@RequestMapping(value = { "/getAllSettingList" }, method = RequestMethod.POST)
+	public @ResponseBody List<SettingMr> getAllSettingList(@RequestParam int langId) {
 
-	@RequestMapping(value = { "/getAllSettingList" }, method = RequestMethod.GET)
-	public @ResponseBody List<Setting> getAllSettingList() {
-
-		List<Setting> conList = new ArrayList<Setting>();
+		List<SettingMr> conList = new ArrayList<SettingMr>();
 
 		try {
+			if(langId!=2) {
+				conList = settingMrRepo.findAllOrderByAsc();
 
-			conList = settingRepository.findAllOrderByAsc();
+			}
+			else {
+				conList = settingMrRepo.findAllMrOrderByAsc();
+			}
 
 		} catch (Exception e) {
 
