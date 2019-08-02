@@ -13,7 +13,7 @@ public interface InstituteInfoRepo extends JpaRepository<InstituteInfo, Integer>
 	@Query(value="select i.*,u.uni_name from mh_institute_master i,m_university u where i.aishe_code=:asheCode and u.uni_id=i.aff_university",nativeQuery=true)
 	InstituteInfo getInstituteInfoByAsheCode(@Param("asheCode") String asheCode);
 
-	@Query(value="select i.*,u.uni_name from mh_institute_master i,m_university u where  u.uni_id=i.aff_university and i.aff_university=:uniId",nativeQuery=true)
+	@Query(value="select i.*,u.uni_name from mh_institute_master i,m_university u where  u.uni_id=i.aff_university and i.aff_university=:uniId Order By i.inst_name Asc",nativeQuery=true)
 	List<InstituteInfo> getInstituteListByUniversityId(@Param("uniId") int uniId);
 
 	@Query(value="select i.*,u.uni_name from mh_institute_master i,m_university u where i.mh_inst_id=:instiId and u.uni_id=i.aff_university",nativeQuery=true)

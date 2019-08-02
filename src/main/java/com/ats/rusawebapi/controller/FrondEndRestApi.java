@@ -599,7 +599,7 @@ public class FrondEndRestApi {
 		try {
 
 			 
-			list = universityRepo.findByDelStatus(1);
+			list = universityRepo.findByDelStatusOrderByUniNameAsc(1);
 			 
 
 		} catch (Exception e) {

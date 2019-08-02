@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.ats.rusawebapi.model.GallaryDetail;
 import com.ats.rusawebapi.model.TestImonial;
+import com.ats.rusawebapi.model.TestimonialDetail;
 
 public interface TestImonialRepository extends JpaRepository<TestImonial, Integer>{
 	
@@ -20,7 +21,8 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 	@Query("update TestImonial set del_status=0  WHERE id=:id")
 	int delete(@Param("id") int id);
 	
-	
+	TestImonial findById(int id);
+
 
 	@Transactional
 	@Modifying

@@ -1,11 +1,14 @@
 package com.ats.rusawebapi.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "t_testimonials")
@@ -71,6 +74,9 @@ public class TestImonial {
 	
 	@Column(name="ex_var2")
 	private String exVar2;
+	
+	@Transient
+	List<TestimonialDetail> detailList;
 
 	public int getId() {
 		return id;
@@ -232,6 +238,15 @@ public class TestImonial {
 		this.exVar2 = exVar2;
 	}
 
+	
+	public List<TestimonialDetail> getDetailList() {
+		return detailList;
+	}
+
+	public void setDetailList(List<TestimonialDetail> detailList) {
+		this.detailList = detailList;
+	}
+
 	@Override
 	public String toString() {
 		return "TestImonial [id=" + id + ", cateType=" + cateType + ", pageId=" + pageId + ", sectionId=" + sectionId
@@ -239,18 +254,10 @@ public class TestImonial {
 				+ message + ", imageName=" + imageName + ", sortNo=" + sortNo + ", addDate=" + addDate + ", editDate="
 				+ editDate + ", addedByUserId=" + addedByUserId + ", editByUserId=" + editByUserId + ", isActive="
 				+ isActive + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1="
-				+ exVar1 + ", exVar2=" + exVar2 + ", getId()=" + getId() + ", getCateType()=" + getCateType()
-				+ ", getPageId()=" + getPageId() + ", getSectionId()=" + getSectionId() + ", getFromName()="
-				+ getFromName() + ", getDesignation()=" + getDesignation() + ", getLocation()=" + getLocation()
-				+ ", getMessage()=" + getMessage() + ", getImageName()=" + getImageName() + ", getSortNo()="
-				+ getSortNo() + ", getAddDate()=" + getAddDate() + ", getEditDate()=" + getEditDate()
-				+ ", getAddedByUserId()=" + getAddedByUserId() + ", getEditByUserId()=" + getEditByUserId()
-				+ ", getIsActive()=" + getIsActive() + ", getDelStatus()=" + getDelStatus() + ", getExInt1()="
-				+ getExInt1() + ", getExInt2()=" + getExInt2() + ", getExVar1()=" + getExVar1() + ", getExVar2()="
-				+ getExVar2() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ exVar1 + ", exVar2=" + exVar2 + ", detailList=" + detailList + "]";
 	}
 
+	 
 	
 	
 	

@@ -34,6 +34,7 @@ import com.ats.rusawebapi.model.PagesModule;
 import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.SocialChannels;
 import com.ats.rusawebapi.model.TestImonial;
+import com.ats.rusawebapi.model.TestimonialDetail;
 import com.ats.rusawebapi.model.frontend.PageContent;
 import com.ats.rusawebapi.model.mst.GetCategory;
 import com.ats.rusawebapi.model.mst.Info;
@@ -59,6 +60,7 @@ import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SiteMaintenanceRepository;
 import com.ats.rusawebapi.repo.SocialChannelRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
+import com.ats.rusawebapi.repo.TestimonialDetailRepo;
 import com.ats.rusawebapi.repo.mst.CategoryRepo;
 import com.ats.rusawebapi.tx.model.GalleryDetail;
 import com.ats.rusawebapi.tx.model.Galleryheader;
@@ -614,6 +616,70 @@ public class MasterApiControllerNew {
 
 	}
 
+	@Autowired
+	TestimonialDetailRepo testimonialDetailRepo;
+	
+	@RequestMapping(value = { "/saveTestinomialsHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody TestImonial saveTestinomialsHeaderAndDetail(@RequestBody TestImonial testDesc) {
+
+		Info errorMessage = new Info();
+		TestImonial testi = new TestImonial();
+		//System.out.println("head are ****"+testDesc.toString());
+		///System.out.println("detail are ****"+testDesc.getDetailList().toString());
+
+ 		try {
+
+ 			testi = testImonialListRepo.save(testDesc);
+
+			for (int i = 0; i < testDesc.getDetailList().size(); i++) {
+
+				testDesc.getDetailList().get(i).setTestHeadId(testi.getId());
+
+			}
+
+			List<TestimonialDetail> gDetailsList = testimonialDetailRepo.saveAll(testDesc.getDetailList());
+			testi.setDetailList(gDetailsList);
+
+			errorMessage.setError(false);
+			errorMessage.setMsg("successfully Saved ");
+			String lastdate = LastUpdatedSiteDate.updateDate();
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return testi;
+
+	}  
+	
+
+	@RequestMapping(value = { "/getTestinomialHeadDetById" }, method = RequestMethod.POST)
+	public @ResponseBody TestImonial getTestinomialHeadDetById(@RequestParam("id") int id) {
+
+		TestImonial testi = new TestImonial();
+
+		try {
+			System.out.println("ID: " + id);
+
+			testi = testImonialListRepo.findById(id);
+			List<TestimonialDetail> gDetailsList = testimonialDetailRepo.findAllByTestHeadId(id);
+			testi.setDetailList(gDetailsList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return testi;
+
+	}
+	
+	
 	@RequestMapping(value = { "/getTestImonialList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetPagesModule> getTestImonialList() {
 
