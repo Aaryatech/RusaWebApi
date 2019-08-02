@@ -191,7 +191,7 @@ public class FrondEndRestApi {
 				} else if (moduleList.get(i) == 6) {
 
 					List<TestImonial> testImonialList = testImonialListRepo
-							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 6);
+							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 6,langId);
 					pageContent.setTestImonialList(testImonialList);
 				} else if (moduleList.get(i) == 3) {
 
@@ -205,12 +205,12 @@ public class FrondEndRestApi {
 				} else if (moduleList.get(i) == 13) {
 
 					List<TestImonial> testImonialList = testImonialListRepo
-							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 13);
+							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 13,langId);
 					pageContent.setTeamList(testImonialList);
 				} else if (moduleList.get(i) == 8) {
 
 					List<TestImonial> testImonialList = testImonialListRepo
-							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 8);
+							.findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(page.getPageId(), 1, 1, 8,langId);
 					pageContent.setSuccessList(testImonialList);
 				}
 

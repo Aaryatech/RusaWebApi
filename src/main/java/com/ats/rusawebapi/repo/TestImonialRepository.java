@@ -33,10 +33,16 @@ public interface TestImonialRepository extends JpaRepository<TestImonial, Intege
 	@Query(value="select * from t_testimonials where id=:id  and del_status=1",nativeQuery=true) 
 	TestImonial getTestListById(@Param("id") int id); 
 	
-	List<TestImonial> findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(int pageId, int i, int j, int k);
+	@Query(value="SELECT t.id,t.cate_type,t.page_id,t.section_id,td.from_name,td.designation,td.location,td.message,t.image_name,"
+			+ "t.sort_no,t.add_date,t.edit_date,t.added_by_user_id,t.edit_by_user_id,t.is_active,t.del_status,t.ex_int1,t.ex_int2,t.ex_var1,t.ex_var2 FROM t_testimonials t,t_testimonials_detail td where t.is_active=:i and t.del_status=:j and t.section_id=:k and t.id=td.test_head_id "
+			+ "and td.lang_id=:langId and t.page_id=:pageId ORDER BY t.sort_no",nativeQuery=true)
+	List<TestImonial> findByPageIdAndDelStatusAndIsActiveAndSectionIdOrderBySortNo(@Param("pageId")int pageId,@Param("i") int i,
+			@Param("j")int j,@Param("k") int k,@Param("langId") int langId);
 	
-	@Query(value="SELECT t.* FROM t_testimonials t where t.is_active=1 and t.del_status=1 and t.section_id=6 ORDER BY t.id DESC LIMIT 5",nativeQuery=true)
-	List<TestImonial> getLastFiveTestImonials();
+	/*@Query(value="SELECT t.* FROM t_testimonials t where t.is_active=1 and t.del_status=1 and t.section_id=6 ORDER BY t.id DESC LIMIT 5",nativeQuery=true)*/
+	@Query(value="SELECT t.id,t.cate_type,t.page_id,t.section_id,td.from_name,td.designation,td.location,td.message,t.image_name,t.sort_no,t.add_date,t.edit_date,t.added_by_user_id,t.edit_by_user_id,t.is_active,t.del_status,t.ex_int1,t.ex_int2,t.ex_var1,t.ex_var2 FROM t_testimonials t,t_testimonials_detail td where t.is_active=1 and t.del_status=1 and t.section_id=6 and t.id=td.test_head_id "
+			+ "and td.lang_id=:langId ORDER BY t.id DESC LIMIT 10",nativeQuery=true)
+	List<TestImonial> getLastFiveTestImonials(@Param("langId") int langId);
 	
 	@Query(value="SELECT t.* FROM t_testimonials t where t.is_active=1 and t.del_status=1 and t.section_id=13 ",nativeQuery=true)
 	List<TestImonial> getTeamDetail();

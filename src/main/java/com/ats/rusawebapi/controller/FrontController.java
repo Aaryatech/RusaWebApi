@@ -301,12 +301,12 @@ public class FrontController {
 		return secSaveResponse;
 	}
 
-	@RequestMapping(value = { "/getLastFiveTestImonials" }, method = RequestMethod.GET)
-	public @ResponseBody List<TestImonial> getLastFiveTestImonials() {
+	@RequestMapping(value = { "/getLastFiveTestImonials" }, method = RequestMethod.POST)
+	public @ResponseBody List<TestImonial> getLastFiveTestImonials(@RequestParam("langId") int langId) {
 		List<TestImonial> secSaveResponse = new ArrayList<TestImonial>();
 
 		try {
-			secSaveResponse = testImonialListRepo.getLastFiveTestImonials();
+			secSaveResponse = testImonialListRepo.getLastFiveTestImonials(langId);
 
 		} catch (Exception e) {
 
@@ -652,7 +652,7 @@ public class FrontController {
 			homeData.setPhotoList(getLastTenPhotos());
 			homeData.setLogoData(new MasterApiControllerNew().getLogoListById(1));
 			homeData.setNewsList(new MasterApiControllerNew().getLastFourNewsByLangId(langId));
-			homeData.setTestimonialList(getLastFiveTestImonials());
+			homeData.setTestimonialList(getLastFiveTestImonials(langId));
 			homeData.setSocialList(new MasterApiControllerNew().getAllSocialList());
 			homeData.setCmsList(getCMSDescByExInt1(langId));
 
