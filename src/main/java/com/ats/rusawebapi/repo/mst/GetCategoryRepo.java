@@ -65,6 +65,7 @@ public interface GetCategoryRepo extends JpaRepository<GetCategory, Integer> {
 			+ "and m_category.section_id=:sectionId and m_category.del_status=1 and m_category.parent_id=0 order by m_category.cat_sort_no desc",nativeQuery=true)
 	List<GetCategory> getAllCatIdBySectionIdOrderByDesc(@Param("sectionId")int sectionId);
 
+	
 	@Query(value="SELECT\n" + 
 			"        m_category.cat_id,\n" + 
 			"        m_category.parent_id,\n" + 
