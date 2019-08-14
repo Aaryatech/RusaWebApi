@@ -65,6 +65,58 @@ public interface GetCategoryRepo extends JpaRepository<GetCategory, Integer> {
 			+ "and m_category.section_id=:sectionId and m_category.del_status=1 and m_category.parent_id=0 order by m_category.cat_sort_no desc",nativeQuery=true)
 	List<GetCategory> getAllCatIdBySectionIdOrderByDesc(@Param("sectionId")int sectionId);
 
+	@Query(value="SELECT\n" + 
+			"        m_category.cat_id,\n" + 
+			"        m_category.parent_id,\n" + 
+			"        m_category_description.cat_name,\n" + 
+			"        m_category.slug_name,\n" + 
+			"        m_category.cat_code,\n" + 
+			"        m_category.cat_desc,\n" + 
+			"        m_category.image_name,\n" + 
+			"        m_category.external_url,\n" + 
+			"        m_category.external_url_target,\n" + 
+			"        m_category.cat_add_date,\n" + 
+			"        m_category.cat_edit_date,\n" + 
+			"        m_category.cat_sort_no,\n" + 
+			"        m_category.cat_remark,\n" + 
+			"        m_category.section_id,\n" + 
+			"        m_category.added_by_user_id,\n" + 
+			"        m_category.edit_by_user_id,\n" + 
+			"        m_category.is_active,\n" + 
+			"        m_category.del_status,\n" + 
+			"        m_category.ex_int1,\n" + 
+			"        m_category.ex_int2,\n" + 
+			"        m_category.ex_int3,\n" + 
+			"        m_category.ex_var1,\n" + 
+			"        m_category.ex_var2,\n" + 
+			"        m_category.ex_var3,\n" + 
+			"        m_category.ex_date1,\n" + 
+			"        m_category.ex_date2,\n" + 
+			"        m_category.ex_float1,\n" + 
+			"        m_category.ex_float2,\n" + 
+			"        m_category.ex_float3,\n" + 
+			"        m_category.ex_var4,\n" + 
+			"        m_category.ex_var5,\n" + 
+			"        m_section_description.section_name,\n" + 
+			"        coalesce(0) as category_name \n" + 
+			"    from\n" + 
+			"        m_category,\n" + 
+			"        m_section,\n" + 
+			"        m_section_description,\n" + 
+			"        m_category_description\n" + 
+			"    WHERE\n" + 
+			"        m_category.section_id=m_section.section_id \n" + 
+			"        and m_category.section_id=:sectionId \n" + 
+			"        and m_category.del_status=1 \n" + 
+			"        and m_category.parent_id=0 \n" + 
+			"        and m_section_description.section_id=m_section.section_id \n" + 
+			"        and m_section_description.language_id=:landId\n" + 
+			"        and m_category_description.cat_id=m_category.cat_id\n" + 
+			"        and m_category_description.language_id=:landId\n" + 
+			"    order by\n" + 
+			"        m_category.cat_sort_no desc",nativeQuery=true)
+	List<GetCategory> getAllCatIdBySectionIdAndLangIdOrderByDesc(@Param("sectionId")int sectionId,@Param("landId")int landId);
+	
 	@Query(value=" SELECT\n" + 
 			"        m_category.cat_id,\n" + 
 			"        m_category.parent_id,\n" + 
