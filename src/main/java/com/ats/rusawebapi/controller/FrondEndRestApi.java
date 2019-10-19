@@ -487,7 +487,7 @@ public class FrondEndRestApi {
 				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();		           
 		           
-	            map.add("senderID", "RUSAMH");
+	           /* map.add("senderID", "RUSAMH");
 	            map.add("user", "spdrusamah@gmail.com:Cyber@mva");
 	            map.add("receipientno", mobileNo);
 	            map.add("dcs", "0");
@@ -495,7 +495,17 @@ public class FrondEndRestApi {
 	            map.add("state", "4");
 	           
 	            String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
-	                    String.class); 
+	                    String.class); */
+	            
+	            map = new LinkedMultiValueMap<String, Object>();
+				map.add("username", "rusamah-wb");
+				map.add("password", "Rus@@123456");
+				map.add("senderid", "MHRUSA");
+				map.add("mobileno", mobileNo);
+				map.add("content", msg); 
+				map.add("smsservicetype", "singlemsg"); 
+				String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
+						map, String.class);
 	            
 	        
 	            info.setError(false);
