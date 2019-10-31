@@ -1279,6 +1279,20 @@ public class FrontController {
 		}
 		return secSaveResponse;
 	}
+	
+	@RequestMapping(value = { "/getAllUpcomingEventsWithIsApply" }, method = RequestMethod.POST)
+	public @ResponseBody List<NewsDetails> getAllUpcomingEventsWithIsApply(@RequestParam("langId") int langId,@RequestParam("userId") int userId) {
+		List<NewsDetails> secSaveResponse = new ArrayList<NewsDetails>();
+
+		try {
+			secSaveResponse = newsDetailRepo.getAllUpcomingEventsWithIsApply(langId,userId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
 
 	@RequestMapping(value = { "/newsListForHomePage" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsDetails> newsListForHomePage(@RequestParam("langId") int langId) {
