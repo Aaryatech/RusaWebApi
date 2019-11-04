@@ -639,8 +639,8 @@ public class MasterApiController {
 
 	}
 	//==========================================Android=======================================================//
-	public static String path1 = "/home/tomcataaryatechi/ats.aaryatechindia.in/tomcat-8.0.18/webapps/media/pdf/";
-	public static String path2 = "/home/tomcataaryatechi/ats.aaryatechindia.in/tomcat-8.0.18/webapps/media/userdocument/";
+	public static String path1 = "/opt/tomcat/webapps/mediarusa/pdf/";
+	public static String path2 = "/opt/tomcat/webapps/mediarusa/userdocument/";
 
 	@RequestMapping(value = { "/docUpload" }, method = RequestMethod.POST)
 	public @ResponseBody Info docUpload(@RequestParam("file") MultipartFile uploadfile,
