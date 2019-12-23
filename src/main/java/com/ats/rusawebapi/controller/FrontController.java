@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
+ 
 import com.ats.rusawebapi.Commons;
 import com.ats.rusawebapi.EmailUtility;
 import com.ats.rusawebapi.model.AppToken;
@@ -540,7 +540,7 @@ public class FrontController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("senderID", "RUSAMH");
+			/*map.add("senderID", "RUSAMH");
 			map.add("user", "spdrusamah@gmail.com:Cyber@mva");
 			map.add("receipientno", studResp.getMobileNumber());
 			map.add("dcs", "0");
@@ -548,7 +548,17 @@ public class FrontController {
 			map.add("state", "4");
 
 			String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
-					String.class);
+					String.class);*/
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("username", "rusamah-wb");
+			map.add("password", "Rus@@123456");
+			map.add("senderid", "MHRUSA");
+			map.add("mobileno", studResp.getMobileNumber());
+			map.add("content", msg); 
+			map.add("smsservicetype", "singlemsg"); 
+			String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
+					map, String.class);
 			studResp.setError(false);
 			studResp.setMsg("Otp Updated ");
 			// Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
@@ -597,7 +607,7 @@ public class FrontController {
 				smsCodeRepo.saveAndFlush(sms);
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-				map.add("senderID", "RUSAMH");
+				/*map.add("senderID", "RUSAMH");
 				map.add("user", "spdrusamah@gmail.com:Cyber@mva");
 				map.add("receipientno", studResp.getMobileNumber());
 				map.add("dcs", "0");
@@ -605,7 +615,17 @@ public class FrontController {
 				map.add("state", "4");
 
 				String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
-						String.class);
+						String.class);*/
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("username", "rusamah-wb");
+				map.add("password", "Rus@@123456");
+				map.add("senderid", "MHRUSA");
+				map.add("mobileno", studResp.getMobileNumber());
+				map.add("content", msg); 
+				map.add("smsservicetype", "singlemsg"); 
+				String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
+						map, String.class);
 				studResp.setError(false);
 				studResp.setMsg("Otp Updated ");
 				// Info info1 = EmailUtility.sendMsg(otp, studResp.getExVar2());
@@ -852,7 +872,7 @@ public class FrontController {
 					smsCodeRepo.saveAndFlush(sms);
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-					map.add("senderID", "RUSAMH");
+					/*map.add("senderID", "RUSAMH");
 					map.add("user", "spdrusamah@gmail.com:Cyber@mva");
 					map.add("receipientno", reg1.getMobileNumber());
 					map.add("dcs", "0");
@@ -860,6 +880,16 @@ public class FrontController {
 					map.add("state", "4");
 
 					String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose",
+							map, String.class);*/
+					
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("username", "rusamah-wb");
+					map.add("password", "Rus@@123456");
+					map.add("senderid", "MHRUSA");
+					map.add("mobileno", reg1.getMobileNumber());
+					map.add("content", msg); 
+					map.add("smsservicetype", "singlemsg"); 
+					String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
 							map, String.class);
 
 					// Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
@@ -931,7 +961,7 @@ public class FrontController {
 
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-					map.add("senderID", "RUSAMH");
+					/*map.add("senderID", "RUSAMH");
 					map.add("user", "spdrusamah@gmail.com:Cyber@mva");
 					map.add("receipientno", reg1.getMobileNumber());
 					map.add("dcs", "0");
@@ -939,6 +969,16 @@ public class FrontController {
 					map.add("state", "4");
 
 					String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose",
+							map, String.class);*/
+					
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("username", "rusamah-wb");
+					map.add("password", "Rus@@123456");
+					map.add("senderid", "MHRUSA");
+					map.add("mobileno", reg1.getMobileNumber());
+					map.add("content", msg); 
+					map.add("smsservicetype", "singlemsg"); 
+					String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
 							map, String.class);
 
 					// Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
@@ -1085,20 +1125,27 @@ public class FrontController {
 				RestTemplate restTemplate = new RestTemplate();
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-				map.add("senderID", "RUSAMH");
+				/*map.add("senderID", "RUSAMH");
 				map.add("user", "spdrusamah@gmail.com:Cyber@mva");
 				map.add("receipientno", regResponse.getMobileNumber());
 				map.add("dcs", "0");
 				map.add("msgtxt", "Your Username " + regResponse.getEmails() + "\n Password "
 						+ regResponse.getUserPassword() + "\n don't share with any one.");
 				map.add("state", "4");
-
-				// String response =
-				// restTemplate.postForObject("http://control.bestsms.co.in/api/sendhttp.php",
-				// map, String.class);
-
+ 
 				String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
-						String.class);
+						String.class);*/
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("username", "rusamah-wb");
+				map.add("password", "Rus@@123456");
+				map.add("senderid", "MHRUSA");
+				map.add("mobileno", regResponse.getMobileNumber());
+				map.add("content", "Your Username " + regResponse.getEmails() + "\n Password "
+						+ regResponse.getUserPassword() + "\n don't share with any one."); 
+				map.add("smsservicetype", "singlemsg"); 
+				String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
+						map, String.class);
 
 				if (info1 != null) {
 					int updateDate = registrationRepo.updatePassword(password, regResponse.getUserUuid());
