@@ -48,37 +48,37 @@ public class MasterApiController {
 
 	@Autowired
 	SectionRepo secRepo;
-	
+
 	@Autowired
 	SecDescRepo secDescRepo;
-	
+
 	@Autowired
 	UserRepo userRepo;
-	
+
 	@Autowired
-	SettingRepo settingRepository; 
-	
+	SettingRepo settingRepository;
+
 	@Autowired
 	LoginLogsRepo loginLogsRepo;
-	
+
 	@Autowired
 	LanguagesRepository languagesRepository;
 
 	@Autowired
 	PageRepo pageRepo;
-	
+
 	@Autowired
 	SectionTreeRepository sectionTreeRepository;
-	
+
 	@Autowired
 	CategoryListRepository categoryListRepository;
-	
+
 	@Autowired
 	SubCategoryListRepository subCategoryListRepository;
-	
+
 	@Autowired
 	DashboardCountRepository dashboardCountRepository;
-	
+
 	// --------------------------------------Section-------------------------
 
 	@RequestMapping(value = { "/loginResponse" }, method = RequestMethod.POST)
@@ -88,134 +88,127 @@ public class MasterApiController {
 		User user = new User();
 		LoginResponse loginResponse = new LoginResponse();
 		try {
-			
-			//user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
 			user = userRepo.searchUser1(userName);
-			
+
 			if (user != null) {
- 
-				User user1 = userRepo.searchUser(userName,password);
+
+				User user1 = userRepo.searchUser(userName, password);
 				if (user1 != null) {
 					loginResponse.setError(false);
 					loginResponse.setMsg("Login Sucess ");
 					loginResponse.setUser(user);
-				}
-				else {
-					
-					int updateDate = userRepo.updateCount(user.getLoginFailureCount()+1,user.getUserId());
+				} else {
+
+					int updateDate = userRepo.updateCount(user.getLoginFailureCount() + 1, user.getUserId());
 					loginResponse.setError(true);
 					loginResponse.setMsg("password Wrong");
 				}
-				
-				
+
 			} else {
 
 				loginResponse.setError(true);
 				loginResponse.setMsg("Invalid Credencials");
 			}
-			 
 
 		} catch (Exception e) {
 			loginResponse.setError(true);
 			loginResponse.setMsg("exception");
-			 
+
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
 		return loginResponse;
 
 	}
-	
+
 	@RequestMapping(value = { "/saveLoginLogs" }, method = RequestMethod.POST)
 	public @ResponseBody LoginLogs saveLoginLogs(@RequestBody LoginLogs loginLogs) {
 
-		 
 		LoginLogs save = new LoginLogs();
 		try {
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-			
+
 			loginLogs.setCreatedDate(date);
 			save = loginLogsRepo.saveAndFlush(loginLogs);
- 
-			//int updateDate = userRepo.updateLastLoginDate(sf.format(date),loginLogs.getUserId());
+
+			// int updateDate =
+			// userRepo.updateLastLoginDate(sf.format(date),loginLogs.getUserId());
 
 		} catch (Exception e) {
- 
+
 			e.printStackTrace();
 		}
 
 		return save;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/getLanguageList" }, method = RequestMethod.GET)
 	public @ResponseBody List<Languages> getLanguageList() {
 
 		List<Languages> list = new ArrayList<>();
-		 
+
 		try {
 
 			list = languagesRepository.findByIsActiveOrderBySortOrder(1);
- 
 
 		} catch (Exception e) {
- 
+
 		}
 
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "/saveSection" }, method = RequestMethod.POST)
 	public @ResponseBody Section saveSection(@RequestBody Section section) {
 
 		Section secSaveResponse = new Section();
-		 
+
 		try {
-			 
-			
-			secSaveResponse = secRepo.saveAndFlush(section); 
-			 
-			for(int i = 0 ; i<section.getSectionDescriptionList().size() ; i++) {
-				
+
+			secSaveResponse = secRepo.saveAndFlush(section);
+
+			for (int i = 0; i < section.getSectionDescriptionList().size(); i++) {
+
 				section.getSectionDescriptionList().get(i).setSectionId(secSaveResponse.getSectionId());
 			}
-			
+
 			List<SectionDescription> list = secDescRepo.saveAll(section.getSectionDescriptionList());
 			secSaveResponse.setSectionDescriptionList(list);
-			
+
 			Page pageByPageId = new Page();
-			
-			if(section.getExInt2()!=0) {
-				
+
+			if (section.getExInt2() != 0) {
+
 				pageByPageId = pageRepo.findByPageId(section.getExInt2());
 				pageByPageId.setPageName(section.getSectionName());
 				pageByPageId.setTypeSecCate("sec");
 				pageByPageId.setSecCateId(secSaveResponse.getSectionId());
-				 
-			}else {
-				 
+
+			} else {
+
 				pageByPageId.setPageName(section.getSectionName());
 				pageByPageId.setTypeSecCate("sec");
 				pageByPageId.setSecCateId(secSaveResponse.getSectionId());
 				Page save = pageRepo.saveAndFlush(pageByPageId);
 				section.setExInt2(save.getPageId());
 			}
-			 
-			String str = secSaveResponse.getSectionSlugname()+section.getExInt2();
-			int count = secRepo.updateSlugName(secSaveResponse.getSectionId(),str,pageByPageId.getPageId());
+
+			String str = secSaveResponse.getSectionSlugname() + section.getExInt2();
+			int count = secRepo.updateSlugName(secSaveResponse.getSectionId(), str, pageByPageId.getPageId());
 			pageByPageId.setPageSlug(str);
 			Page save = pageRepo.saveAndFlush(pageByPageId);
-			
-			String lastdate=LastUpdatedSiteDate.updateDate();			
+
+			String lastdate = LastUpdatedSiteDate.updateDate();
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 
 		} catch (Exception e) {
 
-			 
 			e.printStackTrace();
 		}
 
@@ -227,52 +220,49 @@ public class MasterApiController {
 	public @ResponseBody Page getPageByPageId(@RequestParam("pageId") int pageId) {
 
 		Page page = new Page();
-		 
+
 		try {
 			page = pageRepo.findByPageId(pageId);
-			  
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 		}
 		return page;
 
 	}
-	
+
 	@RequestMapping(value = { "/savePage" }, method = RequestMethod.POST)
 	public @ResponseBody Page savePage(@RequestBody Page page) {
 
 		Page save = new Page();
-		 
+
 		try {
-			String lastdate=LastUpdatedSiteDate.updateDate();			
+			String lastdate = LastUpdatedSiteDate.updateDate();
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			save = pageRepo.save(page);
-			  
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 		}
 		return save;
 
 	}
-	
+
 	@RequestMapping(value = { "/getSectionBySectionId" }, method = RequestMethod.POST)
 	public @ResponseBody Section getContractorById(@RequestParam("sectionId") int sectionId) {
 
 		Section secSaveResponse = new Section();
-		 
+
 		try {
-			secSaveResponse = secRepo.findBySectionIdAndDelStatus(sectionId, 1); 
+			secSaveResponse = secRepo.findBySectionIdAndDelStatus(sectionId, 1);
 			List<SectionDescription> list = secDescRepo.findAllBySectionId(sectionId);
-			
+
 			secSaveResponse.setSectionDescriptionList(list);
-			 
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 		}
 		return secSaveResponse;
@@ -296,7 +286,7 @@ public class MasterApiController {
 		return conList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getCountForSlugName" }, method = RequestMethod.POST)
 	public @ResponseBody Info getCountForSlugName(@RequestParam("str") String str) {
 
@@ -316,48 +306,47 @@ public class MasterApiController {
 		return info;
 
 	}
-	
-	/*@RequestMapping(value = { "/updateSlugName" }, method = RequestMethod.POST)
-	public @ResponseBody Info updateSlugName(@RequestParam("sectionId") int sectionId) {
 
-		Info info = new Info();
-
-		try {
-			String newStr="";
-			int count = secRepo.updateSlugName(sectionId);
-			info.setError(false);
-			info.setMsg("");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-		return info;
-
-	}*/
+	/*
+	 * @RequestMapping(value = { "/updateSlugName" }, method = RequestMethod.POST)
+	 * public @ResponseBody Info updateSlugName(@RequestParam("sectionId") int
+	 * sectionId) {
+	 * 
+	 * Info info = new Info();
+	 * 
+	 * try { String newStr=""; int count = secRepo.updateSlugName(sectionId);
+	 * info.setError(false); info.setMsg("");
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace();
+	 * 
+	 * } return info;
+	 * 
+	 * }
+	 */
 
 	@RequestMapping(value = { "/deleteSection" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteSection(@RequestParam("sectionId") int sectionId) {
 		Info infoRes = new Info();
 		try {
-		String lastdate=LastUpdatedSiteDate.updateDate();			
-		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
-		int isDeleted = secRepo.deleteSection(sectionId);
-	
-		if (isDeleted >= 1) {
-			infoRes.setError(false);
-			infoRes.setMsg("Section Deleted Successfully");
-		} else {
-			infoRes.setError(true);
-			infoRes.setMsg("Section Deletion Failed");
-		}
+			String lastdate = LastUpdatedSiteDate.updateDate();
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
+			int isDeleted = secRepo.deleteSection(sectionId);
+
+			if (isDeleted >= 1) {
+				infoRes.setError(false);
+				infoRes.setMsg("Section Deleted Successfully");
+			} else {
+				infoRes.setError(true);
+				infoRes.setMsg("Section Deletion Failed");
+			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
-		
+
 		return infoRes;
 	}
 
@@ -367,7 +356,7 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
-			String lastdate=LastUpdatedSiteDate.updateDate();			
+			String lastdate = LastUpdatedSiteDate.updateDate();
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = secRepo.deleteMultiContDetail(sectionIds);
 
@@ -397,7 +386,7 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
-			String lastdate=LastUpdatedSiteDate.updateDate();			
+			String lastdate = LastUpdatedSiteDate.updateDate();
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = secRepo.activeInactiveSection(sectionIdList, isActive);
 
@@ -424,9 +413,35 @@ public class MasterApiController {
 
 	}
 
-	
-
 	// --------------------------------------User-------------------------
+	@RequestMapping(value = { "/checkUserName" }, method = RequestMethod.POST)
+	public @ResponseBody User checkUserName(@RequestParam("userName") String userName) {
+
+		User secSaveResponse = new User();
+		Info info = new Info();
+		try {
+
+			secSaveResponse = userRepo.searchUser1(userName);
+			if (secSaveResponse == null) {
+				info.setError(false);
+				info.setMsg("Available");
+			} else {
+				info.setError(true);
+				info.setMsg("find");
+			}
+
+		} catch (Exception e) {
+
+			info.setError(false);
+			info.setMsg("exception");
+		  
+			// System.err.println("Exce in saveUser @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return secSaveResponse;
+
+	}
 
 	@RequestMapping(value = { "/saveUser" }, method = RequestMethod.POST)
 	public @ResponseBody User saveUser(@RequestBody User usr) {
@@ -435,7 +450,7 @@ public class MasterApiController {
 		Info info = new Info();
 		try {
 
-			String lastdate=LastUpdatedSiteDate.updateDate();			
+			String lastdate = LastUpdatedSiteDate.updateDate();
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			secSaveResponse = userRepo.saveAndFlush(usr);
 
@@ -449,14 +464,13 @@ public class MasterApiController {
 				info.setError(true);
 				info.setMsg("failed");
 			}
-			 
 
 		} catch (Exception e) {
 
 			info.setError(true);
 			info.setMsg("exception");
 			secSaveResponse = new User();
-			  
+
 			System.err.println("Exce in saveUser @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -464,15 +478,14 @@ public class MasterApiController {
 		return secSaveResponse;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/getUserByUserId" }, method = RequestMethod.POST)
 	public @ResponseBody User getUserByUserId(@RequestParam("userId") int userId) {
 
 		User secSaveResponse = new User();
 		Info info = new Info();
 		try {
-		
+
 			secSaveResponse = userRepo.findByUserIdAndDelStatus(userId, 1);
 
 			if (secSaveResponse != null) {
@@ -485,13 +498,11 @@ public class MasterApiController {
 				info.setError(true);
 				info.setMsg("failed");
 			}
-			 
 
 		} catch (Exception e) {
 			info.setError(true);
 			info.setMsg("exception");
 			secSaveResponse = new User();
-			 
 
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
 			e.printStackTrace();
@@ -499,17 +510,15 @@ public class MasterApiController {
 		return secSaveResponse;
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = { "/getAllUserList" }, method = RequestMethod.GET)
 	public @ResponseBody List<User> getAllUserList() {
 
 		List<User> conList = new ArrayList<User>();
 
 		try {
-  
-			conList = userRepo.findByDelStatusAndRolesIsNotOrderByUserIdAsc(1,"DA");
+
+			conList = userRepo.findByDelStatusAndRolesIsNotOrderByUserIdAsc(1, "DA");
 
 		} catch (Exception e) {
 
@@ -526,15 +535,15 @@ public class MasterApiController {
 		int isDeleted = userRepo.deleteUser(userId);
 		Info infoRes = new Info();
 		try {
-		String lastdate=LastUpdatedSiteDate.updateDate();			
-		int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
-		if (isDeleted >= 1) {
-			infoRes.setError(false);
-			infoRes.setMsg("User Deleted Successfully");
-		} else {
-			infoRes.setError(true);
-			infoRes.setMsg("User Deletion Failed");
-		}
+			String lastdate = LastUpdatedSiteDate.updateDate();
+			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
+			if (isDeleted >= 1) {
+				infoRes.setError(false);
+				infoRes.setMsg("User Deleted Successfully");
+			} else {
+				infoRes.setError(true);
+				infoRes.setMsg("User Deletion Failed");
+			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -549,7 +558,7 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
-			String lastdate=LastUpdatedSiteDate.updateDate();			
+			String lastdate = LastUpdatedSiteDate.updateDate();
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int delete = userRepo.deleteMultiUser(userIds);
 
@@ -579,7 +588,7 @@ public class MasterApiController {
 		Info info = new Info();
 
 		try {
-			String lastdate=LastUpdatedSiteDate.updateDate();			
+			String lastdate = LastUpdatedSiteDate.updateDate();
 			int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			int deleteRes = userRepo.activeInactiveUser(userIdList, isActive);
 
@@ -606,9 +615,8 @@ public class MasterApiController {
 
 	}
 
-	
 	@RequestMapping(value = { "/getSectionTreeStructure" }, method = RequestMethod.GET)
-	public @ResponseBody List<SectionTree> getSectionTreeStructure( ) {
+	public @ResponseBody List<SectionTree> getSectionTreeStructure() {
 
 		List<SectionTree> list = new ArrayList<SectionTree>();
 
@@ -616,21 +624,21 @@ public class MasterApiController {
 
 			list = sectionTreeRepository.getSectionTreeStructure();
 
-			for(int i = 0 ; i < list.size() ; i++) {
-				
+			for (int i = 0; i < list.size(); i++) {
+
 				List<CategoryList> categoryList = categoryListRepository.getCategoryList(list.get(i).getSectionId());
-				
-				for(int j = 0 ; j<categoryList.size() ; j++ ) {
-					
-					List<SubCategoryList> subCategoryList = subCategoryListRepository.getSubCategoryList(categoryList.get(j).getCatId());
+
+				for (int j = 0; j < categoryList.size(); j++) {
+
+					List<SubCategoryList> subCategoryList = subCategoryListRepository
+							.getSubCategoryList(categoryList.get(j).getCatId());
 					categoryList.get(j).setSubCatList(subCategoryList);
 				}
 				list.get(i).setCatList(categoryList);
 			}
-			 
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 
 		}
@@ -638,7 +646,8 @@ public class MasterApiController {
 		return list;
 
 	}
-	//==========================================Android=======================================================//
+
+	// ==========================================Android=======================================================//
 	public static String path1 = "/opt/tomcat/webapps/mediarusa/pdf/";
 	public static String path2 = "/opt/tomcat/webapps/mediarusa/userdocument/";
 
@@ -685,96 +694,87 @@ public class MasterApiController {
 		Files.write(path, bytes);
 
 	}
-	
-	/*@RequestMapping(value = { "/getSectionListByLangId" }, method = RequestMethod.POST)
-	public @ResponseBody List<SectionTree> getSectionListByLangId(@RequestParam("langId") int langId) {
 
-		List<SectionTree> list = new ArrayList<SectionTree>();
+	/*
+	 * @RequestMapping(value = { "/getSectionListByLangId" }, method =
+	 * RequestMethod.POST) public @ResponseBody List<SectionTree>
+	 * getSectionListByLangId(@RequestParam("langId") int langId) {
+	 * 
+	 * List<SectionTree> list = new ArrayList<SectionTree>();
+	 * 
+	 * try {
+	 * 
+	 * list = sectionTreeRepository.getSectionListByLangId(langId);
+	 * 
+	 * for(int i = 0 ; i < list.size() ; i++) {
+	 * 
+	 * List<CategoryList> categoryList =
+	 * categoryListRepository.getCategoryListByLangId(list.get(i).getSectionId(),
+	 * langId);
+	 * 
+	 * for(int j = 0 ; j<categoryList.size() ; j++ ) {
+	 * 
+	 * List<SubCategoryList> subCategoryList =
+	 * subCategoryListRepository.getSubCategoryListByLangId(categoryList.get(j).
+	 * getCatId(),langId); categoryList.get(j).setSubCatList(subCategoryList); }
+	 * list.get(i).setCatList(categoryList); }
+	 * 
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace();
+	 * 
+	 * }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
+
+	/*
+	 * @RequestMapping(value = { "/getUserByTypeId" }, method = RequestMethod.POST)
+	 * public @ResponseBody Info getUserByTypeId(@RequestParam("typeId") int typeId)
+	 * {
+	 * 
+	 * User secSaveResponse = null; Info info = new Info(); try { secSaveResponse =
+	 * userRepo.findByTypeIdAndDelStatus(typeId, 1);
+	 * 
+	 * if (secSaveResponse != null) {
+	 * 
+	 * info.setError(false); info.setMsg("success");
+	 * 
+	 * } else {
+	 * 
+	 * info.setError(true); info.setMsg("failed"); } secSaveResponse.setInfo(info);
+	 * 
+	 * } catch (Exception e) { info.setError(true); info.setMsg("exception");
+	 * secSaveResponse = new User(); secSaveResponse.setInfo(info);
+	 * 
+	 * System.err.println("Exce in getSection @MasterController " + e.getMessage());
+	 * e.printStackTrace(); } return info;
+	 * 
+	 * }
+	 * 
+	 * 
+	 */
+
+	@RequestMapping(value = { "/dashboardCount" }, method = RequestMethod.GET)
+	public @ResponseBody DashboardCount dashboardCount() {
+
+		// System.err.println(" no of files to push " + uploadfile.length);
+		DashboardCount dashboardCount = new DashboardCount();
 
 		try {
 
-			list = sectionTreeRepository.getSectionListByLangId(langId);
- 
-			for(int i = 0 ; i < list.size() ; i++) {
-				
-				List<CategoryList> categoryList = categoryListRepository.getCategoryListByLangId(list.get(i).getSectionId(),langId);
-				
-				for(int j = 0 ; j<categoryList.size() ; j++ ) {
-					
-					List<SubCategoryList> subCategoryList = subCategoryListRepository.getSubCategoryListByLangId(categoryList.get(j).getCatId(),langId);
-					categoryList.get(j).setSubCatList(subCategoryList);
-				}
-				list.get(i).setCatList(categoryList);
-			} 
-			 
+			dashboardCount = dashboardCountRepository.dashboardCount();
 
 		} catch (Exception e) {
-			 
+
 			e.printStackTrace();
 
 		}
 
-		return list;
-
-	}*/
-	
-	
-/*	@RequestMapping(value = { "/getUserByTypeId" }, method = RequestMethod.POST)
-	public @ResponseBody Info getUserByTypeId(@RequestParam("typeId") int typeId) {
-
-		User secSaveResponse = null;
-		Info info = new Info();
-		try {
-			secSaveResponse = userRepo.findByTypeIdAndDelStatus(typeId, 1);
-
-			if (secSaveResponse != null) {
-
-				info.setError(false);
-				info.setMsg("success");
-
-			} else {
-
-				info.setError(true);
-				info.setMsg("failed");
-			}
-			secSaveResponse.setInfo(info);
-
-		} catch (Exception e) {
-			info.setError(true);
-			info.setMsg("exception");
-			secSaveResponse = new User();
-			secSaveResponse.setInfo(info);
-
-			System.err.println("Exce in getSection @MasterController " + e.getMessage());
-			e.printStackTrace();
-		}
-		return info;
-
+		return dashboardCount;
 	}
-	
-	
-	*/
-	    
-	    @RequestMapping(value = { "/dashboardCount" }, method = RequestMethod.GET)
-	    public @ResponseBody DashboardCount dashboardCount() {
-
-	        //System.err.println(" no  of files to push " + uploadfile.length);
-	    	DashboardCount dashboardCount = new DashboardCount();
-
-	        try {
-	         		
-	    		 dashboardCount = dashboardCountRepository.dashboardCount();
-	            
-
-	        } catch (Exception e) {
-
-	            e.printStackTrace();
-	            
-	        }
-
-	        return dashboardCount;
-	    }
-
-	 
 
 }
