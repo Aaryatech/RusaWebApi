@@ -228,6 +228,26 @@ public class GalleryRestApiController {
 			return infoRes;
 		}
 	 
+	 @RequestMapping(value = { "/getCatName" }, method = RequestMethod.POST)
+		public @ResponseBody Info getCatName(@RequestParam("galleryCatId") int galleryCatId,@RequestParam("langId") int langId) {
+
+		 Info info = new Info();
+			 
+			try {
+				 
+				
+				String catName = gallaryCategoryDescriptioinRepo.getCatName(galleryCatId,langId);
+				info.setError(false);
+				info.setMsg(catName);
+				 
+			} catch (Exception e) {
+				info.setError(true); 
+				e.printStackTrace();
+			}
+			return info;
+
+		}
+	 
 	 @RequestMapping(value = { "/getGalleryCatByCatId" }, method = RequestMethod.POST)
 		public @ResponseBody GallaryCategory getContractorById(@RequestParam("galleryCatId") int galleryCatId) {
 
@@ -240,8 +260,8 @@ public class GalleryRestApiController {
 				
 				secSaveResponse.setGallaryCategoryDescriptioinList(list);
 				 
-				String lastdate=LastUpdatedSiteDate.updateDate();			
-				int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
+				//String lastdate=LastUpdatedSiteDate.updateDate();			
+				//int updateLastDate = settingRepository.updateWebSiteDate(lastdate);
 			} catch (Exception e) {
 				 
 				e.printStackTrace();
