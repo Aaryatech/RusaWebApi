@@ -114,9 +114,24 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"    pm.*,\n" + 
 			"    p.page_name,\n" + 
 			"    m.name,t.is_active,\n" + 
-			"    t.from_name  as content,\n" + 
-			"   coalesce(\"\")  as secction_name     \n" + 
-			"from\n" + 
+			"    t.from_name  as content, "
+			+ "	CASE             \n" + 
+			"            WHEN p.type_sec_cate='sec' THEN (select\n" + 
+			"                section_name \n" + 
+			"            from\n" + 
+			"                m_section \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=section_id)              \n" + 
+			"            ELSE (select\n" + 
+			"                s.section_name \n" + 
+			"            from\n" + 
+			"                m_section s,\n" + 
+			"                m_category c \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=c.cat_id \n" + 
+			"                and c.section_id= s.section_id)           \n" + 
+			"        END  as secction_name"
+			+ "	from\n" + 
 			"    t_tpages_modules pm,\n" + 
 			"    t_pages p,\n" + 
 			"    m_modules_name m,t_testimonials t      \n" + 
@@ -126,13 +141,43 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"    and pm.module_id=6 and t.id=pm.primary_key_id and t.del_status=1 and t.section_id=6 and t.del_status=1 ",nativeQuery=true) 
 	List<GetPagesModule> getTestImonialList();
 
-	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,t.is_active,nd.heading  as content"
+	@Query(value="select pm.*,p.page_name,  CASE             \n" + 
+			"            WHEN p.type_sec_cate='sec' THEN (select\n" + 
+			"                section_name \n" + 
+			"            from\n" + 
+			"                m_section \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=section_id)              \n" + 
+			"            ELSE (select\n" + 
+			"                s.section_name \n" + 
+			"            from\n" + 
+			"                m_section s,\n" + 
+			"                m_category c \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=c.cat_id \n" + 
+			"                and c.section_id= s.section_id)           \n" + 
+			"        END  as secction_name,  m.name,t.is_active,nd.heading  as content"
 			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
 			+ "where  p.page_id=pm.page_id  and m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=9  "
 			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1",nativeQuery=true) 
 	List<GetPagesModule> getNewsBlogList();
 
-	@Query(value="select pm.*,p.page_name, coalesce(\\\"\\\")  as secction_name,  m.name,t.is_active,nd.heading  as content"
+	@Query(value="select pm.*,p.page_name,  CASE             \n" + 
+			"            WHEN p.type_sec_cate='sec' THEN (select\n" + 
+			"                section_name \n" + 
+			"            from\n" + 
+			"                m_section \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=section_id)              \n" + 
+			"            ELSE (select\n" + 
+			"                s.section_name \n" + 
+			"            from\n" + 
+			"                m_section s,\n" + 
+			"                m_category c \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=c.cat_id \n" + 
+			"                and c.section_id= s.section_id)           \n" + 
+			"        END  as secction_name,  m.name,t.is_active,nd.heading  as content"
 			+ " from  t_tpages_modules pm, t_pages p, m_modules_name m,t_newsblogs t  ,t_newsblogs_description nd "
 			+ "where  p.page_id=pm.page_id  and m.id=pm.module_id  and t.newsblogs_id=pm.primary_key_id and pm.module_id=11  "
 			+ "and t.del_status=1 and t.newsblogs_id=nd.newsblogs_id and nd.language_id=1",nativeQuery=true) 
@@ -156,7 +201,22 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"    p.page_name,\n" + 
 			"    m.name,t.is_active,\n" + 
 			"    t.from_name  as content,\n" + 
-			"   coalesce(\"\")  as secction_name     \n" + 
+			"    CASE             \n" + 
+			"            WHEN p.type_sec_cate='sec' THEN (select\n" + 
+			"                section_name \n" + 
+			"            from\n" + 
+			"                m_section \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=section_id)              \n" + 
+			"            ELSE (select\n" + 
+			"                s.section_name \n" + 
+			"            from\n" + 
+			"                m_section s,\n" + 
+			"                m_category c \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=c.cat_id \n" + 
+			"                and c.section_id= s.section_id)           \n" + 
+			"        END  as secction_name     \n" + 
 			"from\n" + 
 			"    t_tpages_modules pm,\n" + 
 			"    t_pages p,\n" + 
@@ -172,7 +232,22 @@ public interface GetPagesModuleRepository extends JpaRepository<GetPagesModule, 
 			"    p.page_name,\n" + 
 			"    m.name, t.is_active,\n" + 
 			"    t.from_name  as content,\n" + 
-			"   coalesce(\"\")  as secction_name     \n" + 
+			"   CASE             \n" + 
+			"            WHEN p.type_sec_cate='sec' THEN (select\n" + 
+			"                section_name \n" + 
+			"            from\n" + 
+			"                m_section \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=section_id)              \n" + 
+			"            ELSE (select\n" + 
+			"                s.section_name \n" + 
+			"            from\n" + 
+			"                m_section s,\n" + 
+			"                m_category c \n" + 
+			"            where\n" + 
+			"                p.sec_cate_id=c.cat_id \n" + 
+			"                and c.section_id= s.section_id)           \n" + 
+			"        END  as secction_name     \n" + 
 			"from\n" + 
 			"    t_tpages_modules pm,\n" + 
 			"    t_pages p,\n" + 
