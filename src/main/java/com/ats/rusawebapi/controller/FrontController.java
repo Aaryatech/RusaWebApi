@@ -39,6 +39,7 @@ import com.ats.rusawebapi.model.LoginResponse;
 import com.ats.rusawebapi.model.NewsBlog;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.OtpResponse;
+import com.ats.rusawebapi.model.ParameterModel;
 import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.RegistrationUserDetail;
 import com.ats.rusawebapi.model.Setting;
@@ -729,6 +730,51 @@ public class FrontController {
 		}
 		return otpRespose;
 	}
+	
+	@RequestMapping(value = { "/verifyOtpResponseForApp" }, method = RequestMethod.POST)
+	public @ResponseBody OtpResponse verifyOtpResponseForApp(@RequestBody ParameterModel parameterModel) {
+
+		// User user = new User();
+		Registration regResponse = new Registration();
+		OtpResponse otpRespose = new OtpResponse();
+		try {
+
+			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(parameterModel.getUuid(), 1, 0);
+
+			if (regResponse != null) {
+
+				Registration reg1 = registrationRepo.findBySmsCodeAndUserUuidAndDelStatus(parameterModel.getUserOtp(), parameterModel.getUuid(), 1);
+
+				if (reg1 != null) {
+					int updateDate = registrationRepo.updateSmsStatus(1, regResponse.getRegId());
+					reg1.setUserPassword("");
+					reg1.setSmsCode("");
+					otpRespose.setError(false);
+					otpRespose.setMsg("Login Sucess ");
+					otpRespose.setReg(reg1);
+				} else {
+					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
+					otpRespose.setError(true);
+					otpRespose.setMsg("password Wrong");
+				}
+
+			} else {
+
+				otpRespose.setError(true);
+				otpRespose.setMsg("Invalid Credencials");
+			}
+
+		} catch (Exception e) {
+			otpRespose.setError(true);
+			otpRespose.setMsg("exception");
+
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return otpRespose;
+	}
 
 	@RequestMapping(value = { "/getAllRegUserList" }, method = RequestMethod.GET)
 	public @ResponseBody List<Registration> getAllRegUserList() {
@@ -814,6 +860,22 @@ public class FrontController {
 
 		try {
 			secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+	
+	@RequestMapping(value = { "/getRegUserbyRegIdForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Registration getRegUserbyRegIdForApp(@RequestBody ParameterModel parameterModel) {
+		Registration secSaveResponse = new Registration();
+
+		try {
+			secSaveResponse = registrationRepo.findByRegIdAndDelStatus(parameterModel.getRegId(), 1);
+			secSaveResponse.setUserPassword("");
+			secSaveResponse.setSmsCode("");
 
 		} catch (Exception e) {
 
