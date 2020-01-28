@@ -494,6 +494,26 @@ public class FrontController {
 		return registrationList;
 
 	}
+	
+	@RequestMapping(value = { "/saveRegistrationForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Registration saveRegistrationForApp(@RequestBody Registration getContactList) {
+
+		 
+		Registration registrationList = new Registration();
+		try {
+
+			registrationList = registrationRepo.save(getContactList);
+			registrationList.setUserPassword("");
+			registrationList.setSmsCode("");
+
+		} catch (Exception e) {
+			registrationList = new Registration();
+			e.printStackTrace();
+			registrationList.setError(true); 
+		}
+		return registrationList;
+
+	}
 
 	@RequestMapping(value = { "/getUserByUUIDAndType" }, method = RequestMethod.POST)
 	public @ResponseBody Registration getUserByUUIDAndType(@RequestParam("suuid") int suuid,
@@ -565,6 +585,66 @@ public class FrontController {
 					String.class);
 			studResp.setError(false);
 			studResp.setMsg("Otp Updated ");
+			// Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
+
+			// System.err.println("Info email sent response " + info1.toString());
+
+		} catch (Exception e) {
+			System.err.println("Exce in saving Librarian " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return reg;
+
+	}
+	
+	@RequestMapping(value = { "/saveRegForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Registration saveRegForApp(@RequestBody Registration reg) {
+		 
+		Registration studResp = new Registration();
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+
+			int randomPin = (int) (Math.random() * 9000) + 1000;
+			String otp = String.valueOf(randomPin);
+			System.out.println("You OTP is " + otp);
+			String msg = " Your verification OTP for Registration is " + otp
+					+ ". Do not share OTP with anyone. RUSA Maharashtra";
+
+			reg.setSmsCode(otp);
+			reg.setSmsVerified(0);
+			studResp = registrationRepo.saveAndFlush(reg);
+
+			Date date = new Date(); // your date
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+
+			SmsCode sms = new SmsCode();
+
+			sms.setSmsCode(otp);
+			sms.setUserUuid(studResp.getUserUuid());
+			sms.setSmsType(1);
+			sms.setDateSent(sf.format(date));
+
+			smsCodeRepo.saveAndFlush(sms);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+  
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("username", "rusamah-wb");
+			map.add("password", "Rus@@123456");
+			map.add("senderid", "MHRUSA");
+			map.add("mobileno", studResp.getMobileNumber());
+			map.add("content", msg);
+			map.add("smsservicetype", "singlemsg");
+			String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest", map,
+					String.class);
+			studResp.setError(false);
+			studResp.setMsg("Otp Updated ");
+			
+			studResp.setUserPassword("");
+			studResp.setSmsCode("");
 			// Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
 
 			// System.err.println("Info email sent response " + info1.toString());
@@ -674,11 +754,18 @@ public class FrontController {
 			homeData.setBaner(getLastSliderImagesByStatus(1));
 			homeData.setVideoList(getLastTenVideos());
 			homeData.setPhotoList(getLastTenPhotos());
-			homeData.setLogoData(new MasterApiControllerNew().getLogoListById(1));
+			homeData.setCmsList(getCMSDescByExInt1(langId));
 			homeData.setNewsList(new MasterApiControllerNew().getLastFourNewsByLangId(langId));
 			homeData.setTestimonialList(getLastFiveTestImonials(langId));
-			homeData.setSocialList(new MasterApiControllerNew().getAllSocialList());
-			homeData.setCmsList(getCMSDescByExInt1(langId));
+			
+			try {
+				
+			}catch(Exception e) {
+				homeData.setLogoData(new MasterApiControllerNew().getLogoListById(1));
+				homeData.setSocialList(new MasterApiControllerNew().getAllSocialList());
+			}
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -732,7 +819,8 @@ public class FrontController {
 	}
 	
 	@RequestMapping(value = { "/verifyOtpResponseForApp" }, method = RequestMethod.POST)
-	public @ResponseBody OtpResponse verifyOtpResponseForApp(@RequestBody ParameterModel parameterModel) {
+	public @ResponseBody OtpResponse verifyOtpResponseForApp(@RequestParam("userOtp") String userOtp,
+			@RequestParam("uuid") String uuid) {
 
 		// User user = new User();
 		Registration regResponse = new Registration();
@@ -741,19 +829,17 @@ public class FrontController {
 
 			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
 
-			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(parameterModel.getUuid(), 1, 0);
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1, 0);
 
 			if (regResponse != null) {
 
-				Registration reg1 = registrationRepo.findBySmsCodeAndUserUuidAndDelStatus(parameterModel.getUserOtp(), parameterModel.getUuid(), 1);
+				Registration reg1 = registrationRepo.findBySmsCodeAndUserUuidAndDelStatus(userOtp, uuid, 1);
 
 				if (reg1 != null) {
-					int updateDate = registrationRepo.updateSmsStatus(1, regResponse.getRegId());
-					reg1.setUserPassword("");
-					reg1.setSmsCode("");
+					int updateDate = registrationRepo.updateSmsStatus(1, regResponse.getRegId()); 
 					otpRespose.setError(false);
 					otpRespose.setMsg("Login Sucess ");
-					otpRespose.setReg(reg1);
+					//otpRespose.setReg(reg1);
 				} else {
 					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
 					otpRespose.setError(true);
@@ -774,6 +860,94 @@ public class FrontController {
 			e.printStackTrace();
 		}
 		return otpRespose;
+	}
+	
+	@RequestMapping(value = { "/verifyResendOtpResponseForApp" }, method = RequestMethod.POST)
+	public @ResponseBody OtpResponse verifyResendOtpResponseForApp(@RequestParam("uuid") String uuid) {
+
+		// User user = new User();
+		Registration regResponse = new Registration();
+		OtpResponse otpRespose = new OtpResponse();
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+
+			// user = userRepo.findByUserNameAndUserPassAndDelStatus(userName,password, 1);
+
+			regResponse = registrationRepo.findByUserUuidAndDelStatusAndSmsVerified(uuid, 1, 0);
+
+			if (regResponse != null) {
+
+				Registration reg1 = registrationRepo.findByUserUuidAndDelStatus(uuid, 1);
+
+				if (reg1 != null) {
+					int randomPin = (int) (Math.random() * 9000) + 1000;
+					String otp = String.valueOf(randomPin);
+					System.out.println("You OTP is " + otp);
+					String msg = " Your verification OTP for Registration is " + otp
+							+ ". Do not share OTP with anyone. RUSA Maharashtra";
+					Date date = new Date(); // your date
+					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+
+					SmsCode sms = new SmsCode();
+
+					sms.setSmsCode(otp);
+					sms.setUserUuid(uuid);
+					sms.setSmsType(1);
+					sms.setDateSent(sf.format(date));
+
+					smsCodeRepo.saveAndFlush(sms);
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+					/*
+					 * map.add("senderID", "RUSAMH"); map.add("user",
+					 * "spdrusamah@gmail.com:Cyber@mva"); map.add("receipientno",
+					 * reg1.getMobileNumber()); map.add("dcs", "0"); map.add("msgtxt", msg);
+					 * map.add("state", "4");
+					 * 
+					 * String response = restTemplate.postForObject(
+					 * "http://api.mVaayoo.com/mvaayooapi/MessageCompose", map, String.class);
+					 */
+
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("username", "rusamah-wb");
+					map.add("password", "Rus@@123456");
+					map.add("senderid", "MHRUSA");
+					map.add("mobileno", reg1.getMobileNumber());
+					map.add("content", msg);
+					map.add("smsservicetype", "singlemsg");
+					String response = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest", map,
+							String.class);
+
+					// Info info1 = EmailUtility.sendMsg(otp, reg1.getMobileNumber());
+
+					int updateDate = registrationRepo.updateOtp(otp, uuid);
+					System.out.println(" update ragistration table :" + updateDate);
+					otpRespose.setError(false);
+					otpRespose.setMsg("Otp Updated ");
+					//otpRespose.setReg(reg1);
+				} else {
+					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
+					otpRespose.setError(true);
+					otpRespose.setMsg("UUID Wrong");
+				}
+
+			} else {
+
+				otpRespose.setError(true);
+				otpRespose.setMsg("Invalid Credencials");
+			}
+
+		} catch (Exception e) {
+			otpRespose.setError(true);
+			otpRespose.setMsg("exception");
+
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+		}
+		return otpRespose;
+
 	}
 
 	@RequestMapping(value = { "/getAllRegUserList" }, method = RequestMethod.GET)
@@ -1110,6 +1284,39 @@ public class FrontController {
 			regResponse = registrationRepo.loginProcess(userName, password);
 
 			if (regResponse != null) {
+				regResponse.setError(false);
+				regResponse.setMsg("Successful Login");
+			} else {
+				regResponse = new Registration();
+				regResponse.setError(true);
+				regResponse.setMsg("Invalid Credencials");
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in getSection @MasterController " + e.getMessage());
+			e.printStackTrace();
+			regResponse = new Registration();
+			regResponse.setError(true);
+			regResponse.setMsg("Invalid Credencials");
+		}
+		return regResponse;
+
+	}
+	
+	@RequestMapping(value = { "/loginFrontEndForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Registration loginFrontEndForApp(@RequestParam("userName") String userName,
+			@RequestParam("password") String password,@RequestParam("token") String token) {
+
+		Registration regResponse = new Registration();
+
+		try {
+ 
+			regResponse = registrationRepo.loginProcess(userName, password);
+
+			if (regResponse != null) {
+				
+				int updateToken =  registrationRepo.updateToken(token,regResponse.getRegId());
 				regResponse.setError(false);
 				regResponse.setMsg("Successful Login");
 			} else {

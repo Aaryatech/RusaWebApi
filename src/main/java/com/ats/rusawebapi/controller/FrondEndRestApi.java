@@ -1,5 +1,6 @@
 package com.ats.rusawebapi.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.ats.rusawebapi.common.LastUpdatedSiteDate;
 import com.ats.rusawebapi.model.CalenderList;
 import com.ats.rusawebapi.model.CategoryList;
 import com.ats.rusawebapi.model.CategoryListWithContentCount;
@@ -39,6 +41,7 @@ import com.ats.rusawebapi.model.Page;
 import com.ats.rusawebapi.model.PageMetaData;
 import com.ats.rusawebapi.model.ParameterModel;
 import com.ats.rusawebapi.model.PreviousRegRecord;
+import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.RegistrationUserDetail;
 import com.ats.rusawebapi.model.Result;
 import com.ats.rusawebapi.model.SectionTree;
@@ -67,6 +70,7 @@ import com.ats.rusawebapi.repo.PageMetaDataRepository;
 import com.ats.rusawebapi.repo.PageRepo;
 import com.ats.rusawebapi.repo.PagesModuleRepository;
 import com.ats.rusawebapi.repo.PreviousRegRecordRepo;
+import com.ats.rusawebapi.repo.RegistrationRepo;
 import com.ats.rusawebapi.repo.ResultRepository;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
 import com.ats.rusawebapi.repo.SettingRepo;
@@ -160,6 +164,9 @@ public class FrondEndRestApi {
 
 	@Autowired
 	UploadDocumentRepo uploadDocumentRepo;
+	
+	@Autowired 
+	RegistrationRepo registrationRepo;
 
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
 	public @ResponseBody PageContent getDataBySlugName(@RequestParam("slugName") String slugName,
@@ -462,33 +469,40 @@ public class FrondEndRestApi {
 	}
 
 	@RequestMapping(value = { "/getPrevRecordByRegIdForApp" }, method = RequestMethod.POST)
-	public @ResponseBody PreviousRegRecord getPrevRecordByRegIdForApp(@RequestBody ParameterModel parameterModel) {
+	public @ResponseBody PreviousRegRecord getPrevRecordByRegIdForApp(@RequestParam("regId") int regId,
+			@RequestParam("token") String token) {
 
 		PreviousRegRecord getPrevRecordByRegId = new PreviousRegRecord();
 
 		try {
 
-			getPrevRecordByRegId = previousRegRecordRepo.findByRegId(parameterModel.getRegId());
+			Info info =checkToken(token, regId);
+			if (info.isError() == false) {
 
-			if (getPrevRecordByRegId == null) {
+				getPrevRecordByRegId = previousRegRecordRepo.findByRegId(regId);
 
-				getPrevRecordByRegId = new PreviousRegRecord();
-				getPrevRecordByRegId.setError(true);
-				getPrevRecordByRegId.setMessage("Not Found");
+				if (getPrevRecordByRegId == null) {
+
+					getPrevRecordByRegId = new PreviousRegRecord();
+					getPrevRecordByRegId.setError(true);
+					getPrevRecordByRegId.setMessage("Not Found");
+				} else {
+
+					getPrevRecordByRegId.setError(false);
+					getPrevRecordByRegId.setMessage("Found");
+
+					ObjectMapper mapper = new ObjectMapper();
+					RegistrationUserDetail jsonRecord = mapper.readValue(getPrevRecordByRegId.getRecord(),
+							RegistrationUserDetail.class);
+					jsonRecord.setUserPassword("");
+					jsonRecord.setSmsCode("");
+					mapper = new ObjectMapper();
+					getPrevRecordByRegId.setRecord(mapper.writeValueAsString(jsonRecord));
+				}
 			} else {
-
-				getPrevRecordByRegId.setError(false);
-				getPrevRecordByRegId.setMessage("Found");
-
-				ObjectMapper mapper = new ObjectMapper();
-				RegistrationUserDetail jsonRecord = mapper.readValue(getPrevRecordByRegId.getRecord(),
-						RegistrationUserDetail.class);
-				jsonRecord.setUserPassword("");
-				jsonRecord.setSmsCode("");
-				mapper = new ObjectMapper();
-				getPrevRecordByRegId.setRecord(mapper.writeValueAsString(jsonRecord));
+				getPrevRecordByRegId.setError(true);
+				getPrevRecordByRegId.setMessage("Unauthorized User");
 			}
-
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -750,6 +764,28 @@ public class FrondEndRestApi {
 		}
 		return "redirect:/";
 
+	}
+	
+	public Info checkToken(String token,int regId) throws IOException {
+
+		Info info = new Info();
+
+		try {
+			Registration res = registrationRepo.findByExVar2AndRegIdAndDelStatus(token, regId,1);
+			
+			if(res==null) {
+				info.setError(true);
+				info.setMsg("token not matched");
+			}else {
+				info.setError(false);
+				info.setMsg("authorized user");
+			}
+			
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("token not match");
+		}
+		return info;
 	}
 
 }

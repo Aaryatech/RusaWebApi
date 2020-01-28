@@ -121,6 +121,13 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 
 	@Query( value="select * from t_registration where reg_id=:regId and BINARY user_password=:password",nativeQuery=true)
 	Registration checkPasswordByUserId(@Param("regId" )int regId,@Param("password") String password);
+
+	@Transactional
+	@Modifying
+	@Query("update Registration set ex_var2=:token  WHERE reg_id=:regId")
+	int updateToken(@Param("token") String token, @Param("regId")int regId);
+
+	Registration findByExVar2AndRegIdAndDelStatus(String token, int regId, int i);
 	
 }
 
