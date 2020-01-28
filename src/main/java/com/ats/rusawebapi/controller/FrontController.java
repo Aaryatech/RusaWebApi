@@ -836,14 +836,25 @@ public class FrontController {
 				Registration reg1 = registrationRepo.findBySmsCodeAndUserUuidAndDelStatus(userOtp, uuid, 1);
 
 				if (reg1 != null) {
-					int updateDate = registrationRepo.updateSmsStatus(1, regResponse.getRegId()); 
+					int updateSmsStatus = registrationRepo.updateSmsStatus(1, regResponse.getRegId()); 
+					int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(),0);
 					otpRespose.setError(false);
 					otpRespose.setMsg("Login Sucess ");
 					//otpRespose.setReg(reg1);
 				} else {
 					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
+					 
+					int count=regResponse.getExInt2()+1;
+					 
+					if(count==3) {
+						verifyResendOtpResponseForApp(uuid);
+						int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(),0);
+						otpRespose.setMsg("Unsuccessful Attempt Enter New OTP");
+					}else {
+						int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(),count); 
+						otpRespose.setMsg("Invalid OTP");
+					}
 					otpRespose.setError(true);
-					otpRespose.setMsg("password Wrong");
 				}
 
 			} else {
@@ -851,6 +862,8 @@ public class FrontController {
 				otpRespose.setError(true);
 				otpRespose.setMsg("Invalid Credencials");
 			}
+			
+			System.out.println(otpRespose);
 
 		} catch (Exception e) {
 			otpRespose.setError(true);
