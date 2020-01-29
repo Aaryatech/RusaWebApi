@@ -425,22 +425,7 @@ public class FrontControllerForApp {
 
 	}
 
-	@RequestMapping(value = { "/getAllRegUserList" }, method = RequestMethod.GET)
-	public @ResponseBody List<Registration> getAllRegUserList() {
-
-		List<Registration> conList = new ArrayList<Registration>();
-
-		try {
-
-			conList = registrationRepo.findByDelStatusAndSmsVerifiedOrderByRegIdDesc(1, 1);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-		return conList;
-	}
+	 
 	
 	
 	@RequestMapping(value = { "/getRegUserDetailbyRegIdForApp" }, method = RequestMethod.POST)
@@ -640,24 +625,7 @@ public class FrontControllerForApp {
 		}
 		return secSaveResponseApp;
 	}
-
-	@RequestMapping(value = { "/getEventListByNewsId" }, method = RequestMethod.POST)
-	public @ResponseBody NewsDetails getEventListByNewsId(@RequestParam("newsblogsId") int newsblogsId,
-			@RequestParam("langId") int langId) {
-
-		NewsDetails list = new NewsDetails();
-
-		try {
-			list = newsDetailRepo.getEventListByNewblogsId(newsblogsId, langId);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return list;
-
-	}
+ 
 	
 	
 	@RequestMapping(value = { "/getAppliedEventsForApp" }, method = RequestMethod.POST)
