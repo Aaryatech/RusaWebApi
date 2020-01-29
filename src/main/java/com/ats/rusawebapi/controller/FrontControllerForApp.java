@@ -432,13 +432,14 @@ public class FrontControllerForApp {
 
 			} else {
 				secSaveResponse.setError(true);
+				secSaveResponse.setMsg("Unauthorized User");
 			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 			secSaveResponse.setError(true);
-			secSaveResponse.setMsg("Unauthorized User");
+			secSaveResponse.setMsg("Not Found");
 		}
 		return secSaveResponse;
 	}
@@ -856,11 +857,14 @@ public class FrontControllerForApp {
 				secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId, 1);
 				secSaveResponse.setError(false);
 				secSaveResponse.setMsg("Found");
+				
 
 			} else {
 				secSaveResponse.setError(true);
 				secSaveResponse.setMsg("Unauthorized User");
 			}
+			secSaveResponse.setUserPassword("");
+			secSaveResponse.setSmsCode("");
 		} catch (Exception e) {
 			e.printStackTrace();
 			secSaveResponse = new Registration();
