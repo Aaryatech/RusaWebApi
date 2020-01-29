@@ -137,6 +137,13 @@ public interface RegistrationRepo extends JpaRepository<Registration, Integer>{
 	@Query( value="select ex_int2 from t_registration where reg_id=:regId",nativeQuery=true)
 	String getCountOtpFailed(@Param("regId") int regId);
 	
+	
+ 
+	@Transactional
+	@Modifying
+	@Query("update Registration set ex_var2=:a WHERE reg_id=:regId")
+	int clearToken(String regId,String a);
+	
 }
 
 	

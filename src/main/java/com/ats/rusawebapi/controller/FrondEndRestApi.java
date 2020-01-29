@@ -164,8 +164,8 @@ public class FrondEndRestApi {
 
 	@Autowired
 	UploadDocumentRepo uploadDocumentRepo;
-	
-	@Autowired 
+
+	@Autowired
 	RegistrationRepo registrationRepo;
 
 	@RequestMapping(value = { "/getDataBySlugName" }, method = RequestMethod.POST)
@@ -399,6 +399,26 @@ public class FrondEndRestApi {
 		return secSaveResponse;
 	}
 
+	@RequestMapping(value = { "/allPreviousEventWithAplliedForApp" }, method = RequestMethod.POST)
+	public @ResponseBody List<EventRecord> allPreviousEventWithAplliedForApp(@RequestParam("langId") int langId,
+			@RequestParam("userId") int userId, @RequestParam("token") String token) {
+		List<EventRecord> secSaveResponse = new ArrayList<EventRecord>();
+
+		try {
+
+			Info info = checkToken(token, userId);
+			if (info.isError() == false) {
+				secSaveResponse = eventRecordRepo.getAllPreviousEvents(langId, userId);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return secSaveResponse;
+	}
+
 	@RequestMapping(value = { "/getNewsSectionBySectionId" }, method = RequestMethod.POST)
 	public @ResponseBody List<NewsSectionList> getNewsSectionBySectionId(@RequestParam("sectionId") int sectionId,
 			@RequestParam("langId") int langId) {
@@ -476,7 +496,7 @@ public class FrondEndRestApi {
 
 		try {
 
-			Info info =checkToken(token, regId);
+			Info info = checkToken(token, regId);
 			if (info.isError() == false) {
 
 				getPrevRecordByRegId = previousRegRecordRepo.findByRegId(regId);
@@ -724,7 +744,7 @@ public class FrondEndRestApi {
 	}
 
 	@RequestMapping(value = { "/getDocumentByRegId" }, method = RequestMethod.POST)
-	public @ResponseBody List<UploadDocument> getDocumentByRegId(@RequestParam("regId") int regId) {
+	public @ResponseBody List<UploadDocument> getDocumentByRegIdForApp(@RequestParam("regId") int regId) {
 
 		List<UploadDocument> list = new ArrayList<>();
 
@@ -732,6 +752,27 @@ public class FrondEndRestApi {
 
 			list = uploadDocumentRepo.getDocumentByRegId(regId);
 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getDocumentByRegIdForApp" }, method = RequestMethod.POST)
+	public @ResponseBody List<UploadDocument> getDocumentByRegId(@RequestParam("regId") int regId,
+			@RequestParam("token") String token) {
+
+		List<UploadDocument> list = new ArrayList<>();
+
+		try {
+			Info info = checkToken(token, regId);
+			if (info.isError() == false) {
+				list = uploadDocumentRepo.getDocumentByRegId(regId);
+
+			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -765,22 +806,22 @@ public class FrondEndRestApi {
 		return "redirect:/";
 
 	}
-	
-	public Info checkToken(String token,int regId) throws IOException {
+
+	public Info checkToken(String token, int regId) throws IOException {
 
 		Info info = new Info();
 
 		try {
-			Registration res = registrationRepo.findByExVar2AndRegIdAndDelStatus(token, regId,1);
-			
-			if(res==null) {
+			Registration res = registrationRepo.findByExVar2AndRegIdAndDelStatus(token, regId, 1);
+
+			if (res == null) {
 				info.setError(true);
 				info.setMsg("token not matched");
-			}else {
+			} else {
 				info.setError(false);
 				info.setMsg("authorized user");
 			}
-			
+
 		} catch (Exception e) {
 			info.setError(true);
 			info.setMsg("token not match");
