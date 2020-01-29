@@ -117,30 +117,20 @@ public class FrontControllerForApp {
 	static String mailsubject = " RUSA Login Credentials ";
 
 	@RequestMapping(value = { "/updateToken" }, method = RequestMethod.POST)
-	public @ResponseBody InfoNew updateToken(@RequestParam("regId") String regId, @RequestParam("token") String token) {
+	public @ResponseBody Info updateToken(@RequestParam("regId") String regId, @RequestParam("token") String token) {
 
-		InfoNew errorMessage = new InfoNew();
-		String a = null;
+		Info errorMessage = new Info();
+		 
 		try {
-			Info info1 = checkToken(token, Integer.parseInt(regId));
-			if (info1.isError() == false) {
-				errorMessage.setRetmsg("Found");
 
-				int update = registrationRepo.clearToken(regId, a);
+			int update = registrationRepo.clearToken(regId, token);
 
-				if (update >= 1) {
-					errorMessage.setMsg("Token Updated");
-					errorMessage.setError(false);
-				} else {
-					errorMessage.setMsg("failed to update");
-					errorMessage.setError(true);
-				}
-
+			if (update >= 1) {
+				errorMessage.setMsg("Token Updated");
+				errorMessage.setError(false);
 			} else {
-
-				errorMessage.setRetmsg("Unauthorized User");
+				errorMessage.setMsg("failed to update");
 				errorMessage.setError(true);
-				errorMessage.setMsg("failed to update ");
 			}
 
 		} catch (
@@ -148,8 +138,7 @@ public class FrontControllerForApp {
 		Exception e) {
 
 			e.printStackTrace();
-			errorMessage.setRetmsg("Not Found");
-			errorMessage.setError(true);
+ 			errorMessage.setError(true);
 			errorMessage.setMsg("failed to update ");
 
 		}
@@ -857,7 +846,6 @@ public class FrontControllerForApp {
 				secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId, 1);
 				secSaveResponse.setError(false);
 				secSaveResponse.setMsg("Found");
-				
 
 			} else {
 				secSaveResponse.setError(true);
@@ -870,7 +858,7 @@ public class FrontControllerForApp {
 			secSaveResponse = new Registration();
 			secSaveResponse.setError(true);
 			secSaveResponse.setMsg("Not Found");
-			
+
 		}
 		return secSaveResponse;
 	}
