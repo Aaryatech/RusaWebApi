@@ -51,12 +51,9 @@ import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
 
-
 @RestController
 public class FrontControllerForApp {
 
-	
-	
 	@Autowired
 	ContactUsRepo contactUsRepo;
 
@@ -118,20 +115,18 @@ public class FrontControllerForApp {
 	static String senderEmail = "atsinfosoft@gmail.com";
 	static String senderPassword = "atsinfosoft@123";
 	static String mailsubject = " RUSA Login Credentials ";
-	
-	
-	
+
 	@RequestMapping(value = { "/updateToken" }, method = RequestMethod.POST)
 	public @ResponseBody InfoNew updateToken(@RequestParam("regId") String regId, @RequestParam("token") String token) {
 
 		InfoNew errorMessage = new InfoNew();
-		String a=null;
+		String a = null;
 		try {
 			Info info1 = checkToken(token, Integer.parseInt(regId));
 			if (info1.isError() == false) {
 				errorMessage.setRetmsg("Found");
 
-				int update = registrationRepo.clearToken(regId,a);
+				int update = registrationRepo.clearToken(regId, a);
 
 				if (update >= 1) {
 					errorMessage.setMsg("Token Updated");
@@ -161,8 +156,7 @@ public class FrontControllerForApp {
 		return errorMessage;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/saveRegistrationForApp" }, method = RequestMethod.POST)
 	public @ResponseBody Registration saveRegistrationForApp(@RequestBody Registration getContactList) {
 
@@ -182,7 +176,6 @@ public class FrontControllerForApp {
 
 	}
 
-	
 	@RequestMapping(value = { "/saveRegForApp" }, method = RequestMethod.POST)
 	public @ResponseBody Registration saveRegForApp(@RequestBody Registration reg) {
 
@@ -243,8 +236,6 @@ public class FrontControllerForApp {
 
 	}
 
-	
-
 	public Info checkToken(String token, int regId) throws IOException {
 
 		Info info = new Info();
@@ -267,7 +258,6 @@ public class FrontControllerForApp {
 		return info;
 	}
 
-	
 	@RequestMapping(value = { "/saveAppTokens" }, method = RequestMethod.POST)
 	public @ResponseBody AppToken saveAppTokens(@RequestBody AppToken getContactList) {
 
@@ -286,8 +276,7 @@ public class FrontControllerForApp {
 		}
 		return appTokenList;
 	}
-	
-	
+
 	@RequestMapping(value = { "/verifyOtpResponseForApp" }, method = RequestMethod.POST)
 	public @ResponseBody OtpResponse verifyOtpResponseForApp(@RequestParam("userOtp") String userOtp,
 			@RequestParam("uuid") String uuid) {
@@ -309,7 +298,7 @@ public class FrontControllerForApp {
 					int updateDate = registrationRepo.updateSmsStatus(1, regResponse.getRegId());
 					otpRespose.setError(false);
 					otpRespose.setMsg("Login Sucess ");
-					
+
 					// otpRespose.setReg(reg1);
 				} else {
 					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
@@ -399,7 +388,7 @@ public class FrontControllerForApp {
 					otpRespose.setError(false);
 					otpRespose.setMsg("Otp Updated ");
 					// otpRespose.setReg(reg1);
-					
+
 					reg1.setUserPassword("");
 					reg1.setSmsCode("");
 				} else {
@@ -425,9 +414,6 @@ public class FrontControllerForApp {
 
 	}
 
-	 
-	
-	
 	@RequestMapping(value = { "/getRegUserDetailbyRegIdForApp" }, method = RequestMethod.POST)
 	public @ResponseBody RegistrationUserDetail getRegUserDetailbyRegIdForApp(@RequestParam("regId") int regId,
 			@RequestParam("token") String token) {
@@ -456,8 +442,7 @@ public class FrontControllerForApp {
 		}
 		return secSaveResponse;
 	}
-	
-	
+
 	@RequestMapping(value = { "/loginFrontEndForApp" }, method = RequestMethod.POST)
 	public @ResponseBody Registration loginFrontEndForApp(@RequestParam("userName") String userName,
 			@RequestParam("password") String password, @RequestParam("token") String token) {
@@ -473,7 +458,7 @@ public class FrontControllerForApp {
 				int updateToken = registrationRepo.updateToken(token, regResponse.getRegId());
 				regResponse.setError(false);
 				regResponse.setMsg("Successful Login");
- 				
+
 			} else {
 				regResponse = new Registration();
 				regResponse.setError(true);
@@ -493,8 +478,6 @@ public class FrontControllerForApp {
 
 	}
 
-	
-	
 	@RequestMapping(value = { "/changePasswordForApp" }, method = RequestMethod.POST)
 	public @ResponseBody InfoNew changePasswordForApp(@RequestParam("regId") String regId,
 			@RequestParam("password") String password, @RequestParam("token") String token) {
@@ -533,8 +516,6 @@ public class FrontControllerForApp {
 		return errorMessage;
 	}
 
-	
-	
 	@RequestMapping(value = { "/getFeedbackByUserIdAndNewsblogsIdForApp" }, method = RequestMethod.POST)
 	public @ResponseBody EventRegistrationForApp getFeedbackByUserIdAndNewsblogsIdForApp(
 			@RequestParam("userId") int userId, @RequestParam("newsblogsId") int newsblogsId,
@@ -547,7 +528,7 @@ public class FrontControllerForApp {
 
 				secSaveResponse = eventRegRepo.findByUserIdAndNewsblogsIdAndDelStatus(userId, newsblogsId, 1);
 
-				secSaveResponseApp.setError(true);
+				secSaveResponseApp.setError(false);
 				secSaveResponseApp.setMessage("Found");
 				try {
 					secSaveResponseApp.setApprovalDate(secSaveResponse.getApprovalDate());
@@ -625,9 +606,7 @@ public class FrontControllerForApp {
 		}
 		return secSaveResponseApp;
 	}
- 
-	
-	
+
 	@RequestMapping(value = { "/getAppliedEventsForApp" }, method = RequestMethod.POST)
 	public @ResponseBody InfoNew getAppliedEventsForApp(@RequestParam("newsblogsId") int newsblogsId,
 			@RequestParam("userId") int userId, @RequestParam("token") String token) {
@@ -667,8 +646,7 @@ public class FrontControllerForApp {
 		return info;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/checkPasswordByUserIdForApp" }, method = RequestMethod.POST)
 	public @ResponseBody InfoNew checkPasswordByUserIdForApp(@RequestParam("userId") int userId,
 			@RequestParam("pass") String pass, @RequestParam("token") String token) {
@@ -708,8 +686,6 @@ public class FrontControllerForApp {
 		return errorMessage;
 
 	}
-	
-	
 
 	@RequestMapping(value = { "/updateEventFeedbackForApp" }, method = RequestMethod.POST)
 	public @ResponseBody InfoNew updateEventFeedbackForApp(@RequestParam("eventId") int eventId,
@@ -851,7 +827,7 @@ public class FrontControllerForApp {
 				regResponse.setError(true);
 				regResponse.setMsg("Invalid Credencials");
 			}
-			
+
 			regResponse.setUserPassword("");
 			regResponse.setSmsCode("");
 
@@ -867,6 +843,32 @@ public class FrontControllerForApp {
 		}
 		return regResponse;
 
+	}
+
+	@RequestMapping(value = { "/getRegUserbyRegIdForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Registration getRegUserbyRegIdForApp(@RequestParam("regId") int regId,
+			@RequestParam("token") String token) {
+		Registration secSaveResponse = new Registration();
+
+		try {
+			Info info = checkToken(token, regId);
+			if (info.isError() == false) {
+				secSaveResponse = registrationRepo.findByRegIdAndDelStatus(regId, 1);
+				secSaveResponse.setError(false);
+				secSaveResponse.setMsg("Found");
+
+			} else {
+				secSaveResponse.setError(true);
+				secSaveResponse.setMsg("Unauthorized User");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			secSaveResponse = new Registration();
+			secSaveResponse.setError(true);
+			secSaveResponse.setMsg("Not Found");
+			
+		}
+		return secSaveResponse;
 	}
 
 }
