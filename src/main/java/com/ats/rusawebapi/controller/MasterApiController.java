@@ -25,10 +25,12 @@ import com.ats.rusawebapi.model.Languages;
 import com.ats.rusawebapi.model.LoginLogs;
 import com.ats.rusawebapi.model.LoginResponse;
 import com.ats.rusawebapi.model.Page;
+import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.SectionDescription;
 import com.ats.rusawebapi.model.SectionTree;
 import com.ats.rusawebapi.model.SubCategoryList;
 import com.ats.rusawebapi.model.mst.Info;
+import com.ats.rusawebapi.model.mst.InfoNew;
 import com.ats.rusawebapi.model.mst.Section;
 import com.ats.rusawebapi.model.mst.User;
 import com.ats.rusawebapi.repo.CategoryListRepository;
@@ -36,6 +38,7 @@ import com.ats.rusawebapi.repo.DashboardCountRepository;
 import com.ats.rusawebapi.repo.LanguagesRepository;
 import com.ats.rusawebapi.repo.LoginLogsRepo;
 import com.ats.rusawebapi.repo.PageRepo;
+import com.ats.rusawebapi.repo.RegistrationRepo;
 import com.ats.rusawebapi.repo.SecDescRepo;
 import com.ats.rusawebapi.repo.SectionTreeRepository;
 import com.ats.rusawebapi.repo.SettingRepo;
@@ -78,6 +81,31 @@ public class MasterApiController {
 
 	@Autowired
 	DashboardCountRepository dashboardCountRepository;
+
+	@Autowired
+	RegistrationRepo registrationRepo;
+
+	public Info checkToken(String token, int regId) throws IOException {
+
+		Info info = new Info();
+
+		try {
+			Registration res = registrationRepo.findByExVar2AndRegIdAndDelStatus(token, regId, 1);
+
+			if (res == null) {
+				info.setError(true);
+				info.setMsg("token not matched");
+			} else {
+				info.setError(false);
+				info.setMsg("authorized user");
+			}
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("token not match");
+		}
+		return info;
+	}
 
 	// --------------------------------------Section-------------------------
 
@@ -434,7 +462,7 @@ public class MasterApiController {
 
 			info.setError(false);
 			info.setMsg("exception");
-		  
+
 			// System.err.println("Exce in saveUser @MasterController " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -668,6 +696,38 @@ public class MasterApiController {
 		} catch (IOException e) {
 
 			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("File upload failed");
+		}
+
+		return info;
+	}
+
+	@RequestMapping(value = { "/docUploadForApp" }, method = RequestMethod.POST)
+	public @ResponseBody InfoNew docUploadForApp(@RequestParam("regId") int regId,
+			@RequestParam("file") MultipartFile uploadfile, @RequestParam("docName") String docName,
+			@RequestParam("type") String type, @RequestParam("token") String token) {
+
+		// System.err.println(" no of files to push " + uploadfile.length);
+		InfoNew info = new InfoNew();
+
+		try {
+			Info info1 = checkToken(token, regId);
+			if (info1.isError() == false) {
+
+				info.setRetmsg("Found");
+				saveUploadedFiles(uploadfile, docName, type);
+				info.setError(false);
+				info.setMsg("File uploaded successfully");
+			} else {
+				info.setRetmsg("Unauthorized User");
+				info.setError(true);
+				info.setMsg("File upload failed");
+			}
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			info.setRetmsg("Not Found");
 			info.setError(true);
 			info.setMsg("File upload failed");
 		}
