@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -688,10 +690,7 @@ public class MasterApiController {
 
 		try {
 
-			saveUploadedFiles(uploadfile, docName, type);
-
-			info.setError(false);
-			info.setMsg("File uploaded successfully");
+			info = saveUploadedFiles(uploadfile, docName, type);
 
 		} catch (IOException e) {
 
@@ -735,24 +734,54 @@ public class MasterApiController {
 		return info;
 	}
 
-	public void saveUploadedFiles(MultipartFile file, String imageName, String type) throws IOException {
+	public Info saveUploadedFiles(MultipartFile file, String imageName, String type) throws IOException {
 
-		Path path = null;
+		Info info = new Info();
 
-		byte[] bytes = file.getBytes();
+		try {
+			Path path = null;
+			String[] DocValues = { "txt", "doc", "pdf", "xls", ".ppt", ".pptx" };
+			String[] files = { "pdf", "xlsx", "csv", "docx", "jpg", "jpeg", "gif", "png", "JPG", "JPEG", "GIF", "PNG" };
+			byte[] bytes = file.getBytes();
+			String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-		System.out.println("Inside Image Type =1");
+			// System.out.println("Inside Image Type =1");
 
-		if (type.equalsIgnoreCase("1")) {
-			path = Paths.get(path1 + imageName);
-		} else if (type.equalsIgnoreCase("2")) {
-			path = Paths.get(path2 + imageName);
+			if (type.equalsIgnoreCase("1")) {
+				if (ArrayUtils.contains(DocValues, extension.toLowerCase())) {
+					path = Paths.get(path1 + imageName);
+					Files.write(path, bytes);
+					info.setError(false);
+					info.setMsg("File Upload Successfully");
+				} else {
+					info.setError(true);
+					info.setMsg("File Uploading Error");
+				}
+
+			} else if (type.equalsIgnoreCase("2")) {
+
+				if (ArrayUtils.contains(files, extension.toLowerCase())) {
+					path = Paths.get(path2 + imageName);
+					Files.write(path, bytes);
+					info.setError(false);
+					info.setMsg("File Upload Successfully");
+				} else {
+					info.setError(true);
+					info.setMsg("File Uploading Error");
+				}
+
+			} else {
+				info.setError(true);
+				info.setMsg("File Uploading Error");
+			}
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("File Uploading Error");
+			e.printStackTrace();
 		}
 
-		System.out.println("Path= " + path.toString());
-
-		Files.write(path, bytes);
-
+		return info;
 	}
 
 	/*
