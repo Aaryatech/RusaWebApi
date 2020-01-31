@@ -368,6 +368,7 @@ public class FrontControllerForApp {
 
 			studResp.setUserPassword("");
 			studResp.setSmsCode("");
+			studResp.setExVar2("");
 			// Info info1 = EmailUtility.sendMsg(otp, studResp.getMobileNumber());
 
 			// System.err.println("Info email sent response " + info1.toString());
@@ -583,6 +584,7 @@ public class FrontControllerForApp {
 				secSaveResponse = registrationUserDetailRepo.getRegUserDetailbyRegId(regId);
 				secSaveResponse.setUserPassword("");
 				secSaveResponse.setSmsCode("");
+				secSaveResponse.setExVar2("");
 				secSaveResponse.setError(false);
 
 			} else {
@@ -622,6 +624,7 @@ public class FrontControllerForApp {
 			}
 			regResponse.setUserPassword("");
 			regResponse.setSmsCode("");
+			regResponse.setExVar2("");
 		} catch (Exception e) {
 
 			System.err.println("Exce in getSection @MasterController " + e.getMessage());
@@ -986,6 +989,7 @@ public class FrontControllerForApp {
 
 			regResponse.setUserPassword("");
 			regResponse.setSmsCode("");
+			regResponse.setExVar2("");
 
 		} catch (Exception e) {
 
@@ -1019,6 +1023,7 @@ public class FrontControllerForApp {
 			}
 			secSaveResponse.setUserPassword("");
 			secSaveResponse.setSmsCode("");
+			secSaveResponse.setExVar2("");
 		} catch (Exception e) {
 			e.printStackTrace();
 			secSaveResponse = new Registration();
