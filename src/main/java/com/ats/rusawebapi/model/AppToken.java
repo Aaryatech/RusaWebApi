@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "t_apptoken")
@@ -41,6 +42,32 @@ public class AppToken {
 	
 	@Column(name="extra_var2")
 	private String extraVar2;
+	
+	
+	@Transient
+	private String msg;
+
+	@Transient
+	private boolean isError;
+
+	
+	
+	
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public boolean isError() {
+		return isError;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
 
 	public int getApptokenId() {
 		return apptokenId;
@@ -126,8 +153,11 @@ public class AppToken {
 	public String toString() {
 		return "AppToken [apptokenId=" + apptokenId + ", deviceName=" + deviceName + ", macId=" + macId + ", token="
 				+ token + ", registerId=" + registerId + ", addDate=" + addDate + ", extraInt1=" + extraInt1
-				+ ", extraInt2=" + extraInt2 + ", extraVar1=" + extraVar1 + ", extraVar2=" + extraVar2 + "]";
+				+ ", extraInt2=" + extraInt2 + ", extraVar1=" + extraVar1 + ", extraVar2=" + extraVar2 + ", msg=" + msg
+				+ ", isError=" + isError + "]";
 	}
+
+	 
 	
 	
 	

@@ -27,9 +27,11 @@ import com.ats.rusawebapi.model.EventRegistration;
 import com.ats.rusawebapi.model.EventRegistrationForApp;
 import com.ats.rusawebapi.model.NewsDetails;
 import com.ats.rusawebapi.model.OtpResponse;
+import com.ats.rusawebapi.model.PreviousRegRecord;
 import com.ats.rusawebapi.model.Registration;
 import com.ats.rusawebapi.model.RegistrationUserDetail;
 import com.ats.rusawebapi.model.SmsCode;
+import com.ats.rusawebapi.model.UploadDocument;
 import com.ats.rusawebapi.model.mst.Info;
 import com.ats.rusawebapi.model.mst.InfoNew;
 import com.ats.rusawebapi.repo.AppTokenRepository;
@@ -44,12 +46,15 @@ import com.ats.rusawebapi.repo.EventRegisterRepository;
 import com.ats.rusawebapi.repo.EventViewRepository;
 import com.ats.rusawebapi.repo.GallaryDetailRepository;
 import com.ats.rusawebapi.repo.NewsDetailsRepository;
+import com.ats.rusawebapi.repo.PreviousRegRecordRepo;
 import com.ats.rusawebapi.repo.RegistrationRepo;
 import com.ats.rusawebapi.repo.RegistrationUserDetailRepo;
 import com.ats.rusawebapi.repo.SettingMrRepo;
 import com.ats.rusawebapi.repo.SettingRepo;
 import com.ats.rusawebapi.repo.SmsCodeRepository;
 import com.ats.rusawebapi.repo.TestImonialRepository;
+import com.ats.rusawebapi.repo.UploadDocumentRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class FrontControllerForApp {
@@ -120,7 +125,7 @@ public class FrontControllerForApp {
 	public @ResponseBody Info updateToken(@RequestParam("regId") String regId, @RequestParam("token") String token) {
 
 		Info errorMessage = new Info();
-		 
+
 		try {
 
 			int update = registrationRepo.clearToken(regId, token);
@@ -138,7 +143,7 @@ public class FrontControllerForApp {
 		Exception e) {
 
 			e.printStackTrace();
- 			errorMessage.setError(true);
+			errorMessage.setError(true);
 			errorMessage.setMsg("failed to update ");
 
 		}
@@ -147,21 +152,172 @@ public class FrontControllerForApp {
 	}
 
 	@RequestMapping(value = { "/saveRegistrationForApp" }, method = RequestMethod.POST)
-	public @ResponseBody Registration saveRegistrationForApp(@RequestBody Registration getContactList) {
+	public @ResponseBody Registration saveRegistrationForApp(@RequestBody Registration getContactList,
+			@RequestParam("token") String token) {
 
 		Registration registrationList = new Registration();
 		try {
 
-			registrationList = registrationRepo.save(getContactList);
-			registrationList.setUserPassword("");
-			registrationList.setSmsCode("");
+			Info info = checkToken(token, getContactList.getRegId());
+
+			if (info.isError() == false) {
+
+				Registration reg = registrationRepo.findByRegIdAndDelStatus(getContactList.getRegId(), 1);
+				registrationList.setUserPassword(reg.getUserPassword());
+				registrationList = registrationRepo.save(getContactList);
+				registrationList.setUserPassword("");
+				registrationList.setSmsCode("");
+				registrationList.setExVar2("");
+
+				registrationList.setError(false);
+				registrationList.setMsg("Record Saved");
+			} else {
+				registrationList.setError(true);
+				registrationList.setMsg("Unauthorized User");
+			}
 
 		} catch (Exception e) {
 			registrationList = new Registration();
 			e.printStackTrace();
 			registrationList.setError(true);
+			registrationList.setMsg("Failed To Save");
 		}
 		return registrationList;
+
+	}
+
+	@Autowired
+	PreviousRegRecordRepo previousRegRecordRepo;
+
+	@RequestMapping(value = { "/savePreviousRecordForApp" }, method = RequestMethod.POST)
+	public @ResponseBody PreviousRegRecord savePreviousRecord(@RequestBody PreviousRegRecord previousRegRecord,
+			@RequestParam("token") String token) {
+
+		PreviousRegRecord save = new PreviousRegRecord();
+
+		try {
+
+			Info info = checkToken(token, previousRegRecord.getRegId());
+
+			if (info.isError() == false) {
+
+				save = previousRegRecordRepo.save(previousRegRecord);
+				save.setError(false);
+				save.setMessage("Record Saved");
+
+				ObjectMapper mapper = new ObjectMapper();
+				RegistrationUserDetail jsonRecord = mapper.readValue(save.getRecord(), RegistrationUserDetail.class);
+				jsonRecord.setUserPassword("");
+				jsonRecord.setSmsCode("");
+				jsonRecord.setExVar2("");
+				mapper = new ObjectMapper();
+				save.setRecord(mapper.writeValueAsString(jsonRecord));
+
+			} else {
+				save.setError(true);
+				save.setMessage("Unauthorized User");
+			}
+
+		} catch (Exception e) {
+			save = new PreviousRegRecord();
+			e.printStackTrace();
+			save.setError(true);
+			save.setMessage("Failed To Save");
+		}
+		return save;
+
+	}
+
+	@RequestMapping(value = { "/saveAppTokensForApp" }, method = RequestMethod.POST)
+	public @ResponseBody AppToken saveAppTokensForApp(@RequestBody AppToken getContactList,
+			@RequestParam("token") String token) {
+
+		AppToken appTokenList = new AppToken();
+		try {
+
+			Info info = checkToken(token, getContactList.getRegisterId());
+
+			if (info.isError() == false) {
+				appTokenList = appTokenListRepo.save(getContactList);
+				appTokenList.setError(false);
+				appTokenList.setMsg("Record Saved");
+			} else {
+				appTokenList.setError(true);
+				appTokenList.setMsg("Unauthorized User");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			appTokenList = new AppToken();
+			appTokenList.setError(true);
+			appTokenList.setMsg("failed to Save ");
+
+		}
+		return appTokenList;
+	}
+
+	@RequestMapping(value = { "/saveEventRegisterForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Info saveEventRegister(@RequestBody EventRegistration getEventList,
+			@RequestParam("token") String token) {
+
+		Info errorMessage = new Info();
+		EventRegistrationForApp eventRegList = new EventRegistrationForApp();
+
+		try {
+
+			Info info = checkToken(token, getEventList.getUserId());
+
+			if (info.isError() == false) {
+				EventRegistration save = eventRegRepo.save(getEventList);
+
+				errorMessage.setError(false);
+				errorMessage.setMsg("Record Saved");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMsg("Unauthorized User");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			eventRegList = new EventRegistrationForApp();
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return errorMessage;
+	}
+
+	@Autowired
+	UploadDocumentRepo uploadDocumentRepo;
+
+	@RequestMapping(value = { "/saveUploadDocumentForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Info saveUploadDocumentForApp(@RequestBody UploadDocument uploadDocument,
+			@RequestParam("token") String token) {
+
+		Info errorMessage = new Info();
+		UploadDocument save = new UploadDocument();
+
+		try {
+
+			Info info = checkToken(token, uploadDocument.getRegId());
+
+			if (info.isError() == false) {
+
+				save = uploadDocumentRepo.save(uploadDocument);
+
+				errorMessage.setError(false);
+				errorMessage.setMsg("Record Saved");
+
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMsg("Unauthorized User");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			errorMessage.setError(true);
+			errorMessage.setMsg("failed to Save ");
+
+		}
+		return errorMessage;
 
 	}
 
@@ -285,27 +441,27 @@ public class FrontControllerForApp {
 
 				if (reg1 != null) {
 					int updateDate = registrationRepo.updateSmsStatus(1, regResponse.getRegId());
-					int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(),0);
+					int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(), 0);
 					otpRespose.setError(false);
 					otpRespose.setMsg("Login Sucess ");
 
 					// otpRespose.setReg(reg1);
 				} else {
 					// int updateDate = registrationRepo.updateSmsStatus(0,regResponse.getRegId());
-					int count=regResponse.getExInt2()+1;
+					int count = regResponse.getExInt2() + 1;
 
- 					if(count==3) {
+					if (count == 3) {
 						verifyResendOtpResponseForApp(uuid);
-						int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(),0);
+						int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(), 0);
 						otpRespose.setMsg("Unsuccessful Attempt Enter New OTP");
-					}else {
-						int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(),count); 
+					} else {
+						int updateOtpFailed = registrationRepo.updateOtpFailed(regResponse.getRegId(), count);
 						otpRespose.setMsg("Invalid OTP");
 					}
 					otpRespose.setError(true);
-					//otpRespose.setMsg("password Wrong");
+					// otpRespose.setMsg("password Wrong");
 				}
-				 
+
 			} else {
 
 				otpRespose.setError(true);
