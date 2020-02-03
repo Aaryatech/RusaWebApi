@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//System.out.println(encoder.encode("Aaryatech@1cr").toString());
 		auth.inMemoryAuthentication().passwordEncoder(org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance())
 				.withUser("user1").password("secret1").roles("USER").and().withUser("aaryatech")
-				.password("Aaryatech@1cr").roles("USER", "ADMIN");
+				.password("Aaryatech@123").roles("USER", "ADMIN");
 
 	}
 
