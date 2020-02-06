@@ -761,6 +761,32 @@ public class FrondEndRestApi {
 
 	}
 
+	@RequestMapping(value = { "/getDocVarification" }, method = RequestMethod.POST)
+	public @ResponseBody Info getDocVarification(@RequestParam("docId") int docId, @RequestParam("userId") int userId) {
+
+		Info errorMessage = new Info();
+
+		try {
+			UploadDocument getDocumentByRegIdAndDocId = uploadDocumentRepo.getDocumentByRegIdAndDocId(userId, docId);
+
+			if (getDocumentByRegIdAndDocId == null) {
+				errorMessage.setError(true);
+				errorMessage.setMsg("Unauthorized Access");
+			} else {
+				errorMessage.setError(false);
+				errorMessage.setMsg(getDocumentByRegIdAndDocId.getFileName());
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("Unauthorized Access");
+
+		}
+		return errorMessage;
+	}
+
 	@RequestMapping(value = { "/getDocumentByRegIdForApp" }, method = RequestMethod.POST)
 	public @ResponseBody List<UploadDocument> getDocumentByRegId(@RequestParam("regId") int regId,
 			@RequestParam("token") String token) {
