@@ -787,6 +787,32 @@ public class FrondEndRestApi {
 		return errorMessage;
 	}
 
+	@RequestMapping(value = { "/getDocByDocId" }, method = RequestMethod.POST)
+	public @ResponseBody Info getDocByDocId(@RequestParam("docId") int docId) {
+
+		Info errorMessage = new Info();
+
+		try {
+			UploadDocument getDocumentByRegIdAndDocId = uploadDocumentRepo.getDocumentByDocId(docId);
+
+			if (getDocumentByRegIdAndDocId == null) {
+				errorMessage.setError(true);
+				errorMessage.setMsg("Unauthorized Access");
+			} else {
+				errorMessage.setError(false);
+				errorMessage.setMsg(getDocumentByRegIdAndDocId.getFileName());
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("Unauthorized Access");
+
+		}
+		return errorMessage;
+	}
+
 	@RequestMapping(value = { "/getDocumentByRegIdForApp" }, method = RequestMethod.POST)
 	public @ResponseBody List<UploadDocument> getDocumentByRegId(@RequestParam("regId") int regId,
 			@RequestParam("token") String token) {
@@ -831,6 +857,43 @@ public class FrondEndRestApi {
 		}
 		return "redirect:/";
 
+	}
+
+	@RequestMapping(value = { "/getDocVarificationForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Info getDocVarificationForApp(@RequestParam("docId") int docId,
+			@RequestParam("userId") int userId, @RequestParam("token") String token) {
+
+		Info errorMessage = new Info();
+
+		try {
+
+			errorMessage = checkToken(token, userId);
+
+			if (errorMessage.isError() == false) {
+
+				UploadDocument getDocumentByRegIdAndDocId = uploadDocumentRepo.getDocumentByRegIdAndDocId(userId,
+						docId);
+
+				if (getDocumentByRegIdAndDocId == null) {
+					errorMessage.setError(true);
+					errorMessage.setMsg("Unauthorized Access");
+				} else {
+					errorMessage.setError(false);
+					errorMessage.setMsg(getDocumentByRegIdAndDocId.getFileName());
+				}
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMsg("Unauthorized Access");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMsg("Unauthorized Access");
+
+		}
+		return errorMessage;
 	}
 
 	public Info checkToken(String token, int regId) throws IOException {
